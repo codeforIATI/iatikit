@@ -263,6 +263,19 @@ class Activity():
     #     return transactions
 
 
+class DatasetSet():
+    def __init__(self, path):
+        dataset_paths = glob(join(path, '*'))
+        self.datasets = [Dataset(path) for path in dataset_paths]
+        self._path = path
+
+    def __len__(self):
+        return len(self.datasets)
+
+    def __iter__(self):
+        return iter(self.datasets)
+
+
 class Dataset():
     def __init__(self, path):
         self._path = path
@@ -313,8 +326,7 @@ class Publisher():
 
     @property
     def datasets(self):
-        dataset_paths = glob(join(self.path, '*'))
-        return [Dataset(path) for path in dataset_paths]
+        return DatasetSet(self.path)
 
     @property
     def activities(self):
