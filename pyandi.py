@@ -11,62 +11,62 @@ import requests
 from lxml import etree
 
 
-class Transaction():
-    def __init__(self, _type, date, amount=None, currency=None,
-                 value=None, xml=None):
-        # TODO: we basically ignore these for now
-        self._type = _type
-        self.date = date
-        self.xml = xml
+# class Transaction():
+#     def __init__(self, _type, date, amount=None, currency=None,
+#                  value=None, xml=None):
+#         # TODO: we basically ignore these for now
+#         self._type = _type
+#         self.date = date
+#         self.xml = xml
 
-        if value:
-            self.value = value
-        else:
-            self.value = {
-                currency: amount
-            }
+#         if value:
+#             self.value = value
+#         else:
+#             self.value = {
+#                 currency: amount
+#             }
 
-    def __str__(self):
-        return ', '.join(['{} {}'.format(round(y), x)
-                          for x, y in self.value.items()])
+#     def __str__(self):
+#         return ', '.join(['{} {}'.format(round(y), x)
+#                           for x, y in self.value.items()])
 
-    def __mul__(self, other):
-        if type(other) not in [int, float]:
-            raise Exception('No way')
-        new_val = dict(self.value)
-        for k, v in new_val.items():
-            new_val[k] = v * other
-        return Transaction(
-            type_=self.type_,
-            value=new_val,
-            date=self.date,
-        )
+#     def __mul__(self, other):
+#         if type(other) not in [int, float]:
+#             raise Exception('No way')
+#         new_val = dict(self.value)
+#         for k, v in new_val.items():
+#             new_val[k] = v * other
+#         return Transaction(
+#             type_=self.type_,
+#             value=new_val,
+#             date=self.date,
+#         )
 
-    def __add__(self, other):
-        if type(other) in [int, float]:
-            return self
-        if type(other) != Transaction:
-            other_type = str(type(other))
-            raise Exception('Can\'t add Transaction and {}'.format(other_type))
-        new_val = dict(self.value)
-        for k, v in other.value.items():
-            new_val[k] = v + new_val.get(k, 0.)
-        return Transaction(
-            type_=self.type_,
-            value=new_val,
-            date=self.date,
-        )
+#     def __add__(self, other):
+#         if type(other) in [int, float]:
+#             return self
+#         if type(other) != Transaction:
+#             other_type = str(type(other))
+#             raise Exception('Can\'t add Transaction and {}'.format(other_type))
+#         new_val = dict(self.value)
+#         for k, v in other.value.items():
+#             new_val[k] = v + new_val.get(k, 0.)
+#         return Transaction(
+#             type_=self.type_,
+#             value=new_val,
+#             date=self.date,
+#         )
 
-    __radd__ = __add__
-    __rmul__ = __mul__
+#     __radd__ = __add__
+#     __rmul__ = __mul__
 
-    def uses_sector(self, *sectors):
-        expr = 'sector[@vocabulary="1" or @vocabulary="2"]/@code'
-        codes = self.xml.xpath(expr)
-        for code in codes:
-            if code in sectors:
-                return True
-        return False
+#     def uses_sector(self, *sectors):
+#         expr = 'sector[@vocabulary="1" or @vocabulary="2"]/@code'
+#         codes = self.xml.xpath(expr)
+#         for code in codes:
+#             if code in sectors:
+#                 return True
+#         return False
 
 
 class Organisation():
@@ -302,10 +302,10 @@ class Publisher():
     def __repr__(self):
         return '<{} ({})>'.format(self.__class__.__name__, self.name)
 
-    @classmethod
-    def get(cls, pub_path):
-        name = pub_path.split('/')[-1]
-        return cls(name=name, path=pub_path)
+    # @classmethod
+    # def get(cls, pub_path):
+    #     name = pub_path.split('/')[-1]
+    #     return cls(name=name, path=pub_path)
 
     @property
     def datasets(self):
@@ -316,13 +316,13 @@ class Publisher():
     def activities(self):
         return ActivitySet(self.datasets)
 
-    @property
-    def organisations(self):
-        xpath_expr = '//iati-organisation'
-        for dataset in self.datasets:
-            organisations = dataset.xml.xpath(xpath_expr)
-            for organisation in organisations:
-                yield Organisation(organisation, dataset)
+    # @property
+    # def organisations(self):
+    #     xpath_expr = '//iati-organisation'
+    #     for dataset in self.datasets:
+    #         organisations = dataset.xml.xpath(xpath_expr)
+    #         for organisation in organisations:
+    #             yield Organisation(organisation, dataset)
 
     def find(self, expr):
         out = []
