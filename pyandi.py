@@ -147,6 +147,9 @@ class QueryBuilder():
             exprs.append(expr)
         return ''.join(['[{}]'.format(x) for x in exprs])
 
+    def get(self, attr):
+        return getattr(self, attr).get()
+
     @property
     def version(self):
         return self._version
@@ -171,6 +174,7 @@ class QueryBuilder():
         if attr in ['planned_start', 'actual_start',
                     'planned_end', 'actual_end']:
             return self.ActivityDate(self._version, attr)
+        raise AttributeError
 
 
 class ActivitySet():
