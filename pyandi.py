@@ -450,13 +450,13 @@ class Codelist():
 
 def timer(func):
     def wrapper(*args, **kwargs):
-        if not kwargs.get('verbose'):
+        if not kwargs.get('timer'):
             return func(*args, **kwargs)
         else:
             start = time()
             out = func(*args, **kwargs)
             end = time()
-            print('Done ({:.1f} seconds elapsed.)'.format(end - start))
+            print('Elapsed time: {:.1f} seconds.'.format(end - start))
             return out
 
     return wrapper
