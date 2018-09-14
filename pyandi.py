@@ -110,8 +110,7 @@ class QueryBuilder():
             )
 
     class SimpleString:
-        def __init__(self, version, expr):
-            self._version = version
+        def __init__(self, expr):
             self._expr = expr
 
         def get(self):
@@ -165,31 +164,31 @@ class QueryBuilder():
 
     @property
     def hierarchy(self):
-        return self.SimpleString(self._version, '@hierarchy')
+        return self.SimpleString('@hierarchy')
 
     @property
     def iati_identifier(self):
-        return self.SimpleString(self._version, 'iati-identifier/text()')
+        return self.SimpleString('iati-identifier/text()')
 
     @property
     def transaction_sector(self):
-        return self.SimpleString(self._version, 'transaction/sector/@code')
+        return self.SimpleString('transaction/sector/@code')
 
     @property
     def org_role(self):
-        return self.SimpleString(self._version, 'participating-org/@role')
+        return self.SimpleString('participating-org/@role')
 
     @property
     def org_ref(self):
-        return self.SimpleString(self._version, 'participating-org/@ref')
+        return self.SimpleString('participating-org/@ref')
 
     @property
     def location(self):
-        return self.SimpleString(self._version, 'location')
+        return self.SimpleString('location')
 
     @property
     def sector(self):
-        return self.SimpleString(self._version, 'sector/@code')
+        return self.SimpleString('sector/@code')
 
     def __getattr__(self, attr):
         if attr in ['planned_start', 'actual_start',
