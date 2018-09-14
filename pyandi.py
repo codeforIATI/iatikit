@@ -176,6 +176,18 @@ class QueryBuilder():
         return self.SimpleString(self._version, 'transaction/sector/@code')
 
     @property
+    def org_role(self):
+        return self.SimpleString(self._version, 'participating-org/@role')
+
+    @property
+    def org_ref(self):
+        return self.SimpleString(self._version, 'participating-org/@ref')
+
+    @property
+    def location(self):
+        return self.SimpleString(self._version, 'location')
+
+    @property
     def sector(self):
         return self.SimpleString(self._version, 'sector/@code')
 
