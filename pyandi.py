@@ -256,6 +256,11 @@ class Activity():
         self._logger = logging.getLogger('pwyf')
         self._dataset = dataset
 
+    def __str__(self):
+        return '{} ({})'.format(
+            self.title[0],
+            self.iati_identifier[0])
+
     # @classmethod
     # def from_xml(cls, xml_str):
     #     l = etree.fromstring(xml_str.decode('utf-8'))
