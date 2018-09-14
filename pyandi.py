@@ -226,7 +226,7 @@ class ActivitySet():
             query += QueryBuilder(dataset.version).where(**self.wheres)
             activities = dataset.xml.xpath(query)
             for activity in activities:
-                yield Activity(activity, dataset.version, dataset)
+                yield Activity(activity, dataset)
 
     def __len__(self):
         return self.count()
@@ -249,8 +249,8 @@ class ActivitySet():
 
 
 class Activity():
-    def __init__(self, xml, version, dataset=None):
-        self.version = version
+    def __init__(self, xml, dataset):
+        self.version = dataset.version
         self.xml = xml
         self.default_currency = self.xml.get('default-currency')
         self._logger = logging.getLogger('pwyf')
