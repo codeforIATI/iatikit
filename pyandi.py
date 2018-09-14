@@ -402,6 +402,9 @@ class PublisherSet():
             name=path.split('/')[-1],
             path=path) for path in pub_paths]
 
+    def __len__(self):
+        return len(list(iter(self)))
+
     def __iter__(self):
         return iter(self.publishers)
 
