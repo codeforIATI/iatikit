@@ -240,6 +240,10 @@ class ActivitySet():
             total += dataset.xml.xpath(query)
         return int(total)
 
+    def first(self):
+        for x in self:
+            return x
+
     def all(self):
         return list(iter(self))
 
