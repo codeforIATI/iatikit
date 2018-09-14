@@ -1,72 +1,9 @@
-from time import time
 from glob import glob
 import json
 import logging
 from os.path import join
-from os import unlink, makedirs
-import shutil
-import zipfile
 
-import requests
 from lxml import etree
-
-
-# class Transaction():
-#     def __init__(self, _type, date, amount=None, currency=None,
-#                  value=None, xml=None):
-#         # TODO: we basically ignore these for now
-#         self._type = _type
-#         self.date = date
-#         self.xml = xml
-
-#         if value:
-#             self.value = value
-#         else:
-#             self.value = {
-#                 currency: amount
-#             }
-
-#     def __str__(self):
-#         return ', '.join(['{} {}'.format(round(y), x)
-#                           for x, y in self.value.items()])
-
-#     def __mul__(self, other):
-#         if type(other) not in [int, float]:
-#             raise Exception('No way')
-#         new_val = dict(self.value)
-#         for k, v in new_val.items():
-#             new_val[k] = v * other
-#         return Transaction(
-#             type_=self.type_,
-#             value=new_val,
-#             date=self.date,
-#         )
-
-#     def __add__(self, other):
-#         if type(other) in [int, float]:
-#             return self
-#         if type(other) != Transaction:
-#             other_type = str(type(other))
-#             raise Exception('Can\'t add Transaction and {}'.format(other_type))
-#         new_val = dict(self.value)
-#         for k, v in other.value.items():
-#             new_val[k] = v + new_val.get(k, 0.)
-#         return Transaction(
-#             type_=self.type_,
-#             value=new_val,
-#             date=self.date,
-#         )
-
-#     __radd__ = __add__
-#     __rmul__ = __mul__
-
-#     def uses_sector(self, *sectors):
-#         expr = 'sector[@vocabulary="1" or @vocabulary="2"]/@code'
-#         codes = self.xml.xpath(expr)
-#         for code in codes:
-#             if code in sectors:
-#                 return True
-#         return False
 
 
 class Organisation():
@@ -77,81 +14,6 @@ class Organisation():
 
 
 class QueryBuilder():
-    class ActivityDate:
-        def __init__(self, version, datetype):
-            self.datetype = datetype
-            self._version = version
-
-        def get(self):
-            datetype = {
-                'planned_start': ('start-planned', 1),
-                'actual_start': ('start-actual', 2),
-                'planned_end': ('end-planned', 3),
-                'actual_end': ('end-actual', 4),
-            }.get(self.datetype)
-            if self._version.startswith('1'):
-                datetype = datetype[0]
-            else:
-                datetype = datetype[1]
-            return 'activity-date[@type="{}"]/@iso-date'.format(datetype)
-
-        def where(self, op, value):
-            op = {
-                'lt': '<', 'lte': '<=',
-                'gt': '>', 'gte': '>=',
-                'eq': '=',
-            }.get(op)
-            if not op:
-                raise Exception
-            return 'number(translate({expr}, "-", "")) {op} {value}'.format(
-                expr=self.get(),
-                op=op,
-                value=value.replace('-', ''),
-            )
-
-    class SimpleString:
-        def __init__(self, expr):
-            self._expr = expr
-
-        def get(self):
-            return self._expr
-
-        def where(self, op, value):
-            if op in ['contains', 'startswith']:
-                if op == 'startswith':
-                    op = 'starts-with'
-                return '{expr}[{op}(., "{value}")]'.format(
-                    expr=self.get(),
-                    op=op,
-                    value=value,
-                )
-            elif op == 'exists':
-                if value is False:
-                    subop = '= 0'
-                else:
-                    subop = '!= 0'
-                return 'count({expr}) {subop}'.format(
-                    expr=self.get(),
-                    subop=subop,
-                )
-            elif op == 'eq':
-                return '{expr} = "{value}"'.format(
-                    expr=self.get(),
-                    value=value,
-                )
-            raise Exception
-
-    class NarrativeString(SimpleString):
-        def __init__(self, version, el):
-            if version.startswith('1'):
-                expr = '{}/text()'.format(el)
-            else:
-                expr = '{}/narrative/text()'.format(el)
-            self._expr = expr
-
-        def get(self):
-            return self._expr
-
     def __init__(self, version):
         self._version = version
 
@@ -348,7 +210,7 @@ class Publisher():
 class PublisherSet():
     def __init__(self, path=None):
         if not path:
-            path = join('pyandi', 'data')
+            path = join('__pyandicache__', 'data')
         pub_paths = glob(join(path, '*'))
         self.publishers = [Publisher(
             name=path.split('/')[-1],
@@ -384,7 +246,8 @@ class CodelistItem():
 
 class Codelist():
     def __init__(self, name, version='2'):
-        filepath = join('pyandi', 'codelists', version[0], name + '.json')
+        filepath = join('__pyandicache__', 'codelists',
+                        version[0], name + '.json')
         with open(filepath) as f:
             j = json.load(f)
         for attr_name, attr_val in j['attributes'].items():
@@ -398,59 +261,3 @@ class Codelist():
     def startswith(self, value):
         return list(filter(
             lambda x: x.code.startswith(value), self._data.values()))
-
-
-def timer(func):
-    def wrapper(*args, **kwargs):
-        if not kwargs.get('timer'):
-            return func(*args, **kwargs)
-        else:
-            start = time()
-            out = func(*args, **kwargs)
-            end = time()
-            print('Elapsed time: {:.1f} seconds.'.format(end - start))
-            return out
-
-    return wrapper
-
-
-@timer
-def refresh_data(**kwargs):
-    # downloads from https://andylolz.github.io/iati-data-dump/
-    data_url = 'https://www.dropbox.com/s/kkm80yjihyalwes/iati_dump.zip?dl=1'
-    data_path = join('pyandi', 'data')
-    shutil.rmtree(data_path, ignore_errors=True)
-    makedirs(data_path)
-    zip_filepath = join(data_path, 'iati_dump.zip')
-
-    print('Downloading...')
-    r = requests.get(data_url, stream=True)
-    with open(zip_filepath, 'wb') as f:
-        shutil.copyfileobj(r.raw, f)
-    print('Unzipping...')
-    with zipfile.ZipFile(zip_filepath, 'r') as zip_ref:
-        zip_ref.extractall(data_path)
-    print('Cleaning up...')
-    unlink(zip_filepath)
-
-
-@timer
-def refresh_codelists(**kwargs):
-    base_tmpl = 'http://reference.iatistandard.org/{version}/' + \
-                'codelists/downloads/'
-    print('Refreshing codelists...')
-    for version in ['105', '201']:
-        codelist_path = join('pyandi', 'codelists', version[0])
-        shutil.rmtree(codelist_path, ignore_errors=True)
-        makedirs(codelist_path)
-        codelist_url = base_tmpl.format(version=version) + 'clv1/codelist.json'
-        j = requests.get(codelist_url).json()
-        codelist_names = [x['name'] for x in j['codelist']]
-        for codelist_name in codelist_names:
-            codelist_url = base_tmpl.format(version=version) + \
-                           'clv2/json/en/{}.json'.format(codelist_name)
-            j = requests.get(codelist_url)
-            codelist_filepath = join(codelist_path, '{}.json'.format(
-                codelist_name))
-            with open(codelist_filepath, 'wb') as f:
-                f.write(j.content)
