@@ -261,11 +261,6 @@ class Activity():
             self.title[0],
             self.iati_identifier[0])
 
-    # @classmethod
-    # def from_xml(cls, xml_str):
-    #     l = etree.fromstring(xml_str.decode('utf-8'))
-    #     return cls(xml=l)
-
     def __getattr__(self, attr):
         query = QueryBuilder(self.version).get(attr)
         return self.xml.xpath(query)
@@ -275,36 +270,6 @@ class Activity():
     #     for k, v in kwargs.items():
     #         related_acts = filter(lambda x: x.get(k) == v, related_acts)
     #     return list(related_acts)
-
-    # def get_transactions(self, type_):
-    #     if type_ == 'commitments':
-    #         expr = 'transaction[transaction-type/@code="2" or ' + \
-    #                'transaction-type/@code="C"]'
-    #     elif type_ == 'disbursements':
-    #         expr = 'transaction[transaction-type/@code="3" or ' + \
-    #                'transaction-type/@code="D"]'
-    #     elif type_ == 'expenditures':
-    #         expr = 'transaction[transaction-type/@code="4" or ' + \
-    #                'transaction-type/@code="E"]'
-    #     trans = self.xml.xpath(expr)
-    #     transactions = []
-    #     for t in trans:
-    #         try:
-    #             value = t.xpath('value')[0]
-    #             amount = float(value.text)
-    #         except IndexError:
-    #             continue
-    #         except TypeError:
-    #             continue
-    #         transaction = Transaction(
-    #             type_=type_,
-    #             amount=amount,
-    #             currency=value.get('currency', self.default_currency),
-    #             date=value.get('value-date'),
-    #             xml=t,
-    #         )
-    #         transactions.append(transaction)
-    #     return transactions
 
 
 class DatasetSet():
@@ -363,11 +328,6 @@ class Publisher():
     def __repr__(self):
         return '<{} ({})>'.format(self.__class__.__name__, self.name)
 
-    # @classmethod
-    # def get(cls, pub_path):
-    #     name = pub_path.split('/')[-1]
-    #     return cls(name=name, path=pub_path)
-
     @property
     def datasets(self):
         return DatasetSet(self.path)
@@ -375,14 +335,6 @@ class Publisher():
     @property
     def activities(self):
         return ActivitySet(self.datasets)
-
-    # @property
-    # def organisations(self):
-    #     xpath_expr = '//iati-organisation'
-    #     for dataset in self.datasets:
-    #         organisations = dataset.xml.xpath(xpath_expr)
-    #         for organisation in organisations:
-    #             yield Organisation(organisation, dataset)
 
     def find(self, expr):
         out = []
