@@ -141,6 +141,17 @@ class QueryBuilder():
                 )
             raise Exception
 
+    class NarrativeString(SimpleString):
+        def __init__(self, version, el):
+            if version.startswith('1'):
+                expr = '{}/text()'.format(el)
+            else:
+                expr = '{}/narrative/text()'.format(el)
+            self._expr = expr
+
+        def get(self):
+            return self._expr
+
     def __init__(self, version):
         self._version = version
 
@@ -185,6 +196,10 @@ class QueryBuilder():
     @property
     def location(self):
         return self.SimpleString('location')
+
+    @property
+    def title(self):
+        return self.NarrativeString(self._version, 'title')
 
     @property
     def sector(self):
