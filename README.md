@@ -2,7 +2,7 @@
 
 A [query language](https://erikbern.com/2018/08/30/i-dont-want-to-learn-your-garbage-query-language.html) wrapper around [XPath](https://en.wikipedia.org/wiki/XPath), with some [IATI](https://iatistandard.org/)-related helpers included.
 
-The name is a homage to its predecessor, [pyIATI](https://github.com/IATI/pyIATI).
+The name is an homage to its predecessor, [pyIATI](https://github.com/IATI/pyIATI).
 
 ## Installation
 
@@ -15,8 +15,9 @@ pip install -r requirements.txt
 ```python
 import pyandi
 
-pyandi.refresh_data()  # download all XML in the registry
-pyandi.refresh_codelists()  # download all the codelists
+pyandi.download_data()  # download all XML in the registry
+pyandi.download_codelists()  # download all the codelists
+pyandi.download_schemas()  # download all schemas
 ```
 
 ## Examples
