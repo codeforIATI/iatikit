@@ -1,4 +1,3 @@
-import json
 from os.path import join
 from os import unlink, makedirs
 import shutil
@@ -29,7 +28,7 @@ def download_data(**kwargs):
     meta = 'https://www.dropbox.com/s/6a3wggckhbb9nla/metadata.json?dl=1'
     metadata = requests.get(meta)
     with open(meta_filepath, 'wb') as f:
-        f.write(metadata)
+        f.write(metadata.content)
 
 
 def download_codelists(**kwargs):
@@ -56,11 +55,11 @@ def download_codelists(**kwargs):
         for codelist_name in codelist_names:
             codelist_url = base_tmpl.format(version=version) + \
                            'clv2/json/en/{}.json'.format(codelist_name)
-            j = requests.get(codelist_url).json()
+            r = requests.get(codelist_url)
             codelist_filepath = join(codelist_path, '{}.json'.format(
                 codelist_name))
-            with open(codelist_filepath, 'w') as f:
-                json.dump(j, f)
+            with open(codelist_filepath, 'wb') as f:
+                f.write(r.content)
 
 
 def download_schemas(**kwargs):
