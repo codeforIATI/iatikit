@@ -1,3 +1,4 @@
+import json
 from os.path import join
 from os import unlink, makedirs
 import shutil
@@ -98,3 +99,27 @@ def download_schemas(**kwargs):
                 for chunk in r.iter_content(chunk_size=1024):
                     if chunk:
                         f.write(chunk)
+
+
+def metadata():
+    print('Refreshing metadata...')
+    metadata_path = join('__pyandicache__', 'metadata')
+    shutil.rmtree(metadata_path, ignore_errors=True)
+    url_tmpl = 'https://iatiregistry.org/api/3/action/package_search' + \
+               '?start={start}&rows=1000'
+    start = 0
+    while True:
+        j = requests.get(url_tmpl.format(start=start)).json()
+        if len(j['result']['results']) == 0:
+            break
+        for r in j['result']['results']:
+            org = r['organization']
+            if not org:
+                continue
+            org_name = org['name']
+            dataset_name = r['name']
+            orgpath = join(metadata_path, org_name)
+            makedirs(orgpath, exist_ok=True)
+            with open(join(orgpath, dataset_name + '.json'), 'w') as f:
+                json.dump(r, f)
+        start += 1000
