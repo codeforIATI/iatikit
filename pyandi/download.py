@@ -7,7 +7,7 @@ import zipfile
 import requests
 
 
-def download_data(**kwargs):
+def data():
     # downloads from https://andylolz.github.io/iati-data-dump/
     data_url = 'https://www.dropbox.com/s/kkm80yjihyalwes/iati_dump.zip?dl=1'
     data_path = join('__pyandicache__', 'data')
@@ -32,7 +32,7 @@ def download_data(**kwargs):
         f.write(metadata.content)
 
 
-def download_codelists(**kwargs):
+def codelists():
     versions_url = 'http://reference.iatistandard.org/105/codelists/' + \
                    'downloads/clv2/json/en/Version.json'
     versions = [d['code'] for d in requests.get(versions_url).json()['data']]
@@ -63,7 +63,7 @@ def download_codelists(**kwargs):
                 f.write(r.content)
 
 
-def download_schemas(**kwargs):
+def schemas():
     print('Refreshing schemas...')
     schemas_path = join('__pyandicache__', 'schemas')
     versions_url = 'http://reference.iatistandard.org/codelists/downloads/' + \
