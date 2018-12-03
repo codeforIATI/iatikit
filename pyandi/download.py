@@ -7,29 +7,35 @@ import zipfile
 import requests
 
 
-def data():
+def data(path=None):
     # downloads from https://andylolz.github.io/iati-data-dump/
     data_url = 'https://www.dropbox.com/s/kkm80yjihyalwes/iati_dump.zip?dl=1'
-    data_path = join('__pyandicache__', 'data')
+    if not path:
+        data_path = join('__pyandicache__', 'data')
+    else:
+        data_path = path
     shutil.rmtree(data_path, ignore_errors=True)
     makedirs(data_path)
     zip_filepath = join(data_path, 'iati_dump.zip')
 
-    print('Downloading...')
+    print('Downloading data...')
     r = requests.get(data_url, stream=True)
     with open(zip_filepath, 'wb') as f:
         shutil.copyfileobj(r.raw, f)
-    print('Unzipping...')
+    print('Unzipping data...')
     with zipfile.ZipFile(zip_filepath, 'r') as zip_ref:
         zip_ref.extractall(data_path)
     print('Cleaning up...')
     unlink(zip_filepath)
-    print('Downloading metadata...')
+    print('Downloading zip metadata...')
     meta_filepath = join(data_path, 'metadata.json')
     meta = 'https://www.dropbox.com/s/6a3wggckhbb9nla/metadata.json?dl=1'
-    metadata = requests.get(meta)
+    zip_metadata = requests.get(meta)
     with open(meta_filepath, 'wb') as f:
-        f.write(metadata.content)
+        f.write(zip_metadata.content)
+    metadata()
+    # TODO: Check they're in sync
+    # e.g. by comparing number of files
 
 
 def codelists():
@@ -45,7 +51,7 @@ def codelists():
     versions = maxver.items()
     base_tmpl = 'http://reference.iatistandard.org/{version}/' + \
                 'codelists/downloads/'
-    print('Refreshing codelists...')
+    print('Downloading codelists...')
     for major, version in versions:
         codelist_path = join('__pyandicache__', 'codelists', major)
         shutil.rmtree(codelist_path, ignore_errors=True)
@@ -64,7 +70,7 @@ def codelists():
 
 
 def schemas():
-    print('Refreshing schemas...')
+    print('Downloading schemas...')
     schemas_path = join('__pyandicache__', 'schemas')
     versions_url = 'http://reference.iatistandard.org/codelists/downloads/' + \
                    'clv2/json/en/Version.json'
@@ -101,10 +107,14 @@ def schemas():
                         f.write(chunk)
 
 
-def metadata():
-    print('Refreshing metadata...')
-    metadata_path = join('__pyandicache__', 'metadata')
-    shutil.rmtree(metadata_path, ignore_errors=True)
+def metadata(path=None, delete_first=True):
+    print('Downloading dataset metadata...')
+    if not path:
+        metadata_path = join('__pyandicache__', 'metadata')
+    else:
+        metadata_path = path
+    if delete_first:
+        shutil.rmtree(metadata_path, ignore_errors=True)
     url_tmpl = 'https://iatiregistry.org/api/3/action/package_search' + \
                '?start={start}&rows=1000'
     start = 0
