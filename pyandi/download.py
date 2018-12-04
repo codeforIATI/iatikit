@@ -18,7 +18,7 @@ def data(path=None):
     makedirs(data_path)
     zip_filepath = join(data_path, 'iati_dump.zip')
 
-    print('Downloading data...')
+    print('Downloading all IATI registry data...')
     r = requests.get(data_url, stream=True)
     with open(zip_filepath, 'wb') as f:
         shutil.copyfileobj(r.raw, f)
@@ -27,7 +27,7 @@ def data(path=None):
         zip_ref.extractall(data_path)
     print('Cleaning up...')
     unlink(zip_filepath)
-    print('Downloading zip metadata...')
+    print('Downloading zipfile metadata...')
     meta_filepath = join(data_path, 'metadata.json')
     meta = 'https://www.dropbox.com/s/6a3wggckhbb9nla/metadata.json?dl=1'
     zip_metadata = requests.get(meta)
@@ -39,6 +39,7 @@ def data(path=None):
 
 
 def codelists():
+    print('Downloading IATI Standard codelists...')
     versions_url = 'http://reference.iatistandard.org/105/codelists/' + \
                    'downloads/clv2/json/en/Version.json'
     versions = [d['code'] for d in requests.get(versions_url).json()['data']]
@@ -51,7 +52,6 @@ def codelists():
     versions = maxver.items()
     base_tmpl = 'http://reference.iatistandard.org/{version}/' + \
                 'codelists/downloads/'
-    print('Downloading codelists...')
     for major, version in versions:
         codelist_path = join('__pyandicache__', 'codelists', major)
         shutil.rmtree(codelist_path, ignore_errors=True)
@@ -70,7 +70,7 @@ def codelists():
 
 
 def schemas():
-    print('Downloading schemas...')
+    print('Downloading IATI Standard schemas...')
     schemas_path = join('__pyandicache__', 'schemas')
     versions_url = 'http://reference.iatistandard.org/codelists/downloads/' + \
                    'clv2/json/en/Version.json'
@@ -108,7 +108,7 @@ def schemas():
 
 
 def metadata(path=None, delete_first=True):
-    print('Downloading dataset metadata...')
+    print('Downloading dataset metadata from the IATI registry...')
     if not path:
         metadata_path = join('__pyandicache__', 'metadata')
     else:
