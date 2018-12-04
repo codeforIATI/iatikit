@@ -1,4 +1,4 @@
-class ActivityDate:
+class DateType:
     def __init__(self, version, datetype):
         self.datetype = datetype
         self._version = version
@@ -31,7 +31,7 @@ class ActivityDate:
         )
 
 
-class SimpleString:
+class StringType:
     def __init__(self, expr):
         self._expr = expr
 
@@ -64,7 +64,7 @@ class SimpleString:
         raise Exception
 
 
-class NarrativeString(SimpleString):
+class NarrativeType(StringType):
     def __init__(self, version, el):
         if version.startswith('1'):
             expr = '{}/text()'.format(el)
