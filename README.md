@@ -7,7 +7,7 @@ The name is an homage to its predecessor, [pyIATI](https://github.com/IATI/pyIAT
 ## Installation
 
 ```shell
-pip install -r requirements.txt
+pip install pyandi
 ```
 
 ## Getting started
@@ -15,9 +15,14 @@ pip install -r requirements.txt
 ```python
 import pyandi
 
-pyandi.download_data()  # download all XML in the registry
-pyandi.download_codelists()  # download all the codelists
-pyandi.download_schemas()  # download all schemas
+# download all XML in the registry
+pyandi.download.data()
+
+# download all the codelists
+pyandi.download.codelists()
+
+# download all schemas
+pyandi.download.schemas()
 ```
 
 ## Examples
