@@ -27,7 +27,7 @@ pyandi.download.schemas()
 
 ## Examples
 
-[Take a look here.](examples.ipynb)
+[Take a look here.](https://github.com/andylolz/pyandi/blob/master/examples.ipynb)
 
 ## TODO
 
