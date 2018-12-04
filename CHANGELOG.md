@@ -6,6 +6,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+- Remove download.metadata() (since metadata is now included in the data dump)
+
 ### Fixed
 - Minor README updates
 

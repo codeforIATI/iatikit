@@ -1,4 +1,3 @@
-import json
 from os.path import join
 from os import unlink, makedirs
 import shutil
@@ -7,13 +6,10 @@ import zipfile
 import requests
 
 
-def data(path=None):
+def data():
     # downloads from https://andylolz.github.io/iati-data-dump/
     data_url = 'https://www.dropbox.com/s/kkm80yjihyalwes/iati_dump.zip?dl=1'
-    if not path:
-        data_path = join('__pyandicache__', 'data')
-    else:
-        data_path = path
+    data_path = join('__pyandicache__')
     shutil.rmtree(data_path, ignore_errors=True)
     makedirs(data_path)
     zip_filepath = join(data_path, 'iati_dump.zip')
@@ -33,9 +29,6 @@ def data(path=None):
     zip_metadata = requests.get(meta)
     with open(meta_filepath, 'wb') as f:
         f.write(zip_metadata.content)
-    metadata()
-    # TODO: Check they're in sync
-    # e.g. by comparing number of files
 
 
 def codelists():
@@ -105,31 +98,3 @@ def schemas():
                 for chunk in r.iter_content(chunk_size=1024):
                     if chunk:
                         f.write(chunk)
-
-
-def metadata(path=None, delete_first=True):
-    print('Downloading dataset metadata from the IATI registry...')
-    if not path:
-        metadata_path = join('__pyandicache__', 'metadata')
-    else:
-        metadata_path = path
-    if delete_first:
-        shutil.rmtree(metadata_path, ignore_errors=True)
-    url_tmpl = 'https://iatiregistry.org/api/3/action/package_search' + \
-               '?start={start}&rows=1000'
-    start = 0
-    while True:
-        j = requests.get(url_tmpl.format(start=start)).json()
-        if len(j['result']['results']) == 0:
-            break
-        for r in j['result']['results']:
-            org = r['organization']
-            if not org:
-                continue
-            org_name = org['name']
-            dataset_name = r['name']
-            orgpath = join(metadata_path, org_name)
-            makedirs(orgpath, exist_ok=True)
-            with open(join(orgpath, dataset_name + '.json'), 'w') as f:
-                json.dump(r, f)
-        start += 1000
