@@ -5,7 +5,7 @@ import logging
 
 import requests
 
-from .data.registry import Registry
+from ..data.registry import Registry
 
 
 logger = logging.getLogger(__name__)
@@ -30,7 +30,7 @@ def codelists():
     base_tmpl = 'http://reference.iatistandard.org/{version}/' + \
                 'codelists/downloads/'
     for major, version in versions:
-        codelist_path = join('__pyandicache__', 'codelists', major)
+        codelist_path = join('__pyandicache__', 'standard', 'codelists', major)
         shutil.rmtree(codelist_path, ignore_errors=True)
         makedirs(codelist_path)
         codelist_url = base_tmpl.format(version=version) + 'clv1/codelist.json'
@@ -48,7 +48,7 @@ def codelists():
 
 def schemas():
     logger.info('Downloading IATI Standard schemas...')
-    schemas_path = join('__pyandicache__', 'schemas')
+    schemas_path = join('__pyandicache__', 'standard', 'schemas')
     versions_url = 'http://reference.iatistandard.org/codelists/downloads/' + \
                    'clv2/json/en/Version.json'
     versions = [v['code'] for v in requests.get(versions_url).json()['data']]

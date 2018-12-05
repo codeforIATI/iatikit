@@ -45,7 +45,3 @@ class Registry:
         zip_metadata = requests.get(meta)
         with open(meta_filepath, 'wb') as f:
             f.write(zip_metadata.content)
-
-
-def publishers():
-    return Registry().publishers()
