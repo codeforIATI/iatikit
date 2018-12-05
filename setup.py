@@ -1,8 +1,8 @@
-from codecs import open
-from setuptools import setup
+from setuptools import setup, find_packages
+from os.path import join, dirname
 
 
-with open('README.md', 'r', 'utf-8') as f:
+with open(join(dirname(__file__), 'README.md')) as f:
     readme = f.read()
 
 setup(
@@ -13,8 +13,9 @@ setup(
     author='Andy Lulham',
     author_email='a.lulham@gmail.com',
     version='0.2.0',
-    packages=['pyandi'],
+    packages=find_packages(),
     license='MIT',
+    keywords='IATI',
     long_description=readme,
     long_description_content_type='text/markdown',
     install_requires=[
