@@ -1,3 +1,3 @@
-from .registry import Registry, publishers
+from .registry import publishers
 from . import download
 from . import codelists
