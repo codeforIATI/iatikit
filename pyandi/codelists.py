@@ -67,9 +67,8 @@ class Codelist(UserDict):
         return self.all()[code]
 
 
-def get(slug, version='latest', path=None):
-    if path is None:
-        path = join('__pyandicache__', 'codelists')
+def get(slug, version='latest'):
+    path = join('__pyandicache__', 'codelists')
     if version == 'latest':
         major = max(listdir(path))
         path = join(path, major)
@@ -79,9 +78,8 @@ def get(slug, version='latest', path=None):
     return Codelist(slug, path, major)
 
 
-def all(version='latest', path=None):
-    if path is None:
-        path = join('__pyandicache__', 'codelists')
+def all(version='latest'):
+    path = join('__pyandicache__', 'codelists')
     if version == 'latest':
         major = max(listdir(path))
         path = join(path, major)

@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Start using python logging
 - Don’t parse XML until necessary
 - Where path is useless – scrap it
+- Scrap custom cache location
 
 ### Fixed
 - Minor README updates

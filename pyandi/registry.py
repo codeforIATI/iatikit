@@ -39,10 +39,8 @@ class PublisherSet:
 
 
 class Registry:
-    def __init__(self, path=None):
-        if not path:
-            path = join('__pyandicache__', 'data')
-        self.path = path
+    def __init__(self):
+        self.path = join('__pyandicache__', 'data')
 
     @property
     def publishers(self):
