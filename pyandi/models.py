@@ -29,7 +29,13 @@ class Dataset:
     def __init__(self, path, name):
         self.path = path
         self.name = name
-        self.xml = etree.parse(self.path)
+        self._xml = None
+
+    @property
+    def xml(self):
+        if not self._xml:
+            self._xml = etree.parse(self.path)
+        return self._xml
 
     def __repr__(self):
         return '<{} ({})>'.format(self.__class__.__name__, self.name)
