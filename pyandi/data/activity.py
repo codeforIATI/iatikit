@@ -1,6 +1,6 @@
-from .abstract import PyandiSet
-from .schemas import ActivitySchema
-from .querybuilder import QueryBuilder
+from ..abstract import PyandiSet
+from ..standard.schema import ActivitySchema
+from ..querybuilder import QueryBuilder
 
 
 class ActivitySet(PyandiSet):

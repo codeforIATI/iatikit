@@ -1,38 +1,18 @@
 from os.path import join
-from os import unlink, makedirs
+from os import makedirs
 import shutil
-import zipfile
 import logging
 
 import requests
+
+from .data.registry import Registry
 
 
 logger = logging.getLogger(__name__)
 
 
 def data():
-    # downloads from https://andylolz.github.io/iati-data-dump/
-    data_url = 'https://www.dropbox.com/s/kkm80yjihyalwes/iati_dump.zip?dl=1'
-    data_path = join('__pyandicache__')
-    shutil.rmtree(data_path, ignore_errors=True)
-    makedirs(data_path)
-    zip_filepath = join(data_path, 'iati_dump.zip')
-
-    logger.info('Downloading all IATI registry data...')
-    r = requests.get(data_url, stream=True)
-    with open(zip_filepath, 'wb') as f:
-        shutil.copyfileobj(r.raw, f)
-    logger.info('Unzipping data...')
-    with zipfile.ZipFile(zip_filepath, 'r') as zip_ref:
-        zip_ref.extractall(data_path)
-    logger.info('Cleaning up...')
-    unlink(zip_filepath)
-    logger.info('Downloading zipfile metadata...')
-    meta_filepath = join(data_path, 'metadata.json')
-    meta = 'https://www.dropbox.com/s/6a3wggckhbb9nla/metadata.json?dl=1'
-    zip_metadata = requests.get(meta)
-    with open(meta_filepath, 'wb') as f:
-        f.write(zip_metadata.content)
+    Registry().download()
 
 
 def codelists():

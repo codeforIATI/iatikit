@@ -4,41 +4,44 @@ import json
 
 from lxml import etree
 
+from ..abstract import PyandiSet
 from .activity import ActivitySet
 
 
-class DatasetSet:
-    def __init__(self, basepath, **kwargs):
-        self._basepath = basepath
+class DatasetSet(PyandiSet):
+    def __init__(self, data_path, metadata_path, **kwargs):
+        self.data_path = data_path
+        self.metadata_path = metadata_path
         self._wheres = kwargs
 
     def __iter__(self):
-        paths = glob(join(self._basepath, '*.xml'))
+        data_paths = glob(join(self.data_path, '*'))
+        metadata_paths = glob(join(self.metadata_path, '*'))
+        paths = zip(data_paths, metadata_paths)
 
-        where_path = self._wheres.get('path')
-        if where_path:
-            paths = filter(
-                lambda x: x == where_path, paths)
         where_name = self._wheres.get('name')
         if where_name:
             paths = filter(
-                lambda x: splitext(basename(x))[0] == where_name, paths)
+                lambda x: splitext(basename(x[0]))[0] == where_name, paths)
 
-        for path in paths:
-            name = splitext(basename(path))[0]
-            yield Dataset(path, name)
+        for data_path, metadata_path in paths:
+            yield Dataset(data_path, metadata_path)
 
 
 class Dataset:
-    def __init__(self, path, name):
-        self.path = path
-        self.name = name
+    def __init__(self, data_path, metadata_path):
+        self.data_path = data_path
+        self.metadata_path = metadata_path
         self._xml = None
+
+    @property
+    def name(self):
+        return splitext(basename(self.data_path))[0]
 
     @property
     def xml(self):
         if not self._xml:
-            self._xml = etree.parse(self.path)
+            self._xml = etree.parse(self.data_path)
         return self._xml
 
     def __repr__(self):
@@ -54,7 +57,7 @@ class Dataset:
 
     @property
     def metadata(self):
-        with open(splitext(self.path)[0] + '.json') as f:
+        with open(self.metadata_path) as f:
             return json.load(f)
 
     @property

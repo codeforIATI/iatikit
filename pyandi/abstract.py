@@ -1,7 +1,7 @@
 class PyandiSet:
     def where(self, **kwargs):
-        wheres = dict(self._wheres, **kwargs)
-        return self.__class__(self._basepath, **wheres)
+        self._wheres = dict(self._wheres, **kwargs)
+        return self
 
     def __len__(self):
         return len(list(iter(self)))
