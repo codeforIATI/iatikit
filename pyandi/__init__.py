@@ -1,3 +1,3 @@
-from .data.registry import Registry, publishers
-from . import download
-from .standard import codelist
+from .data.registry import Registry, publishers  # noqa: F401
+from . import download  # noqa: F401
+from .standard import codelist  # noqa: F401
