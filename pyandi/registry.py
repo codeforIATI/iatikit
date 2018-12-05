@@ -4,14 +4,26 @@ from os.path import basename, join
 from .models import Publisher
 
 
-class PublisherSet:
+class PyandiSet:
+    def where(self, **kwargs):
+        wheres = dict(self._wheres, **kwargs)
+        return self.__class__(self._basepath, **wheres)
+
+    def first(self):
+        for first in self:
+            return first
+
+    def all(self):
+        return list(iter(self))
+
+    def find(self, **kwargs):
+        return self.where(**kwargs).first()
+
+
+class PublisherSet(PyandiSet):
     def __init__(self, basepath, **kwargs):
         self._basepath = basepath
         self._wheres = kwargs
-
-    def where(self, **kwargs):
-        wheres = dict(self._wheres, **kwargs)
-        return PublisherSet(self._basepath, **wheres)
 
     def __len__(self):
         return len(list(iter(self)))
@@ -26,16 +38,6 @@ class PublisherSet:
         for path in paths:
             name = basename(path)
             yield Publisher(path, name)
-
-    def first(self):
-        for first in self:
-            return first
-
-    def all(self):
-        return list(iter(self))
-
-    def find(self, **kwargs):
-        return self.where(**kwargs).first()
 
 
 class Registry:
