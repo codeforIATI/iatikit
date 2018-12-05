@@ -19,9 +19,6 @@ class PublisherSet:
     def __iter__(self):
         paths = glob(join(self._basepath, '*'))
 
-        where_path = self._wheres.get('path')
-        if where_path:
-            paths = filter(lambda x: x == where_path, paths)
         where_name = self._wheres.get('name')
         if where_name:
             paths = filter(lambda x: basename(x) == where_name, paths)
