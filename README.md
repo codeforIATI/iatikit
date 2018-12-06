@@ -103,4 +103,4 @@ print('DFID had {:,} agricultural activities running during 2017.'.format(
 
 ## TODO
 
-Lots. At the moment this is for internal use; I’m just adding features as I need them.
+Plenty! Refer to [the github issue tracker](https://github.com/andylolz/pyandi/issues).
