@@ -1,4 +1,4 @@
-from os.path import basename, join, splitext
+from os.path import basename, splitext
 from glob import glob
 import json
 
@@ -15,8 +15,8 @@ class DatasetSet(PyandiSet):
         self._wheres = kwargs
 
     def __iter__(self):
-        data_paths = glob(join(self.data_path, '*'))
-        metadata_paths = glob(join(self.metadata_path, '*'))
+        data_paths = sorted(glob(self.data_path))
+        metadata_paths = sorted(glob(self.metadata_path))
         paths = zip(data_paths, metadata_paths)
 
         where_name = self._wheres.get('name')

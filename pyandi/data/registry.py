@@ -20,7 +20,9 @@ class Registry:
             self.path = join('__pyandicache__', 'registry')
 
     def publishers(self):
-        return PublisherSet(self.path)
+        data_path = join(self.path, 'data', '*')
+        metadata_path = join(self.path, 'metadata', '*')
+        return PublisherSet(data_path, metadata_path)
 
     def download(self):
         # downloads from https://andylolz.github.io/iati-data-dump/

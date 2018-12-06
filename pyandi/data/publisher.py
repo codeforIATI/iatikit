@@ -7,13 +7,14 @@ from .activity import ActivitySet
 
 
 class PublisherSet(PyandiSet):
-    def __init__(self, path, **kwargs):
-        self._path = path
+    def __init__(self, data_path, metadata_path, **kwargs):
+        self.data_path = data_path
+        self.metadata_path = metadata_path
         self._wheres = kwargs
 
     def __iter__(self):
-        data_paths = glob(join(self._path, 'data', '*'))
-        metadata_paths = glob(join(self._path, 'metadata', '*'))
+        data_paths = sorted(glob(self.data_path))
+        metadata_paths = sorted(glob(self.metadata_path))
         paths = zip(data_paths, metadata_paths)
 
         where_name = self._wheres.get('name')
@@ -39,7 +40,9 @@ class Publisher:
 
     @property
     def datasets(self):
-        return DatasetSet(self.data_path, self.metadata_path)
+        data_path = join(self.data_path, '*')
+        metadata_path = join(self.metadata_path, '*')
+        return DatasetSet(data_path, metadata_path)
 
     @property
     def activities(self):
