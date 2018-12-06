@@ -10,14 +10,11 @@ def publishers():
 
 
 def datasets():
-    r = Registry().publishers()
+    r = publishers()
     data_path = join(r.data_path, '*')
     metadata_path = join(r.data_path, '*')
     return DatasetSet(data_path, metadata_path)
 
 
 def activities():
-    r = Registry().publishers()
-    data_path = join(r.data_path, '*')
-    metadata_path = join(r.data_path, '*')
-    return ActivitySet(DatasetSet(data_path, metadata_path))
+    return ActivitySet(datasets())
