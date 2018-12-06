@@ -7,6 +7,8 @@ import logging
 import requests
 
 from .publisher import PublisherSet
+from .dataset import DatasetSet
+from .activity import ActivitySet
 
 
 logger = logging.getLogger(__name__)
@@ -19,10 +21,22 @@ class Registry:
         else:
             self.path = join('__pyandicache__', 'registry')
 
+    @property
     def publishers(self):
         data_path = join(self.path, 'data', '*')
         metadata_path = join(self.path, 'metadata', '*')
         return PublisherSet(data_path, metadata_path)
+
+    @property
+    def datasets(self):
+        r = self.publishers
+        data_path = join(r.data_path, '*')
+        metadata_path = join(r.data_path, '*')
+        return DatasetSet(data_path, metadata_path)
+
+    @property
+    def activities(self):
+        return ActivitySet(self.datasets)
 
     def download(self):
         # downloads from https://andylolz.github.io/iati-data-dump/
