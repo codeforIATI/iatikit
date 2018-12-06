@@ -51,8 +51,12 @@ class Dataset:
         return self.name
 
     def is_valid(self):
-        if self.filetype:
-            return True
+        # TODO: This currently just checks for a valid root node
+        try:
+            if self.filetype:
+                return True
+        except etree.XMLSyntaxError:
+            pass
         return False
 
     @property
