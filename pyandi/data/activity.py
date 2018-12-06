@@ -8,6 +8,17 @@ class ActivitySet(PyandiSet):
         self.datasets = datasets
         self.wheres = kwargs
 
+    def __len__(self):
+        total = 0
+        for dataset in self.datasets:
+            if not dataset.is_valid():
+                continue
+            schema = ActivitySchema(dataset.version)
+            query = '//iati-activity'
+            query += QueryBuilder(schema).where(**self.wheres)
+            total += int(dataset.xml.xpath('count({})'.format(query)))
+        return total
+
     def __iter__(self):
         for dataset in self.datasets:
             if not dataset.is_valid():
