@@ -19,17 +19,6 @@ class ActivitySet(PyandiSet):
             for activity in activities:
                 yield Activity(activity, dataset)
 
-    def __len__(self):
-        # TODO
-        total = 0
-        for dataset in self.datasets:
-            schema = ActivitySchema(dataset.version)
-            query = '//iati-activity'
-            query += QueryBuilder(schema).where(**self.wheres)
-            query = 'count({})'.format(query)
-            total += dataset.xml.xpath(query)
-        return int(total)
-
 
 class Activity:
     def __init__(self, xml, dataset):
