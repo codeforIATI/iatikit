@@ -11,6 +11,9 @@ class PyandiSet:
             return first
 
     def all(self):
+        return self.get()
+
+    def get(self):
         return list(iter(self))
 
     def find(self, **kwargs):
