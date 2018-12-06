@@ -3,8 +3,17 @@ class PyandiSet:
         self._wheres = dict(self._wheres, **kwargs)
         return self
 
+    def __getitem__(self, index):
+        for current_idx, item in enumerate(self):
+            if current_idx == index:
+                return item
+        raise IndexError('index out of range')
+
     def __len__(self):
         return len(list(iter(self)))
+
+    def count(self):
+        return len(self)
 
     def first(self):
         for first in self:
