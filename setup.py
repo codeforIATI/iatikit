@@ -12,7 +12,7 @@ setup(
     url='https://github.com/andylolz/pyandi',
     author='Andy Lulham',
     author_email='a.lulham@gmail.com',
-    version='0.2.0',
+    version='1.0.0',
     packages=find_packages(),
     license='MIT',
     keywords='IATI',
