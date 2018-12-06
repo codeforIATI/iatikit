@@ -10,7 +10,10 @@ class PyandiSet:
         raise IndexError('index out of range')
 
     def __len__(self):
-        return len(list(iter(self)))
+        total = 0
+        for x in self:
+            total += 1
+        return total
 
     def count(self):
         return len(self)
