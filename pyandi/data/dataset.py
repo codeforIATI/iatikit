@@ -44,6 +44,10 @@ class Dataset:
             self._xml = etree.parse(self.data_path)
         return self._xml
 
+    @property
+    def raw_xml(self):
+        return etree.tostring(self.xml)
+
     def __repr__(self):
         return '<{} ({})>'.format(self.__class__.__name__, self.name)
 

@@ -2,6 +2,8 @@ from ..abstract import PyandiSet
 from ..standard.schema import ActivitySchema
 from ..querybuilder import QueryBuilder
 
+from lxml import etree
+
 
 class ActivitySet(PyandiSet):
     def __init__(self, datasets, **kwargs):
@@ -40,6 +42,9 @@ class Activity:
         self._dataset = dataset
 
     @property
+    def raw_xml(self):
+        return etree.tostring(self.xml)
+
     def iati_identifier(self):
         x = self.xml.xpath('iati-identifier/text()')
         if len(x) == 1:
