@@ -1,8 +1,12 @@
 class QueryBuilder:
-    def __init__(self, schema):
+    def __init__(self, schema, prefix=None, count=False):
         self._schema = schema
+        self._count = count
+        self._prefix = prefix
 
     def where(self, **kwargs):
+        query_str = self._prefix
+
         exprs = []
         for shortcut, value in kwargs.items():
             if shortcut == 'xml':
@@ -13,11 +17,12 @@ class QueryBuilder:
             else:
                 operator = 'eq'
             # TODO
-            expr = self._schema.get_query(shortcut, operator, value)
+            expr = self.filter(shortcut, operator, value)
             exprs.append(expr)
-        query_str = ''.join(['[{}]'.format(x) for x in exprs])
+        query_str += ''.join(['[{}]'.format(x) for x in exprs])
+        if self._count:
+            query_str = 'count({})'.format(query_str)
         return query_str
 
-    def get(self, shortcut):
-        # TODO
-        return self._schema.get_query(shortcut)
+    def filter(self, shortcut, operator, value):
+        return getattr(self._schema, shortcut)()

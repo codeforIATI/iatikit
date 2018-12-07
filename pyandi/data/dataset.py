@@ -4,7 +4,7 @@ import json
 
 from lxml import etree
 
-from ..abstract import PyandiSet
+from ..utils.abstract import PyandiSet
 from .activity import ActivitySet
 
 

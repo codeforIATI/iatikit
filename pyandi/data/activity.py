@@ -1,6 +1,6 @@
-from ..abstract import PyandiSet
-from ..standard.schema import ActivitySchema
-from ..querybuilder import QueryBuilder
+from ..standard.schema import get_schema
+from ..utils.abstract import PyandiSet
+from ..utils.querybuilder import QueryBuilder
 
 from lxml import etree
 

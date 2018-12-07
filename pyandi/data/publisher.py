@@ -1,7 +1,7 @@
 from os.path import basename, join
 from glob import glob
 
-from ..abstract import PyandiSet
+from ..utils.abstract import PyandiSet
 from .dataset import DatasetSet
 from .activity import ActivitySet
 
