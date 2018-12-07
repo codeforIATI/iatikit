@@ -71,10 +71,8 @@ class Dataset:
     @property
     def filetype(self):
         roottag = self.xml.getroot().tag
-        if roottag == 'iati-activities':
-            return 'activity'
-        if roottag == 'iati-organisations':
-            return 'organisation'
+        if roottag in ['iati-activities', 'iati-organisations']:
+            return roottag
         return None
 
     @property
