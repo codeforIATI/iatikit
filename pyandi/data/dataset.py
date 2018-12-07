@@ -72,6 +72,10 @@ class Dataset:
 
     @property
     def filetype(self):
+        return self.metadata.get('extras').get('filetype')
+
+    @property
+    def root(self):
         roottag = self.xml.getroot().tag
         if roottag in ['iati-activities', 'iati-organisations']:
             return roottag
