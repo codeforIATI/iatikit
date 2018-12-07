@@ -9,10 +9,13 @@ class ActivitySet(PyandiSet):
     def __init__(self, datasets, **kwargs):
         self.datasets = datasets
         self.wheres = kwargs
+        self._filetype = 'activity'
 
     def __len__(self):
         total = 0
         for dataset in self.datasets:
+            if dataset.filetype != self._filetype:
+                continue
             if not dataset.is_valid():
                 continue
             schema = ActivitySchema(dataset.version)
