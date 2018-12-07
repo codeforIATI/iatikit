@@ -53,9 +53,9 @@ class Dataset:
         return '<{} ({})>'.format(self.__class__.__name__, self.name)
 
     def is_valid(self):
-        # TODO: This currently just checks for a valid root node
+        # TODO: This currently just checks for valid XML
         try:
-            if self.filetype:
+            if self.xml:
                 return True
         except etree.XMLSyntaxError:
             pass
