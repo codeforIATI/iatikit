@@ -33,6 +33,7 @@ class Dataset:
         self.data_path = data_path
         self.metadata_path = metadata_path
         self._xml = None
+        self._metadata = None
 
     @property
     def name(self):
@@ -62,8 +63,12 @@ class Dataset:
 
     @property
     def metadata(self):
-        with open(self.metadata_path) as f:
-            return json.load(f)
+        if not self._metadata:
+            with open(self.metadata_path) as f:
+                self._metadata = json.load(f)
+            self._metadata['extras'] = {x['key']: x['value']
+                                        for x in self.metadata.get('extras')}
+        return self._metadata
 
     @property
     def filetype(self):
