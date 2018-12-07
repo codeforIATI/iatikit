@@ -19,13 +19,18 @@ class DatasetSet(PyandiSet):
         metadata_paths = sorted(glob(self.metadata_path))
         paths = zip(data_paths, metadata_paths)
 
-        where_name = self._wheres.get('name')
-        if where_name:
-            paths = filter(
-                lambda x: splitext(basename(x[0]))[0] == where_name, paths)
+        for k, v in self._wheres.items():
+            if k == 'name':
+                paths = filter(
+                    lambda x: splitext(basename(x[0]))[0] == v, paths)
+
+        where_filetype = self._wheres.get('filetype')
 
         for data_path, metadata_path in paths:
-            yield Dataset(data_path, metadata_path)
+            dataset = Dataset(data_path, metadata_path)
+            if where_filetype and dataset.filetype != where_filetype:
+                continue
+            yield dataset
 
 
 class Dataset:
