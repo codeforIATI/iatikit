@@ -1,8 +1,10 @@
+from datetime import datetime
 import shutil
 import zipfile
 from os import unlink, makedirs
 from os.path import join
 import logging
+import json
 
 import requests
 
@@ -20,6 +22,19 @@ class Registry:
             self.path = path
         else:
             self.path = join('__pyandicache__', 'registry')
+
+        days_ago = (datetime.now() - self.last_updated).days
+        if days_ago > 7:
+            warning_msg = 'Warning: Data was last updated {} days ' + \
+                          'ago. Consider downloading a fresh data dump.'
+            logger.warn(warning_msg.format(days_ago))
+
+    @property
+    def last_updated(self):
+        with open(join(self.path, 'metadata.json')) as f:
+            j = json.load(f)
+        last_updated = j['updated_at']
+        return datetime.strptime(last_updated, '%Y-%m-%dT%H:%M:%S')
 
     @property
     def publishers(self):
