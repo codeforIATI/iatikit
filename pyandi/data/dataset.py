@@ -79,10 +79,10 @@ class Dataset:
 
     @property
     def version(self):
-        query = '//{}/@version'.format(self.filetype)
-        v = self.xml.xpath(query)
-        if len(v) == 1:
-            return v[0]
+        try:
+            return self.xml.getroot().get('version')
+        except:
+            pass
         return None
 
     @property
