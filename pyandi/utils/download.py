@@ -11,8 +11,8 @@ from ..data.registry import Registry
 logger = logging.getLogger(__name__)
 
 
-def data():
-    Registry().download()
+def data(path=None):
+    Registry(path).download()
 
 
 def codelists():
