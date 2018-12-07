@@ -26,7 +26,9 @@ class Registry:
         days_ago = (datetime.now() - self.last_updated).days
         if days_ago > 7:
             warning_msg = 'Warning: Data was last updated {} days ' + \
-                          'ago. Consider downloading a fresh data dump.'
+                          'ago. Consider downloading a fresh ' + \
+                          'data dump, using:\n\n' + \
+                          '>>> pyandi.download.data()'
             logger.warn(warning_msg.format(days_ago))
 
     @property
