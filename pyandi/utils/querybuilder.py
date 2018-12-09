@@ -16,7 +16,6 @@ class QueryBuilder:
                 shortcut, operator = shortcut.split('__')
             else:
                 operator = 'eq'
-            # TODO
             expr = self.filter(shortcut, operator, value)
             exprs.append(expr)
         query_str += ''.join(['[{}]'.format(x) for x in exprs])
@@ -25,4 +24,4 @@ class QueryBuilder:
         return query_str
 
     def filter(self, shortcut, operator, value):
-        return getattr(self._schema, shortcut)()
+        return getattr(self._schema, shortcut).where(operator, value)

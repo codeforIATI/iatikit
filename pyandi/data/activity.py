@@ -8,8 +8,10 @@ from lxml import etree
 class ActivitySet(PyandiSet):
     def __init__(self, datasets, **kwargs):
         self.datasets = datasets
-        self.wheres = kwargs
+        self._wheres = kwargs
         self._filetype = 'activity'
+        self._element = 'iati-activity'
+        self._instance_class = Activity
 
     def __len__(self):
         total = 0
@@ -18,38 +20,54 @@ class ActivitySet(PyandiSet):
                 continue
             if not dataset.is_valid():
                 continue
-            schema = ActivitySchema(dataset.version)
-            query = '//iati-activity'
-            query += QueryBuilder(schema).where(**self.wheres)
-            total += int(dataset.xml.xpath('count({})'.format(query)))
+            try:
+                schema = get_schema(dataset.filetype, dataset.version)
+            except:
+                continue
+            prefix = '//' + self._element
+            query = QueryBuilder(
+                schema,
+                prefix=prefix,
+                count=True
+            ).where(**self._wheres)
+            total += int(dataset.xml.xpath(query))
         return total
 
     def __iter__(self):
         for dataset in self.datasets:
+            if dataset.filetype != self._filetype:
+                continue
             if not dataset.is_valid():
                 continue
-            schema = ActivitySchema(dataset.version)
-            query = '//iati-activity'
-            query += QueryBuilder(schema).where(**self.wheres)
-            activities = dataset.xml.xpath(query)
-            for activity in activities:
-                yield Activity(activity, dataset)
+            try:
+                schema = get_schema(dataset.filetype, dataset.version)
+            except:
+                continue
+            prefix = '//' + self._element
+            query = QueryBuilder(
+                schema,
+                prefix=prefix,
+            ).where(**self._wheres)
+            activities_xml = dataset.xml.xpath(query)
+            for xml in activities_xml:
+                yield self._instance_class(xml, dataset, schema)
 
 
 class Activity:
-    def __init__(self, xml, dataset):
+    def __init__(self, xml, dataset, schema):
         self.version = dataset.version
-        # self.schema = ActivitySchema(self.version)
         self.xml = xml
-        self.default_currency = self.xml.get('default-currency')
         self._dataset = dataset
+        self.schema = schema
 
     @property
     def raw_xml(self):
         return etree.tostring(self.xml)
 
-    def iati_identifier(self):
-        x = self.xml.xpath('iati-identifier/text()')
-        if len(x) == 1:
-            return x[0]
-        return None
+    def __getattr__(self, attr):
+        try:
+            query = getattr(self.schema, attr).get()
+            return self.xml.xpath(query)
+        except AttributeError:
+            pass
+        raise Exception('not sure what you mean')
