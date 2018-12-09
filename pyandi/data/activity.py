@@ -57,7 +57,7 @@ class Activity:
     def __init__(self, xml, dataset, schema):
         self.version = dataset.version
         self.xml = xml
-        self._dataset = dataset
+        self.dataset = dataset
         self.schema = schema
 
     @property
