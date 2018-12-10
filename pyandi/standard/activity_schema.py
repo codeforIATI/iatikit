@@ -1,5 +1,6 @@
 from ..utils.exceptions import SchemaException
 from ..utils.types import StringType
+from ..utils.abstract import GenericType
 
 
 class ActivitySchema101:
@@ -14,6 +15,12 @@ class ActivitySchema101:
 
     def description(self):
         return StringType('description/text()')
+
+    def location(self):
+        return GenericType('location')
+
+    def sector(self):
+        return StringType('sector/@code')
 
 
 class ActivitySchema102(ActivitySchema101):
