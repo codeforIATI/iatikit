@@ -47,9 +47,9 @@ print('There are {:,} publishers and {:,} datasets on the registry'.format(
 import pyandi
 
 usaid = pyandi.data().publishers.find(name='usaid')
-print('USAID have {:,} datasets.'.format(len(usaid.datasets)))
+print('USAID has {:,} datasets.'.format(len(usaid.datasets)))
 
-# USAID have 177 datasets.
+# USAID has 177 datasets.
 ```
 
 ### Find an activity by its identifier
