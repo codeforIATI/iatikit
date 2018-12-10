@@ -36,21 +36,14 @@ class GenericSet:
 
 
 class GenericType:
-    def __init__(self, expr, min=None, max=None):
+    def __init__(self, expr):
         self._expr = expr
-        self._min = min
-        self._max = max
 
     def get(self):
         return self._expr
 
     def exec(self, xml):
-        result = xml.xpath(self.get())
-        if self._max == 1:
-            if len(result) == 0:
-                return None
-            return result[0]
-        return result
+        return xml.xpath(self.get())
 
     def where(self, op, value):
         if op == 'exists':

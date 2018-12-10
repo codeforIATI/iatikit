@@ -7,7 +7,7 @@ class ActivitySchema101:
         self.version = '1.01'
 
     def iati_identifier(self):
-        return StringType('iati-identifier/text()', min=1, max=1)
+        return StringType('iati-identifier/text()')
 
     def title(self):
         return StringType('title/text()')

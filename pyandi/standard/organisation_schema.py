@@ -7,7 +7,7 @@ class OrganisationSchema101:
         self.version = '1.01'
 
     def org_identifier(self):
-        return StringType('iati-identifier/text()', min=1, max=1)
+        return StringType('iati-identifier/text()')
 
 
 class OrganisationSchema102(OrganisationSchema101):
@@ -35,7 +35,7 @@ class OrganisationSchema201(OrganisationSchema105):
         self.version = '2.01'
 
     def org_identifier(self):
-        return StringType('organisation-identifier/text()', min=1, max=1)
+        return StringType('organisation-identifier/text()')
 
 
 class OrganisationSchema202(OrganisationSchema201):
