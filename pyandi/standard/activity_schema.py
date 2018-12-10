@@ -1,5 +1,5 @@
 from ..utils.exceptions import SchemaException
-from ..utils.types import StringType
+from ..utils.types import StringType, DateType
 from ..utils.abstract import GenericType
 
 
@@ -21,6 +21,18 @@ class ActivitySchema101:
 
     def sector(self):
         return StringType('sector/@code')
+
+    def planned_start(self):
+        return DateType('activity-date[@type="start-planned"]/@iso-date')
+
+    def actual_start(self):
+        return DateType('activity-date[@type="start-actual"]/@iso-date')
+
+    def planned_end(self):
+        return DateType('activity-date[@type="end-planned"]/@iso-date')
+
+    def actual_end(self):
+        return DateType('activity-date[@type="end-actual"]/@iso-date')
 
 
 class ActivitySchema102(ActivitySchema101):
@@ -52,6 +64,18 @@ class ActivitySchema201(ActivitySchema105):
 
     def description(self):
         return StringType('description/narrative/text()')
+
+    def planned_start(self):
+        return DateType('activity-date[@type="1"]/@iso-date')
+
+    def actual_start(self):
+        return DateType('activity-date[@type="2"]/@iso-date')
+
+    def planned_end(self):
+        return DateType('activity-date[@type="3"]/@iso-date')
+
+    def actual_end(self):
+        return DateType('activity-date[@type="4"]/@iso-date')
 
 
 class ActivitySchema202(ActivitySchema201):

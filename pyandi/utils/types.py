@@ -12,3 +12,19 @@ class StringType(GenericType):
                 value=value,
             )
         return super().where(op, value)
+
+
+class DateType(GenericType):
+    def where(self, op, value):
+        op = {
+            'lt': '<', 'lte': '<=',
+            'gt': '>', 'gte': '>=',
+            'eq': '=',
+        }.get(op)
+        if not op:
+            raise Exception
+        return 'number(translate({expr}, "-", "")) {op} {value}'.format(
+            expr=self.get(),
+            op=op,
+            value=value.replace('-', ''),
+        )
