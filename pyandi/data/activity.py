@@ -1,4 +1,4 @@
-from ..standard.schema import get_schema
+from ..standard import get_schema
 from ..utils.abstract import GenericSet
 from ..utils.querybuilder import QueryBuilder
 
