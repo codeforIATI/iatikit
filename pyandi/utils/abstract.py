@@ -1,4 +1,4 @@
-class PyandiSet:
+class GenericSet:
     def where(self, **kwargs):
         self._wheres = dict(self._wheres, **kwargs)
         return self

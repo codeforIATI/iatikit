@@ -1,12 +1,12 @@
 from os.path import basename, join
 from glob import glob
 
-from ..utils.abstract import PyandiSet
+from ..utils.abstract import GenericSet
 from .dataset import DatasetSet
 from .activity import ActivitySet
 
 
-class PublisherSet(PyandiSet):
+class PublisherSet(GenericSet):
     def __init__(self, data_path, metadata_path, **kwargs):
         self.data_path = data_path
         self.metadata_path = metadata_path

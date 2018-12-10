@@ -1,11 +1,11 @@
 from ..standard.schema import get_schema
-from ..utils.abstract import PyandiSet
+from ..utils.abstract import GenericSet
 from ..utils.querybuilder import QueryBuilder
 
 from lxml import etree
 
 
-class ActivitySet(PyandiSet):
+class ActivitySet(GenericSet):
     def __init__(self, datasets, **kwargs):
         self.datasets = datasets
         self._wheres = kwargs

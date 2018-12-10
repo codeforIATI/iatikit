@@ -4,11 +4,11 @@ import json
 
 from lxml import etree
 
-from ..utils.abstract import PyandiSet
+from ..utils.abstract import GenericSet
 from .activity import ActivitySet
 
 
-class DatasetSet(PyandiSet):
+class DatasetSet(GenericSet):
     def __init__(self, data_path, metadata_path, **kwargs):
         self.data_path = data_path
         self.metadata_path = metadata_path
