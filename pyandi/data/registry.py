@@ -23,20 +23,25 @@ class Registry:
         else:
             self.path = join('__pyandicache__', 'registry')
 
-        days_ago = (datetime.now() - self.last_updated).days
-        if days_ago > 7:
-            warning_msg = 'Warning: Data was last updated {} days ' + \
-                          'ago. Consider downloading a fresh ' + \
-                          'data dump, using:\n\n' + \
-                          '>>> pyandi.download.data()'
-            logger.warn(warning_msg.format(days_ago))
+        if self.last_updated:
+            days_ago = (datetime.now() - self.last_updated).days
+            if days_ago > 7:
+                warning_msg = 'Warning: Data was last updated {} days ' + \
+                              'ago. Consider downloading a fresh ' + \
+                              'data dump, using:\n\n' + \
+                              '>>> pyandi.download.data()'
+                logger.warn(warning_msg.format(days_ago))
 
     @property
     def last_updated(self):
-        with open(join(self.path, 'metadata.json')) as f:
-            j = json.load(f)
-        last_updated = j['updated_at']
-        return datetime.strptime(last_updated, '%Y-%m-%dT%H:%M:%S')
+        try:
+            with open(join(self.path, 'metadata.json')) as f:
+                j = json.load(f)
+            last_updated = j['updated_at']
+            last_updated = datetime.strptime(last_updated, '%Y-%m-%dT%H:%M:%S')
+        except:
+            last_updated = None
+        return last_updated
 
     @property
     def publishers(self):
