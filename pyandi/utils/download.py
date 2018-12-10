@@ -15,7 +15,10 @@ def data(path=None):
     Registry(path).download()
 
 
-def codelists():
+def codelists(path=None):
+    if not path:
+        path = join('__pyandicache__', 'standard', 'codelists')
+
     logger.info('Downloading IATI Standard codelists...')
     versions_url = 'http://reference.iatistandard.org/105/codelists/' + \
                    'downloads/clv2/json/en/Version.json'
@@ -30,7 +33,7 @@ def codelists():
     base_tmpl = 'http://reference.iatistandard.org/{version}/' + \
                 'codelists/downloads/'
     for major, version in versions:
-        codelist_path = join('__pyandicache__', 'standard', 'codelists', major)
+        codelist_path = join(path, major)
         shutil.rmtree(codelist_path, ignore_errors=True)
         makedirs(codelist_path)
         codelist_url = base_tmpl.format(version=version) + 'clv1/codelist.json'
