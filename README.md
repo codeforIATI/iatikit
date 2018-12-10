@@ -20,9 +20,6 @@ pyandi.download.data()
 
 # download all the codelists
 pyandi.download.codelists()
-
-# download all schemas
-pyandi.download.schemas()
 ```
 
 ## Examples
