@@ -60,6 +60,11 @@ class Activity:
         self.dataset = dataset
         self.schema = schema
 
+    def __repr__(self):
+        id_ = self.iati_identifier()
+        id_ = id_[0] if len(id_) > 0 else '[No identifier]'
+        return '<{} ({})>'.format(self.__class__.__name__, id_)
+
     @property
     def raw_xml(self):
         return etree.tostring(self.xml)

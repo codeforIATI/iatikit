@@ -66,7 +66,7 @@ act = dfid.activities.where(
 
 print(act)
 
-# Developing methods for measuring the deforestation avoided as a result of International Climate Fund projects (GB-1-201724-151)
+# <Activity (GB-1-201724-151)>
 ```
 
 ### Find activities that include an element
