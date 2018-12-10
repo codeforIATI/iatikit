@@ -25,6 +25,5 @@ setup(
         'lxml>=4.2.5',
         'requests>=2.20.0',
         'urllib3>=1.21.1,<1.25',
-        'xmlschema==1.0.7',
     ],
 )

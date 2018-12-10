@@ -4,4 +4,3 @@ idna==2.7
 lxml==4.2.5
 requests==2.20.0
 urllib3==1.23
-xmlschema==1.0.7
