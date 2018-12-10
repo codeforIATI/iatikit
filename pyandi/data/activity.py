@@ -65,9 +65,10 @@ class Activity:
         return etree.tostring(self.xml)
 
     def __getattr__(self, attr):
-        try:
-            query = getattr(self.schema, attr).get()
-            return self.xml.xpath(query)
-        except AttributeError:
-            pass
-        raise Exception('not sure what you mean')
+        if not hasattr(self.schema, attr):
+            raise AttributeError(attr)
+
+        def wrapper(*args, **kwargs):
+            typeobj = getattr(self.schema, attr)()
+            return typeobj.exec(self.xml, *args, **kwargs)
+        return wrapper

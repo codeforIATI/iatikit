@@ -1,11 +1,7 @@
-class StringType:
-    def __init__(self, expr, **kwargs):
-        self._expr = expr
-        # TODO: kwargs
+from ..utils.abstract import GenericType
 
-    def get(self):
-        return self._expr
 
+class StringType(GenericType):
     def where(self, op, value):
         if op in ['contains', 'startswith']:
             if op == 'startswith':
@@ -15,18 +11,4 @@ class StringType:
                 op=op,
                 value=value,
             )
-        elif op == 'exists':
-            if value is False:
-                subop = '= 0'
-            else:
-                subop = '!= 0'
-            return 'count({expr}) {subop}'.format(
-                expr=self.get(),
-                subop=subop,
-            )
-        elif op == 'eq':
-            return '{expr} = "{value}"'.format(
-                expr=self.get(),
-                value=value,
-            )
-        raise Exception
+        return super().where(op, value)

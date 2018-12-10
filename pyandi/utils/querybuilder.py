@@ -24,4 +24,4 @@ class QueryBuilder:
         return query_str
 
     def filter(self, shortcut, operator, value):
-        return getattr(self._schema, shortcut).where(operator, value)
+        return getattr(self._schema, shortcut)().where(operator, value)
