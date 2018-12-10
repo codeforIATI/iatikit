@@ -1,3 +1,4 @@
+from itertools import islice
 from .exceptions import OperationException
 
 
@@ -7,10 +8,10 @@ class GenericSet:
         return self
 
     def __getitem__(self, index):
-        for current_idx, item in enumerate(self):
-            if current_idx == index:
-                return item
-        raise IndexError('index out of range')
+        try:
+            return next(islice(self, index, index + 1))
+        except TypeError:
+            return list(islice(self, index.start, index.stop, index.step))
 
     def __len__(self):
         total = 0
