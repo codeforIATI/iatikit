@@ -1,4 +1,4 @@
-from ..utils.exceptions import SchemaException
+from ..utils.exceptions import SchemaError
 from ..utils.types import StringType, DateType
 from ..utils.abstract import GenericType
 
@@ -107,4 +107,4 @@ def get_activity_schema(version):
         return ActivitySchema101()
 
     msg = 'Unknown activity schema: version: {}'.format(version)
-    raise SchemaException(msg)
+    raise SchemaError(msg)

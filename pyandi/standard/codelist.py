@@ -3,7 +3,7 @@ import json
 from os import listdir
 from os.path import exists, join, splitext
 
-from ..utils.exceptions import UnknownCodelistException
+from ..utils.exceptions import UnknownCodelistError
 
 
 class Codelist(UserDict):
@@ -12,7 +12,7 @@ class Codelist(UserDict):
         self.version = version
         self.filepath = join(path, slug + '.json')
         if not exists(self.filepath):
-            raise UnknownCodelistException('Codelist not found')
+            raise UnknownCodelistError('Codelist not found')
 
     def __iter__(self):
         for k in self.all().keys():

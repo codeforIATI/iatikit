@@ -1,10 +1,10 @@
-class SchemaException(Exception):
+class SchemaError(Exception):
     pass
 
 
-class OperationException(Exception):
+class OperationError(Exception):
     pass
 
 
-class UnknownCodelistException(Exception):
+class UnknownCodelistError(Exception):
     pass

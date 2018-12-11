@@ -1,4 +1,4 @@
-from ..utils.exceptions import SchemaException
+from ..utils.exceptions import SchemaError
 from ..utils.types import StringType
 
 
@@ -67,4 +67,4 @@ def get_organisation_schema(version):
         return OrganisationSchema101()
 
     msg = 'Unknown organisation schema: version: {}'.format(version)
-    raise SchemaException(msg)
+    raise SchemaError(msg)

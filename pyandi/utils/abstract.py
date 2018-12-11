@@ -1,5 +1,5 @@
 from itertools import islice
-from .exceptions import OperationException
+from .exceptions import OperationError
 
 
 class GenericSet:
@@ -58,4 +58,4 @@ class GenericType:
                 expr=self.get(),
                 value=value,
             )
-        raise OperationException('Unknown operation')
+        raise OperationError('Unknown operation')
