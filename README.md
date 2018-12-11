@@ -29,7 +29,9 @@ pyandi.download.codelists()
 ```python
 import pyandi
 
-publishers = pyandi.data().publishers
+registry = pyandi.data()
+
+publishers = registry.publishers
 total_publishers = len(publishers)
 total_datasets = sum([len(pub.datasets) for pub in publishers])
 print('There are {:,} publishers and {:,} datasets on the registry'.format(
@@ -43,7 +45,9 @@ print('There are {:,} publishers and {:,} datasets on the registry'.format(
 ```python
 import pyandi
 
-usaid = pyandi.data().publishers.find(name='usaid')
+registry = pyandi.data()
+
+usaid = registry.publishers.find(name='usaid')
 print('USAID has {:,} datasets.'.format(len(usaid.datasets)))
 
 # USAID has 177 datasets.
@@ -54,9 +58,10 @@ print('USAID has {:,} datasets.'.format(len(usaid.datasets)))
 ```python
 import pyandi
 
+registry = pyandi.data()
 iati_identifier = 'GB-1-201724-151'
 
-dfid = pyandi.data().publishers.find(name='dfid')
+dfid = registry.publishers.find(name='dfid')
 act = dfid.activities.where(
     iati_identifier=iati_identifier
 ).first()
@@ -71,7 +76,9 @@ print(act)
 ```python
 import pyandi
 
-mcc = pyandi.data().publishers.find(name='millenniumchallenge')
+registry = pyandi.data()
+
+mcc = registry.publishers.find(name='millenniumchallenge')
 total_with_locations = len(mcc.activities.where(location__exists=True))
 total_activities = len(mcc.activities)
 print('{:,} of {:,} MCC activities have location data.'.format(
@@ -85,7 +92,9 @@ print('{:,} of {:,} MCC activities have location data.'.format(
 ```python
 import pyandi
 
-dfid = pyandi.data().publishers.find(name='dfid')
+registry = pyandi.data()
+
+dfid = registry.publishers.find(name='dfid')
 
 ag_acts = dfid.activities.where(
     actual_start__lte='2017-12-31',
