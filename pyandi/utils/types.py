@@ -21,10 +21,10 @@ class DateType(GenericType):
             'gt': '>', 'gte': '>=',
             'eq': '=',
         }.get(op)
-        if not op:
-            raise Exception
-        return 'number(translate({expr}, "-", "")) {op} {value}'.format(
-            expr=self.get(),
-            op=op,
-            value=value.replace('-', ''),
-        )
+        if op:
+            return 'number(translate({expr}, "-", "")) {op} {value}'.format(
+                expr=self.get(),
+                op=op,
+                value=value.replace('-', ''),
+            )
+        return super().where(op, value)
