@@ -61,19 +61,49 @@ class Activity:
         self.schema = schema
 
     def __repr__(self):
-        id_ = self.iati_identifier()
-        id_ = id_[0].strip() if len(id_) > 0 else '[No identifier]'
+        id_ = self.iati_identifier
+        id_ = id_.strip() if id_ else '[No identifier]'
         return '<{} ({})>'.format(self.__class__.__name__, id_)
 
     @property
     def raw_xml(self):
         return etree.tostring(self.xml)
 
-    def __getattr__(self, attr):
-        if not hasattr(self.schema, attr):
-            raise AttributeError(attr)
+    @property
+    def iati_identifier(self):
+        id_ = self.schema.iati_identifier().exec(self.xml)
+        if len(id_) > 0:
+            return id_[0]
+        return None
 
-        def wrapper(*args, **kwargs):
-            typeobj = getattr(self.schema, attr)()
-            return typeobj.exec(self.xml, *args, **kwargs)
-        return wrapper
+    @property
+    def title(self):
+        return self.schema.title().exec(self.xml)
+
+    @property
+    def description(self):
+        return self.schema.description().exec(self.xml)
+
+    @property
+    def location(self):
+        return self.schema.location().exec(self.xml)
+
+    @property
+    def sector(self):
+        return self.schema.sector().exec(self.xml)
+
+    @property
+    def planned_start(self):
+        return self.schema.planned_start().exec(self.xml)
+
+    @property
+    def actual_start(self):
+        return self.schema.actual_start().exec(self.xml)
+
+    @property
+    def planned_end(self):
+        return self.schema.planned_end().exec(self.xml)
+
+    @property
+    def actual_end(self):
+        return self.schema.actual_end().exec(self.xml)
