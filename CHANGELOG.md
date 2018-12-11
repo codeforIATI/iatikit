@@ -9,6 +9,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Support set slicing
 
+### Changed
+- Tidy up Activity model repr
+- Reword examples in README slightly, for clarity
+- Refactor activity property fetching, to be less clever
+- Rename all exceptions, according to PEP8
+
+### Fixed
+- Get date type exists filter working
+
+### Removed
+- Remove some cruft from the README about schema download
+
 ## [1.2.0] – 2018-12-10
 
 ### Added
