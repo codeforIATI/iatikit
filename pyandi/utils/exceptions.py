@@ -4,3 +4,7 @@ class SchemaError(Exception):
 
 class OperationError(Exception):
     pass
+
+
+class FilterError(Exception):
+    pass

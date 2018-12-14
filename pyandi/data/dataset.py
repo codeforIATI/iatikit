@@ -13,6 +13,7 @@ class DatasetSet(GenericSet):
         super().__init__()
         self._wheres = kwargs
         self._key = 'name'
+        self._filters = ['name', 'filetype']
         self.data_path = data_path
         self.metadata_path = metadata_path
 

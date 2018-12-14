@@ -1,13 +1,17 @@
 from itertools import islice
-from .exceptions import OperationError
+from .exceptions import OperationError, FilterError
 
 
 class GenericSet:
     def __init__(self):
         self._key = None
+        self._filters = []
         self._wheres = {}
 
     def where(self, **kwargs):
+        for k in kwargs.keys():
+            if k.split('__')[0] not in self._filters:
+                raise FilterError('Unknown filter: {}'.format(k))
         self._wheres = dict(self._wheres, **kwargs)
         return self
 

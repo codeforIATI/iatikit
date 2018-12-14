@@ -8,6 +8,7 @@ class CodelistSet(GenericSet):
         super().__init__()
         self._wheres = kwargs
         self._key = 'name'
+        self._filters = ['version', 'name']
         if not path:
             path = join('__pyandicache__', 'standard', 'codelists')
         self.path = path
@@ -33,6 +34,7 @@ class Codelist(GenericSet):
         super().__init__()
         self._wheres = kwargs
         self._key = 'code'
+        self._filters = ['code']
         self.slug = slug
         self.paths = {version: join(path, version, slug + '.json')
                       for version in versions}

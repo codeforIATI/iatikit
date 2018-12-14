@@ -10,6 +10,11 @@ class ActivitySet(GenericSet):
         super().__init__()
         self._wheres = kwargs
         self._key = 'iati_identifier'
+        self._filters = [
+            'iati_identifier', 'title', 'description',
+            'location', 'sector', 'planned_start',
+            'actual_start', 'planned_end', 'actual_end',
+        ]
         self.datasets = datasets
         self._filetype = 'activity'
         self._element = 'iati-activity'
