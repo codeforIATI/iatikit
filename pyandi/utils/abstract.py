@@ -3,6 +3,10 @@ from .exceptions import OperationError
 
 
 class GenericSet:
+    def __init__(self):
+        self._key = None
+        self._wheres = {}
+
     def where(self, **kwargs):
         self._wheres = dict(self._wheres, **kwargs)
         return self
@@ -27,10 +31,12 @@ class GenericSet:
             return first
 
     def all(self):
-        return self.get()
-
-    def get(self):
         return list(iter(self))
+
+    def get(self, item=None):
+        if not item:
+            return self.all()
+        return self.find(**{self._key: item})
 
     def find(self, **kwargs):
         return self.where(**kwargs).first()

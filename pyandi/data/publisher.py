@@ -8,9 +8,11 @@ from .activity import ActivitySet
 
 class PublisherSet(GenericSet):
     def __init__(self, data_path, metadata_path, **kwargs):
+        super().__init__()
+        self._wheres = kwargs
+        self._key = 'name'
         self.data_path = data_path
         self.metadata_path = metadata_path
-        self._wheres = kwargs
 
     def __iter__(self):
         data_paths = sorted(glob(self.data_path))

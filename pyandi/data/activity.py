@@ -7,8 +7,10 @@ from lxml import etree
 
 class ActivitySet(GenericSet):
     def __init__(self, datasets, **kwargs):
-        self.datasets = datasets
+        super().__init__()
         self._wheres = kwargs
+        self._key = 'iati_identifier'
+        self.datasets = datasets
         self._filetype = 'activity'
         self._element = 'iati-activity'
         self._instance_class = Activity

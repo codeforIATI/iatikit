@@ -5,7 +5,9 @@ from os.path import join
 
 class CodelistSet(GenericSet):
     def __init__(self, path=None, **kwargs):
+        super().__init__()
         self._wheres = kwargs
+        self._key = 'name'
         if not path:
             path = join('__pyandicache__', 'standard', 'codelists')
         self.path = path
@@ -14,7 +16,7 @@ class CodelistSet(GenericSet):
         version = self._wheres.get('version')
         if version:
             version = str(version).split('.')[0]
-        slug = self._wheres.get('slug')
+        slug = self._wheres.get('name')
         with open(join(self.path, 'codelists.json')) as f:
             codelists = json.load(f)
         for codelist_slug, codelist_versions in codelists.items():
@@ -28,7 +30,9 @@ class CodelistSet(GenericSet):
 
 class Codelist(GenericSet):
     def __init__(self, slug, path, versions, **kwargs):
+        super().__init__()
         self._wheres = kwargs
+        self._key = 'code'
         self.slug = slug
         self.paths = {version: join(path, version, slug + '.json')
                       for version in versions}
