@@ -85,7 +85,7 @@ class Codelist(GenericSet):
 class CodelistItem:
     def __init__(self, codelist, **kwargs):
         self._category = kwargs.get('category')
-        self.status = kwargs.get('status')
+        self.status = kwargs.get('status', 'active')
         self.code = kwargs.get('code')
         self.name = kwargs.get('name')
         self.description = kwargs.get('description')
