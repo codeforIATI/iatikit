@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Reword examples in README slightly, for clarity
 - Refactor activity property fetching, to be less clever
 - Rename all exceptions, according to PEP8
+- Major improvements to codelist code
 
 ### Fixed
 - Get date type exists filter working

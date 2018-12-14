@@ -4,7 +4,3 @@ class SchemaError(Exception):
 
 class OperationError(Exception):
     pass
-
-
-class UnknownCodelistError(Exception):
-    pass

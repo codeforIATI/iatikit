@@ -1,93 +1,88 @@
-from collections import UserDict
+from ..utils.abstract import GenericSet
 import json
-from os import listdir
-from os.path import exists, join, splitext
-
-from ..utils.exceptions import UnknownCodelistError
+from os.path import join
 
 
-class Codelist(UserDict):
-    def __init__(self, slug, path, version):
-        self.slug = slug
-        self.version = version
-        self.filepath = join(path, slug + '.json')
-        if not exists(self.filepath):
-            raise UnknownCodelistError('Codelist not found')
+class CodelistSet(GenericSet):
+    def __init__(self, path=None, **kwargs):
+        self._wheres = kwargs
+        if not path:
+            path = join('__pyandicache__', 'standard', 'codelists')
+        self.path = path
 
     def __iter__(self):
-        for k in self.all().keys():
-            yield k
+        version = self._wheres.get('version')
+        if version:
+            version = str(version).split('.')[0]
+        slug = self._wheres.get('slug')
+        with open(join(self.path, 'codelists.json')) as f:
+            codelists = json.load(f)
+        for codelist_slug, codelist_versions in codelists.items():
+            if version is not None and version not in codelist_versions:
+                continue
+            if slug is not None and slug != codelist_slug:
+                continue
+            codelist_versions = [version] if version else codelist_versions
+            yield Codelist(codelist_slug, self.path, codelist_versions)
 
-    def __len__(self):
-        return len(self.all())
+
+class Codelist(GenericSet):
+    def __init__(self, slug, path, versions, **kwargs):
+        self._wheres = kwargs
+        self.slug = slug
+        self.paths = {version: join(path, version, slug + '.json')
+                      for version in versions}
+        self.versions = versions
+        self._data = {}
+
+    @property
+    def data(self):
+        if not self._data:
+            for version, path in self.paths.items():
+                with open(path) as f:
+                    data = json.load(f)
+                data['data'] = {d['code']: d for d in data['data']}
+                self._data[version] = data
+        return self._data
+
+    def __iter__(self):
+        for version in self.versions[::-1]:
+            for data in self.data[version]['data'].values():
+                yield CodelistCode(**data)
 
     def __repr__(self):
         return '<{} ({} v{})>'.format(
             self.__class__.__name__,
             self.slug,
-            self.version)
-
-    def _load(self):
-        if hasattr(self, 'data'):
-            return
-        with open(self.filepath) as f:
-            j = json.load(f)
-        self._url = j['metadata']['url']
-        self._name = j['metadata']['name']
-        self._description = j['metadata']['description']
-        self._complete = j['attributes']['complete']
-        self.data = {x['code']: x['name'] for x in j['data']}
+            ','.join(self.versions))
 
     @property
     def url(self):
-        self._load()
-        return self._url
+        return self.data[self.versions[-1]]['metadata']['url']
 
     @property
     def name(self):
-        self._load()
-        return self._name
+        return self.data[self.versions[-1]]['metadata']['name']
 
     @property
     def description(self):
-        self._load()
-        return self._description
+        return self.data[self.versions[-1]]['metadata']['description']
 
     @property
     def complete(self):
-        self._load()
-        return self._complete
-
-    def all(self):
-        self._load()
-        return self.data
-
-    def get(self, code):
-        return self.all().get(code)
-
-    def __getitem__(self, code):
-        return self.all()[code]
+        return self.data[self.versions[-1]]['attributes']['complete']
 
 
-def get(slug, path=None, version='latest'):
-    if not path:
-        path = join('__pyandicache__', 'standard', 'codelists')
-    if version == 'latest':
-        major = max(listdir(path))
-        path = join(path, major)
-    else:
-        major = version.split('.')[0]
-        path = join(path, major)
-    return Codelist(slug, path, major)
+class CodelistCode:
+    def __init__(self, **kwargs):
+        self._category = kwargs.get('category')
+        self.status = kwargs.get('status')
+        self.code = kwargs.get('code')
+        self.name = kwargs.get('name')
+        self.description = kwargs.get('description')
 
-
-def all(path=None, version='latest'):
-    if not path:
-        path = join('__pyandicache__', 'standard', 'codelists')
-    if version == 'latest':
-        major = max(listdir(path))
-        path = join(path, major)
-    else:
-        major = version.split('.')[0]
-        path = join(path, major)
-    return [Codelist(splitext(slug)[0], path, major) for slug in listdir(path)]
+    def __repr__(self):
+        return '<{} ({} ({}))>'.format(
+            self.__class__.__name__,
+            self.name,
+            self.code)
