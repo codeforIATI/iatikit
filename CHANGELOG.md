@@ -20,6 +20,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 - Get date type exists filter working
+- DateTypes should also be filterable by generic filters
 
 ### Removed
 - Remove some cruft from the README about schema download

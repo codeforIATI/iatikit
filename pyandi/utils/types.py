@@ -16,15 +16,15 @@ class StringType(GenericType):
 
 class DateType(GenericType):
     def where(self, op, value):
-        op = {
+        operator = {
             'lt': '<', 'lte': '<=',
             'gt': '>', 'gte': '>=',
             'eq': '=',
         }.get(op)
-        if op:
+        if operator:
             return 'number(translate({expr}, "-", "")) {op} {value}'.format(
                 expr=self.get(),
-                op=op,
+                op=operator,
                 value=value.replace('-', ''),
             )
         return super().where(op, value)
