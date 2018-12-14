@@ -50,8 +50,11 @@ class Codelist(GenericSet):
         return self._data
 
     def __iter__(self):
+        code = self._wheres.get('code')
         for version in self.versions[::-1]:
             for data in self.data[version]['data'].values():
+                if code and data['code'] != code:
+                    continue
                 yield CodelistCode(**data)
 
     def __repr__(self):
