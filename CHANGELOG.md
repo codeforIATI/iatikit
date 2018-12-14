@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Refactor activity property fetching, to be less clever
 - Rename all exceptions, according to PEP8
 - Major improvements to codelist code
+- Always cast codelist codes to string
 
 ### Fixed
 - Get date type exists filter working

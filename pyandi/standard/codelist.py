@@ -51,6 +51,8 @@ class Codelist(GenericSet):
 
     def __iter__(self):
         code = self._wheres.get('code')
+        if code is not None:
+            code = str(code)
         for version in self.versions[::-1]:
             for data in self.data[version]['data'].values():
                 if code and data['code'] != code:
