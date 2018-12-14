@@ -21,16 +21,17 @@ class DatasetSet(GenericSet):
         metadata_paths = sorted(glob(self.metadata_path))
         paths = zip(data_paths, metadata_paths)
 
-        for k, v in self._wheres.items():
-            if k == 'name':
-                paths = filter(
-                    lambda x: splitext(basename(x[0]))[0] == v, paths)
+        name = self._wheres.get('name')
+        if name is not None:
+            paths = filter(
+                lambda x: splitext(basename(x[0]))[0] == name, paths)
 
         where_filetype = self._wheres.get('filetype')
 
         for data_path, metadata_path in paths:
             dataset = Dataset(data_path, metadata_path)
-            if where_filetype and dataset.filetype != where_filetype:
+            if where_filetype is not None and \
+                    dataset.filetype != where_filetype:
                 continue
             yield dataset
 

@@ -19,9 +19,9 @@ class PublisherSet(GenericSet):
         metadata_paths = sorted(glob(self.metadata_path))
         paths = zip(data_paths, metadata_paths)
 
-        where_name = self._wheres.get('name')
-        if where_name:
-            paths = filter(lambda x: basename(x[0]) == where_name,
+        name = self._wheres.get('name')
+        if name is not None:
+            paths = filter(lambda x: basename(x[0]) == name,
                            paths)
 
         for data_path, metadata_path in paths:
