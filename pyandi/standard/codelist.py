@@ -57,7 +57,7 @@ class Codelist(GenericSet):
             for data in self.data[version]['data'].values():
                 if code and data['code'] != code:
                     continue
-                yield CodelistCode(**data)
+                yield CodelistCode(self, **data)
 
     def __repr__(self):
         return '<{} ({} v{})>'.format(
@@ -83,12 +83,13 @@ class Codelist(GenericSet):
 
 
 class CodelistCode:
-    def __init__(self, **kwargs):
+    def __init__(self, codelist, **kwargs):
         self._category = kwargs.get('category')
         self.status = kwargs.get('status')
         self.code = kwargs.get('code')
         self.name = kwargs.get('name')
         self.description = kwargs.get('description')
+        self.codelist = codelist
 
     def __repr__(self):
         return '<{} ({} ({}))>'.format(
