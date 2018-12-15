@@ -68,4 +68,4 @@ class GenericType:
                 expr=self.get(),
                 value=value,
             )
-        raise OperationError('Unknown operation')
+        raise OperationError('Unknown operation: {}'.format(op))
