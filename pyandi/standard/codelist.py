@@ -57,7 +57,7 @@ class Codelist(GenericSet):
             code = str(code)
         for version in self.versions[::-1]:
             for data in self.data[version]['data'].values():
-                if code and data['code'] != code:
+                if code is not None and data['code'] != code:
                     continue
                 yield CodelistItem(self, **data)
 
