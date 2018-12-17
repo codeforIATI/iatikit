@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 from os.path import join, dirname
 
 
-with open(join(dirname(__file__), 'README.md')) as f:
+with open(join(dirname(__file__), 'README.rst')) as f:
     readme = f.read()
 
 setup(
@@ -17,7 +17,6 @@ setup(
     license='MIT',
     keywords='IATI',
     long_description=readme,
-    long_description_content_type='text/markdown',
     install_requires=[
         'certifi>=2017.4.17',
         'chardet>=3.0.2,<3.1.0',
