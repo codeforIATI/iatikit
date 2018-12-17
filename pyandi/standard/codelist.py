@@ -16,17 +16,24 @@ class CodelistSet(GenericSet):
     def __iter__(self):
         version = self._wheres.get('version')
         if version:
-            version = str(version).split('.')[0]
+            version = str(version)
         slug = self._wheres.get('name')
         with open(join(self.path, 'codelists.json')) as f:
             codelists = json.load(f)
         for codelist_slug, codelist_versions in codelists.items():
-            if version is not None and version not in codelist_versions:
-                continue
+            if 'non-embedded' in codelist_versions:
+                current_version = ['non-embedded']
+            else:
+                if version is None:
+                    current_version = codelist_versions
+                else:
+                    if version in codelist_versions:
+                        current_version = [version]
+                    else:
+                        continue
             if slug is not None and slug != codelist_slug:
                 continue
-            codelist_versions = [version] if version else codelist_versions
-            yield Codelist(codelist_slug, self.path, codelist_versions)
+            yield Codelist(codelist_slug, self.path, current_version)
 
 
 class Codelist(GenericSet):
@@ -36,8 +43,10 @@ class Codelist(GenericSet):
         self._key = 'code'
         self._filters = ['code']
         self.slug = slug
-        self.paths = {version: join(path, version, slug + '.json')
-                      for version in versions}
+        self.paths = {
+            version: join(path, version.replace('.', ''), slug + '.json')
+            for version in versions
+        }
         self.versions = versions
         self._data = {}
 
@@ -62,10 +71,9 @@ class Codelist(GenericSet):
                 yield CodelistItem(self, **data)
 
     def __repr__(self):
-        return '<{} ({} v{})>'.format(
+        return '<{} ({})>'.format(
             self.__class__.__name__,
-            self.slug,
-            ','.join(self.versions))
+            self.slug)
 
     @property
     def url(self):
