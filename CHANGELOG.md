@@ -10,6 +10,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Support set slicing
 - Add a getter to all Sets. A set-getter!
 - Ensure only known filters are used
+- Allow for codelist filtering by code
+- Add codelist `data` and `metadata` properties
 
 ### Changed
 - Tidy up Activity model repr
