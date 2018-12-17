@@ -47,25 +47,35 @@ class Codelist(GenericSet):
             version: join(path, version.replace('.', ''), slug + '.json')
             for version in versions
         }
-        self.versions = versions
-        self._data = {}
+        self._versions = versions
+        self.__data = {}
 
     @property
-    def data(self):
-        if not self._data:
+    def _data(self):
+        if not self.__data:
             for version, path in self.paths.items():
                 with open(path) as f:
                     data = json.load(f)
                 data['data'] = {d['code']: d for d in data['data']}
-                self._data[version] = data
-        return self._data
+                self.__data[version] = data
+        return self.__data
+
+    @property
+    def data(self):
+        return self._data[self._versions[0]]['data']
+
+    @property
+    def metadata(self):
+        attributes = self._data[self._versions[0]]['attributes']
+        metadata = self._data[self._versions[0]]['metadata']
+        return dict(attributes, **metadata)
 
     def __iter__(self):
         code = self._wheres.get('code')
         if code is not None:
             code = str(code)
-        for version in self.versions[::-1]:
-            for data in self.data[version]['data'].values():
+        for version in self._versions:
+            for data in self._data[version]['data'].values():
                 if code is not None and data['code'] != code:
                     continue
                 yield CodelistItem(self, **data)
@@ -77,19 +87,19 @@ class Codelist(GenericSet):
 
     @property
     def url(self):
-        return self.data[self.versions[-1]]['metadata']['url']
+        return self.metadata['url']
 
     @property
     def name(self):
-        return self.data[self.versions[-1]]['metadata']['name']
+        return self.metadata['name']
 
     @property
     def description(self):
-        return self.data[self.versions[-1]]['metadata']['description']
+        return self.metadata['description']
 
     @property
     def complete(self):
-        return self.data[self.versions[-1]]['attributes']['complete']
+        return self.metadata['complete']
 
 
 class CodelistItem:
