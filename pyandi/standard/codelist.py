@@ -8,7 +8,7 @@ class CodelistSet(GenericSet):
         super().__init__()
         self._wheres = kwargs
         self._key = 'name'
-        self._filters = ['version', 'name']
+        self._filters = ['name', 'version']
         if not path:
             path = join('__pyandicache__', 'standard', 'codelists')
         self.path = path
@@ -22,68 +22,69 @@ class CodelistSet(GenericSet):
             codelists = json.load(f)
         for codelist_slug, codelist_versions in codelists.items():
             if 'non-embedded' in codelist_versions:
-                current_version = ['non-embedded']
+                current_version = None
             else:
-                if version is None:
-                    current_version = codelist_versions
-                else:
-                    if version in codelist_versions:
-                        current_version = [version]
-                    else:
-                        continue
+                if version is not None and version not in codelist_versions:
+                    continue
+                current_version = version
             if slug is not None and slug != codelist_slug:
                 continue
             yield Codelist(codelist_slug, self.path, current_version)
 
 
 class Codelist(GenericSet):
-    def __init__(self, slug, path, versions, **kwargs):
+    def __init__(self, slug, path, version, **kwargs):
         super().__init__()
         self._wheres = kwargs
         self._key = 'code'
-        self._filters = ['code']
+        self._filters = ['code', 'version']
         self.slug = slug
-        self.paths = {
-            version: join(path, version.replace('.', ''), slug + '.json')
-            for version in versions
-        }
-        self._versions = versions
-        self.__data = {}
+        self.path = join(path, slug + '.json')
+        self.version = version
+        self.__data = None
 
     @property
     def _data(self):
         if not self.__data:
-            for version, path in self.paths.items():
-                with open(path) as f:
-                    data = json.load(f)
-                data['data'] = {d['code']: d for d in data['data']}
-                self.__data[version] = data
+            with open(self.path) as f:
+                self.__data = json.load(f)
         return self.__data
 
     @property
     def data(self):
-        return self._data[self._versions[0]]['data']
+        return self._data['data']
 
     @property
     def metadata(self):
-        attributes = self._data[self._versions[0]]['attributes']
-        metadata = self._data[self._versions[0]]['metadata']
+        attributes = self._data['attributes']
+        metadata = self._data['metadata']
         return dict(attributes, **metadata)
 
     def __iter__(self):
         code = self._wheres.get('code')
+        version = self._wheres.get('version', self.version)
+        if version is not None:
+            version = str(version)
         if code is not None:
             code = str(code)
-        for version in self._versions:
-            for data in self._data[version]['data'].values():
-                if code is not None and data['code'] != code:
+        for data in self.data.values():
+            if code is not None and data['code'] != code:
+                continue
+            if version is not None:
+                version_from = data.get('from')
+                version_until = data.get('until')
+                if version_from and version_until and \
+                        (version < version_from or
+                         version > version_until):
                     continue
-                yield CodelistItem(self, **data)
+            yield CodelistItem(self, **data)
 
     def __repr__(self):
-        return '<{} ({})>'.format(
-            self.__class__.__name__,
-            self.slug)
+        if self.version:
+            slug = '{} v{}'.format(self.slug, self.version)
+        else:
+            slug = self.slug
+        return '<{} ({})>'.format(self.__class__.__name__, slug)
 
     @property
     def url(self):
