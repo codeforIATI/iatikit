@@ -1,6 +1,8 @@
 import logging
 from datetime import datetime
 
+from ..data.sector import Sector
+from ..standard.codelist import CodelistItem
 from ..utils.abstract import GenericType
 
 
@@ -44,3 +46,45 @@ class DateType(GenericType):
             except ValueError:
                 logger.warn('Invalid date: "{}"'.format(date_str))
         return dates
+
+
+class SectorType(GenericType):
+    def __init__(self, expr, version, condition):
+        super().__init__(expr)
+        self.condition = condition
+
+    def _vocab_condition(self, conditions):
+        conditions_list = []
+        for condition in conditions:
+            if condition is None:
+                conditions_list.append('not(@vocabulary)')
+            else:
+                conditions_list.append('@vocabulary = "{}"'.format(condition))
+        conditions_str = ' or '.join(conditions_list)
+        if len(conditions_str) > 1:
+            conditions_str = '({})'.format(conditions_str)
+        return conditions_str
+
+    def where(self, op, value):
+        if op == 'eq':
+            if type(value) is not Sector:
+                raise Exception()
+            if type(value.code) is CodelistItem:
+                code = value.code.code
+            else:
+                code = value.code
+            conditions = ['@code = "{code}"'.format(code=code)]
+            if value.vocabulary is not None:
+                conds = self.condition.get(value.vocabulary.code)
+                conditions.append(self._vocab_condition(conds))
+            return '{expr}[{conditions}]'.format(
+                expr=self.get(),
+                conditions=' and '.join(conditions),
+            )
+        return super().where(op, value)
+
+    def exec(self, xml):
+        return [Sector(x.get('code'),
+                       vocabulary=x.get('vocabulary'),
+                       percentage=x.get('percentage'))
+                for x in xml.xpath(self.get())]
