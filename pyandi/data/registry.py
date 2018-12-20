@@ -41,7 +41,8 @@ class Registry:
             with open(join(self.path, 'metadata.json')) as f:
                 j = json.load(f)
             last_updated = j['updated_at']
-            last_updated = datetime.strptime(last_updated, '%Y-%m-%dT%H:%M:%S')
+            last_updated = datetime.strptime(
+                last_updated, '%Y-%m-%dT%H:%M:%SZ')
         except:
             last_updated = None
         return last_updated
