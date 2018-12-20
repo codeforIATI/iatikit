@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - Change internal representation of codelists
 - Return python `date` objects for dates
+- Always strip IATI identifiers
 
 ## [1.3.1] – 2018-12-17
 

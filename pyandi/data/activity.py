@@ -69,7 +69,7 @@ class Activity:
 
     def __repr__(self):
         id_ = self.iati_identifier
-        id_ = id_.strip() if id_ else '[No identifier]'
+        id_ = id_ if id_ else '[No identifier]'
         return '<{} ({})>'.format(self.__class__.__name__, id_)
 
     @property
@@ -80,7 +80,7 @@ class Activity:
     def iati_identifier(self):
         id_ = self.schema.iati_identifier().exec(self.xml)
         if len(id_) > 0:
-            return id_[0]
+            return id_[0].strip()
         return None
 
     @property
