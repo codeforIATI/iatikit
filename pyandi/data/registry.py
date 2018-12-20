@@ -11,6 +11,7 @@ import requests
 from .publisher import PublisherSet
 from .dataset import DatasetSet
 from .activity import ActivitySet
+from ..utils.exceptions import NoDataError
 
 
 logger = logging.getLogger(__name__)
@@ -29,8 +30,14 @@ class Registry:
                 warning_msg = 'Warning: Data was last updated {} days ' + \
                               'ago. Consider downloading a fresh ' + \
                               'data dump, using:\n\n' + \
-                              '>>> pyandi.download.data()'
+                              '   >>> pyandi.download.data()\n'
                 logger.warn(warning_msg.format(days_ago))
+        else:
+            error_msg = 'Error: No data found! ' + \
+                          'Downloading a fresh data dump ' + \
+                          'using:\n\n' + \
+                          '   >>> pyandi.download.data()\n'
+            raise NoDataError(error_msg)
 
     @property
     def last_updated(self):

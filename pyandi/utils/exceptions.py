@@ -8,3 +8,7 @@ class OperationError(Exception):
 
 class FilterError(Exception):
     pass
+
+
+class NoDataError(Exception):
+    pass

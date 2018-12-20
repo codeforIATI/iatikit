@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Codelist support for all versions (i.e. v1.01+)
 - Add `start` and `end` properties to activities
+- Error when there’s no data ([#12](https://github.com/andylolz/pyandi/issues/12))
 
 ### Changed
 - Change internal representation of codelists
