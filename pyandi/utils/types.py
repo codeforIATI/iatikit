@@ -1,6 +1,9 @@
 import logging
 from datetime import datetime
 
+from ..utils.abstract import GenericType
+
+
 logger = logging.getLogger(__name__)
 
 
