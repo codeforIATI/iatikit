@@ -12,3 +12,7 @@ class FilterError(Exception):
 
 class NoDataError(Exception):
     pass
+
+
+class NoCodelistsError(Exception):
+    pass

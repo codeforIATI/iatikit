@@ -1,6 +1,8 @@
-from ..utils.abstract import GenericSet
 import json
-from os.path import join
+from os.path import join, exists
+
+from ..utils.abstract import GenericSet
+from ..utils.exceptions import NoCodelistsError
 
 
 class CodelistSet(GenericSet):
@@ -12,6 +14,12 @@ class CodelistSet(GenericSet):
         if not path:
             path = join('__pyandicache__', 'standard', 'codelists')
         self.path = path
+        if not exists(self.path):
+            error_msg = 'Error: No codelists found! ' + \
+                          'Download fresh codelists ' + \
+                          'using:\n\n   ' + \
+                          '>>> pyandi.download.codelists()\n'
+            raise NoCodelistsError(error_msg)
 
     def __iter__(self):
         version = self._wheres.get('version')
