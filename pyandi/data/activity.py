@@ -101,16 +101,34 @@ class Activity:
 
     @property
     def planned_start(self):
-        return self.schema.planned_start().exec(self.xml)
+        date = self.schema.planned_start().exec(self.xml)
+        return date[0] if len(date) > 0 else None
 
     @property
     def actual_start(self):
-        return self.schema.actual_start().exec(self.xml)
+        date = self.schema.actual_start().exec(self.xml)
+        return date[0] if len(date) > 0 else None
 
     @property
     def planned_end(self):
-        return self.schema.planned_end().exec(self.xml)
+        date = self.schema.planned_end().exec(self.xml)
+        return date[0] if len(date) > 0 else None
 
     @property
     def actual_end(self):
-        return self.schema.actual_end().exec(self.xml)
+        date = self.schema.actual_end().exec(self.xml)
+        return date[0] if len(date) > 0 else None
+
+    @property
+    def start(self):
+        start = self.actual_start
+        if start:
+            return start
+        return self.planned_start
+
+    @property
+    def end(self):
+        end = self.actual_end
+        if end:
+            return end
+        return self.planned_end

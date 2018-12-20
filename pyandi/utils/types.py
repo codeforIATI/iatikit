@@ -1,4 +1,5 @@
 from ..utils.abstract import GenericType
+from datetime import datetime
 
 
 class StringType(GenericType):
@@ -28,3 +29,14 @@ class DateType(GenericType):
                 value=value.replace('-', ''),
             )
         return super().where(op, value)
+
+    def exec(self, xml):
+        dates = []
+        dates_str = xml.xpath(self.get())
+        for date_str in dates_str:
+            try:
+                dates.append(datetime.strptime(date_str, '%Y-%m-%d').date())
+            except ValueError:
+                # TODO: Add a warning here
+                pass
+        return dates
