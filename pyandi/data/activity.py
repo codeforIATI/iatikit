@@ -40,6 +40,13 @@ class ActivitySet(GenericSet):
             total += int(dataset.xml.xpath(query))
         return total
 
+    def _query(self, schema):
+        prefix = '//' + self._element
+        return QueryBuilder(
+            schema,
+            prefix=prefix,
+        ).where(**self._wheres)
+
     def __iter__(self):
         for dataset in self.datasets:
             if dataset.filetype != self._filetype:
@@ -50,12 +57,7 @@ class ActivitySet(GenericSet):
                 schema = get_schema(dataset.filetype, dataset.version)
             except:
                 continue
-            prefix = '//' + self._element
-            query = QueryBuilder(
-                schema,
-                prefix=prefix,
-            ).where(**self._wheres)
-            activities_xml = dataset.xml.xpath(query)
+            activities_xml = dataset.xml.xpath(self._query(schema))
             for xml in activities_xml:
                 yield self._instance_class(xml, dataset, schema)
 
