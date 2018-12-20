@@ -63,16 +63,24 @@ class ActivitySet(GenericSet):
 
 
 class Activity:
-    def __init__(self, xml, dataset, schema):
-        self.version = dataset.version
+    def __init__(self, xml, dataset=None, schema=None):
         self.xml = xml
         self.dataset = dataset
-        self.schema = schema
+        self._schema = schema
+        self.version = self.schema.version
 
     def __repr__(self):
         id_ = self.iati_identifier
         id_ = id_ if id_ else '[No identifier]'
         return '<{} ({})>'.format(self.__class__.__name__, id_)
+
+    @property
+    def schema(self):
+        if not self._schema:
+            # TODO: Add a schema guesser,
+            # based on the activity XML
+            pass
+        return self._schema
 
     @property
     def raw_xml(self):
