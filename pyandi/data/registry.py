@@ -29,14 +29,14 @@ class Registry:
             if days_ago > 7:
                 warning_msg = 'Warning: Data was last updated {} days ' + \
                               'ago. Consider downloading a fresh ' + \
-                              'data dump, using:\n\n' + \
-                              '   >>> pyandi.download.data()\n'
+                              'data dump, using:\n\n   ' + \
+                              '>>> pyandi.download.data()\n'
                 logger.warn(warning_msg.format(days_ago))
         else:
             error_msg = 'Error: No data found! ' + \
-                          'Downloading a fresh data dump ' + \
-                          'using:\n\n' + \
-                          '   >>> pyandi.download.data()\n'
+                          'Download a fresh data dump ' + \
+                          'using:\n\n   ' + \
+                          '>>> pyandi.download.data()\n'
             raise NoDataError(error_msg)
 
     @property
