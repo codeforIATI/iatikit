@@ -3,6 +3,7 @@ from os.path import join, exists
 
 from ..utils.abstract import GenericSet
 from ..utils.exceptions import NoCodelistsError
+from ..utils import download
 
 
 class CodelistSet(GenericSet):
@@ -38,6 +39,9 @@ class CodelistSet(GenericSet):
             if slug is not None and slug != codelist_slug:
                 continue
             yield Codelist(codelist_slug, self.path, current_version)
+
+    def download(self):
+        return download.codelists(self.path)
 
 
 class Codelist(GenericSet):

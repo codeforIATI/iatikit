@@ -2,13 +2,12 @@ from collections import OrderedDict
 import csv
 import json
 from os.path import join
-from os import makedirs
+from os import makedirs, unlink
 import shutil
 import logging
 
 import requests
-
-from ..data.registry import Registry
+import zipfile
 
 
 logger = logging.getLogger(__name__)
@@ -34,10 +33,36 @@ EMBEDDED_CODELISTS = [
 
 
 def data(path=None):
-    Registry(path).download()
+    if not path:
+        path = join('__pyandicache__', 'registry')
+    # downloads from https://andylolz.github.io/iati-data-dump/
+    data_url = 'https://www.dropbox.com/s/kkm80yjihyalwes/' + \
+               'iati_dump.zip?dl=1'
+    shutil.rmtree(path, ignore_errors=True)
+    makedirs(path)
+    zip_filepath = join(path, 'iati_dump.zip')
+
+    logger.info('Downloading all IATI registry data...')
+    r = requests.get(data_url, stream=True)
+    with open(zip_filepath, 'wb') as f:
+        shutil.copyfileobj(r.raw, f)
+    logger.info('Unzipping data...')
+    with zipfile.ZipFile(zip_filepath, 'r') as zip_ref:
+        zip_ref.extractall(path)
+    logger.info('Cleaning up...')
+    unlink(zip_filepath)
+    logger.info('Downloading zipfile metadata...')
+    meta_filepath = join(path, 'metadata.json')
+    meta = 'https://www.dropbox.com/s/6a3wggckhbb9nla/metadata.json?dl=1'
+    zip_metadata = requests.get(meta)
+    with open(meta_filepath, 'wb') as f:
+        f.write(zip_metadata.content)
 
 
 def codelists(path=None):
+    if not path:
+        path = join('__pyandicache__', 'standard', 'codelists')
+
     very_old_versions = ['1.01', '1.02']
     old_versions = ['1.03']
     very_old_codelists_url = 'http://codelists102.archive.iatistandard.org' + \
@@ -52,8 +77,6 @@ def codelists(path=None):
                         '/data/codelist/{codelist_name}.csv'
     new_codelist_tmpl = 'http://reference.iatistandard.org/{version}/' + \
                         'codelists/downloads/clv2/json/en/{codelist_name}.json'
-    if not path:
-        path = join('__pyandicache__', 'standard', 'codelists')
 
     shutil.rmtree(path, ignore_errors=True)
     makedirs(path)
