@@ -1,5 +1,7 @@
-from ..utils.abstract import GenericType
+import logging
 from datetime import datetime
+
+logger = logging.getLogger(__name__)
 
 
 class StringType(GenericType):
@@ -37,6 +39,5 @@ class DateType(GenericType):
             try:
                 dates.append(datetime.strptime(date_str, '%Y-%m-%d').date())
             except ValueError:
-                # TODO: Add a warning here
-                pass
+                logger.warn('Invalid date: "{}"'.format(date_str))
         return dates
