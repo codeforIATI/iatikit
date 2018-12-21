@@ -41,6 +41,8 @@ class GenericSet:
     def get(self, item=None):
         if not item:
             return self.all()
+        if type(item) is self._instance_class:
+            item = getattr(item, self._key)
         return self.find(**{self._key: item})
 
     def find(self, **kwargs):
