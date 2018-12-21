@@ -122,6 +122,11 @@ List all publishers by date of first publication
             date=datetime.strptime(tup[0], '%Y-%m-%dT%H:%M:%S.%f').date()
         ))
 
+    # 1: UK - Department for International Development (DFID) (2011-01-29)
+    # 2: The William and Flora Hewlett Foundation (2011-03-31)
+    # 3: The World Bank (2011-05-14)
+    # ...
+
 More complicated activity filters
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
