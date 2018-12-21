@@ -2,7 +2,7 @@ import logging
 from datetime import datetime
 
 from ..data.sector import Sector
-from ..standard.codelist import CodelistItem
+from ..standard.codelist import CodelistSet, CodelistItem
 from ..utils.abstract import GenericType
 
 
@@ -66,7 +66,21 @@ class SectorType(GenericType):
         return conditions_str
 
     def where(self, op, value):
-        if op == 'eq':
+        if op == 'in':
+            if type(value) is not Sector or value.vocabulary.code != '2':
+                raise Exception('{} is not a sector category'.format(value))
+            codelist_items = CodelistSet().get('Sector').where(
+                category=value.code.code).all()
+            conditions = ' or '.join(['@code = "{code}"'.format(code=c.code)
+                                      for c in codelist_items])
+            conditions = ['(' + conditions + ')']
+            conditions.append(
+                self._vocab_condition(self.condition.get('1')))
+            return '{expr}[{conditions}]'.format(
+                expr=self.get(),
+                conditions=' and '.join(conditions),
+            )
+        elif op == 'eq':
             if type(value) is not Sector:
                 raise Exception('{} is not a sector'.format(value))
             if type(value.code) is CodelistItem:
