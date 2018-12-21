@@ -9,9 +9,11 @@ from ..utils import download
 class CodelistSet(GenericSet):
     def __init__(self, path=None, **kwargs):
         super().__init__()
-        self._wheres = kwargs
         self._key = 'name'
         self._filters = ['name', 'version']
+        self._wheres = kwargs
+        self._instance_class = Codelist
+
         if not path:
             path = join('__pyandicache__', 'standard', 'codelists')
         self.path = path
@@ -47,9 +49,11 @@ class CodelistSet(GenericSet):
 class Codelist(GenericSet):
     def __init__(self, slug, path, version, **kwargs):
         super().__init__()
-        self._wheres = kwargs
         self._key = 'code'
         self._filters = ['code', 'version']
+        self._wheres = kwargs
+        self._instance_class = CodelistItem
+
         self.slug = slug
         self.path = join(path, slug + '.json')
         self.version = version
