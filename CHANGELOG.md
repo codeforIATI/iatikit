@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add `start` and `end` properties to activities
 - Error when there’s no data ([#12](https://github.com/andylolz/pyandi/issues/12))
 - Error when there are no codelists
+- Improved sector support ([#22](https://github.com/andylolz/pyandi/pull/22))
 
 ### Changed
 - Change internal representation of codelists
