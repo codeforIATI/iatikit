@@ -61,7 +61,7 @@ class SectorType(GenericType):
             else:
                 conditions_list.append('@vocabulary = "{}"'.format(condition))
         conditions_str = ' or '.join(conditions_list)
-        if len(conditions_str) > 1:
+        if len(conditions_list) > 1:
             conditions_str = '({})'.format(conditions_str)
         return conditions_str
 
