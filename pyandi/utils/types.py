@@ -83,13 +83,15 @@ class SectorType(GenericType):
                 conditions=' and '.join(conditions),
             )
         elif op == 'eq':
+            conditions = []
             if type(value) is not Sector:
                 raise Exception('{} is not a sector'.format(value))
             if type(value.code) is CodelistItem:
                 code = value.code.code
             else:
                 code = value.code
-            conditions = ['@code = "{code}"'.format(code=code)]
+            if code is not None:
+                conditions.append('@code = "{code}"'.format(code=code))
             if value.vocabulary is not None:
                 conds = self.condition.get(value.vocabulary.code,
                                            value.vocabulary.code)
