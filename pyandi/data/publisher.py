@@ -1,3 +1,4 @@
+import json
 from os.path import basename, join
 from glob import glob
 
@@ -17,22 +18,25 @@ class PublisherSet(GenericSet):
 
     def __iter__(self):
         data_paths = sorted(glob(self.data_path))
-        metadata_paths = sorted(glob(self.metadata_path))
-        paths = zip(data_paths, metadata_paths)
+        metadata_paths = sorted(glob(join(self.metadata_path, '')))
+        metadata_filepaths = sorted(glob(join(self.metadata_path + '.json')))
+        paths = zip(data_paths, metadata_paths, metadata_filepaths)
 
         name = self._wheres.get('name')
         if name is not None:
             paths = filter(lambda x: basename(x[0]) == name,
                            paths)
 
-        for data_path, metadata_path in paths:
-            yield Publisher(data_path, metadata_path)
+        for data_path, metadata_path, metadata_filepath in paths:
+            yield Publisher(data_path, metadata_path, metadata_filepath)
 
 
 class Publisher:
-    def __init__(self, data_path, metadata_path):
+    def __init__(self, data_path, metadata_path, metadata_filepath):
         self.data_path = data_path
         self.metadata_path = metadata_path
+        self.metadata_filepath = metadata_filepath
+        self._metadata = None
 
     @property
     def name(self):
@@ -50,3 +54,10 @@ class Publisher:
     @property
     def activities(self):
         return ActivitySet(self.datasets)
+
+    @property
+    def metadata(self):
+        if not self._metadata:
+            with open(self.metadata_filepath) as f:
+                self._metadata = json.load(f)
+        return self._metadata

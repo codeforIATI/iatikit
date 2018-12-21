@@ -50,14 +50,14 @@ class Registry:
     @property
     def publishers(self):
         data_path = join(self.path, 'data', '*')
-        metadata_path = join(self.path, 'metadata', '*', '')
+        metadata_path = join(self.path, 'metadata', '*')
         return PublisherSet(data_path, metadata_path)
 
     @property
     def datasets(self):
         r = self.publishers
         data_path = join(r.data_path, '*')
-        metadata_path = join(r.metadata_path, '*')
+        metadata_path = join(r.metadata_path, '', '*')
         return DatasetSet(data_path, metadata_path)
 
     @property
