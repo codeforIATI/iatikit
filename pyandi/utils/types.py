@@ -99,6 +99,6 @@ class SectorType(GenericType):
 
     def exec(self, xml):
         return [Sector(x.get('code'),
-                       vocabulary=x.get('vocabulary'),
+                       vocabulary=x.get('vocabulary', '1'),
                        percentage=x.get('percentage'))
                 for x in xml.xpath(self.get())]
