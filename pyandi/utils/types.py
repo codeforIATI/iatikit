@@ -55,6 +55,8 @@ class SectorType(GenericType):
 
     def _vocab_condition(self, conditions):
         conditions_list = []
+        if type(conditions) is not list:
+            conditions = [conditions]
         for condition in conditions:
             if condition is None:
                 conditions_list.append('not(@vocabulary)')
@@ -89,7 +91,8 @@ class SectorType(GenericType):
                 code = value.code
             conditions = ['@code = "{code}"'.format(code=code)]
             if value.vocabulary is not None:
-                conds = self.condition.get(value.vocabulary.code)
+                conds = self.condition.get(value.vocabulary.code,
+                                           value.vocabulary.code)
                 conditions.append(self._vocab_condition(conds))
             return '{expr}[{conditions}]'.format(
                 expr=self.get(),

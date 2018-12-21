@@ -22,7 +22,7 @@ class ActivitySchema101:
     def sector(self):
         condition = {
             '1': [None, 'DAC'],
-            '2': ['DAC-3'],
+            '2': 'DAC-3',
         }
         return SectorType('sector', self.version, condition)
 
@@ -72,7 +72,6 @@ class ActivitySchema201(ActivitySchema105):
     def sector(self):
         condition = {
             '1': [None, '1'],
-            '2': ['2'],
         }
         return SectorType('sector', self.version, condition)
 
