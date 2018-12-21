@@ -20,6 +20,7 @@ class ActivitySchema101:
         return GenericType('location')
 
     def sector(self):
+        # TODO: This should include lookups for other v1.0x vocabs
         condition = {
             '1': [None, 'DAC'],
             '2': 'DAC-3',
