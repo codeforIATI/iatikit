@@ -68,7 +68,7 @@ class SectorType(GenericType):
     def where(self, op, value):
         if op == 'eq':
             if type(value) is not Sector:
-                raise Exception()
+                raise Exception('{} is not a sector'.format(value))
             if type(value.code) is CodelistItem:
                 code = value.code.code
             else:
