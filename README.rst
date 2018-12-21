@@ -99,6 +99,29 @@ Find activities that include an element
 
     # 279 of 3,038 MCC activities have location data.
 
+List all publishers by date of first publication
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code:: python
+
+    from datetime import datetime
+    import pyandi
+
+    registry = pyandi.data()
+
+    publishers = sorted(
+        [(min([d.metadata.get('metadata_created')
+               for d in p.datasets]
+              ), p.metadata.get('title'))
+         for p in registry.publishers])
+
+    for idx, tup in enumerate(publishers):
+        print('{order}: {name} ({date})'.format(
+            order=(idx + 1),
+            name=tup[1],
+            date=datetime.strptime(tup[0], '%Y-%m-%dT%H:%M:%S.%f').date()
+        ))
+
 More complicated activity filters
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
