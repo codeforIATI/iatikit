@@ -135,8 +135,8 @@ More complicated activity filters
     sector_category = pyandi.sector(311, 2)  # Agriculture
 
     ag_acts = dfid.activities.where(
-        actual_start__lte='2017-12-31',
-        actual_end__gte='2017-01-01',
+        actual_start__lte='2017-12-31',  # started before 2018
+        actual_end__gte='2017-01-01',  # ended after 2016
         sector__in=sector_category,
     )
     print('DFID had {:,} agricultural activities running during 2017.'.format(
