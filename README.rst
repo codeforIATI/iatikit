@@ -109,16 +109,17 @@ More complicated activity filters
     registry = pyandi.data()
 
     dfid = registry.publishers.find(name='dfid')
+    sector_category = pyandi.sector(311, 2)  # Agriculture
 
     ag_acts = dfid.activities.where(
         actual_start__lte='2017-12-31',
         actual_end__gte='2017-01-01',
-        sector__startswith='311',  # Agriculture
+        sector__in=sector_category,
     )
     print('DFID had {:,} agricultural activities running during 2017.'.format(
         len(ag_acts)))
 
-    # DFID had 176 agricultural activities running during 2017.
+    # DFID had 180 agricultural activities running during 2017.
 
 TODO
 ----

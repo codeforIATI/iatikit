@@ -9,9 +9,11 @@ from ..utils import download
 class CodelistSet(GenericSet):
     def __init__(self, path=None, **kwargs):
         super().__init__()
-        self._wheres = kwargs
         self._key = 'name'
         self._filters = ['name', 'version']
+        self._wheres = kwargs
+        self._instance_class = Codelist
+
         if not path:
             path = join('__pyandicache__', 'standard', 'codelists')
         self.path = path
@@ -47,9 +49,11 @@ class CodelistSet(GenericSet):
 class Codelist(GenericSet):
     def __init__(self, slug, path, version, **kwargs):
         super().__init__()
-        self._wheres = kwargs
         self._key = 'code'
-        self._filters = ['code', 'version']
+        self._filters = ['code', 'version', 'category']
+        self._wheres = kwargs
+        self._instance_class = CodelistItem
+
         self.slug = slug
         self.path = join(path, slug + '.json')
         self.version = version
@@ -74,13 +78,18 @@ class Codelist(GenericSet):
 
     def __iter__(self):
         code = self._wheres.get('code')
+        category = self._wheres.get('category')
         version = self._wheres.get('version', self.version)
         if version is not None:
             version = str(version)
         if code is not None:
             code = str(code)
+        if category is not None:
+            category = str(category)
         for data in self.data.values():
             if code is not None and data['code'] != code:
+                continue
+            if category is not None and data['category'] != category:
                 continue
             if version is not None:
                 version_from = data.get('from')
@@ -117,7 +126,7 @@ class Codelist(GenericSet):
 
 class CodelistItem:
     def __init__(self, codelist, **kwargs):
-        self._category = kwargs.get('category')
+        self.category = kwargs.get('category')
         self.status = kwargs.get('status', 'active')
         self.code = kwargs.get('code')
         self.name = kwargs.get('name')

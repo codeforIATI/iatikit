@@ -8,17 +8,18 @@ from lxml import etree
 class ActivitySet(GenericSet):
     def __init__(self, datasets, **kwargs):
         super().__init__()
-        self._wheres = kwargs
         self._key = 'iati_identifier'
         self._filters = [
             'iati_identifier', 'title', 'description',
             'location', 'sector', 'planned_start',
             'actual_start', 'planned_end', 'actual_end',
         ]
+        self._wheres = kwargs
+        self._instance_class = Activity
+
         self.datasets = datasets
         self._filetype = 'activity'
         self._element = 'iati-activity'
-        self._instance_class = Activity
 
     def __len__(self):
         total = 0

@@ -7,6 +7,7 @@ class GenericSet:
         self._key = None
         self._filters = []
         self._wheres = {}
+        self._instance_class = None
 
     def where(self, **kwargs):
         for k in kwargs.keys():
@@ -40,6 +41,8 @@ class GenericSet:
     def get(self, item=None):
         if not item:
             return self.all()
+        if type(item) is self._instance_class:
+            item = getattr(item, self._key)
         return self.find(**{self._key: item})
 
     def find(self, **kwargs):

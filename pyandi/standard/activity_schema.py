@@ -1,5 +1,5 @@
 from ..utils.exceptions import SchemaError
-from ..utils.types import StringType, DateType
+from ..utils.types import StringType, DateType, SectorType
 from ..utils.abstract import GenericType
 
 
@@ -20,7 +20,11 @@ class ActivitySchema101:
         return GenericType('location')
 
     def sector(self):
-        return StringType('sector/@code')
+        condition = {
+            '1': [None, 'DAC'],
+            '2': ['DAC-3'],
+        }
+        return SectorType('sector', self.version, condition)
 
     def planned_start(self):
         return DateType('activity-date[@type="start-planned"]/@iso-date')
@@ -64,6 +68,13 @@ class ActivitySchema201(ActivitySchema105):
 
     def description(self):
         return StringType('description/narrative/text()')
+
+    def sector(self):
+        condition = {
+            '1': [None, '1'],
+            '2': ['2'],
+        }
+        return SectorType('sector', self.version, condition)
 
     def planned_start(self):
         return DateType('activity-date[@type="1"]/@iso-date')
