@@ -37,9 +37,9 @@ class DateType(GenericType):
             )
         return super().where(op, value)
 
-    def exec(self, xml):
+    def exec(self, etree):
         dates = []
-        dates_str = xml.xpath(self.get())
+        dates_str = etree.xpath(self.get())
         for date_str in dates_str:
             try:
                 dates.append(datetime.strptime(date_str, '%Y-%m-%d').date())
@@ -102,8 +102,8 @@ class SectorType(GenericType):
             )
         return super().where(op, value)
 
-    def exec(self, xml):
+    def exec(self, etree):
         return [Sector(x.get('code'),
                        vocabulary=x.get('vocabulary', '1'),
                        percentage=x.get('percentage'))
-                for x in xml.xpath(self.get())]
+                for x in etree.xpath(self.get())]

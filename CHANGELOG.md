@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 - Error when no data found (instead of returning None)
+- `xml` property moved to `etree`; `raw_xml` property moved to `xml`
 
 ### Removed
 - `get()` shouldn’t be a synonym for `all()`

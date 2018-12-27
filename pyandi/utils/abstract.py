@@ -60,8 +60,8 @@ class GenericType:
     def get(self):
         return self._expr
 
-    def exec(self, xml):
-        return xml.xpath(self.get())
+    def exec(self, etree):
+        return etree.xpath(self.get())
 
     def where(self, op, value):
         if op == 'exists':

@@ -3,7 +3,7 @@ from glob import glob
 import json
 import webbrowser
 
-from lxml import etree
+from lxml import etree as ET
 
 from ..utils.abstract import GenericSet
 from .activity import ActivitySet
@@ -44,7 +44,7 @@ class Dataset:
     def __init__(self, data_path, metadata_path):
         self.data_path = data_path
         self.metadata_path = metadata_path
-        self._xml = None
+        self._etree = None
         self._metadata = None
 
     @property
@@ -52,14 +52,14 @@ class Dataset:
         return splitext(basename(self.data_path))[0]
 
     @property
-    def xml(self):
-        if not self._xml:
-            self._xml = etree.parse(self.data_path)
-        return self._xml
+    def etree(self):
+        if not self._etree:
+            self._etree = ET.parse(self.data_path)
+        return self._etree
 
     @property
-    def raw_xml(self):
-        return etree.tostring(self.xml)
+    def xml(self):
+        return ET.tostring(self.etree)
 
     def __repr__(self):
         return '<{} ({})>'.format(self.__class__.__name__, self.name)
@@ -72,9 +72,9 @@ class Dataset:
     def is_valid(self):
         # TODO: This currently just checks for valid XML
         try:
-            if self.xml:
+            if self.etree:
                 return True
-        except etree.XMLSyntaxError:
+        except ET.XMLSyntaxError:
             pass
         return False
 
@@ -93,7 +93,7 @@ class Dataset:
 
     @property
     def root(self):
-        roottag = self.xml.getroot().tag
+        roottag = self.etree.getroot().tag
         if roottag in ['iati-activities', 'iati-organisations']:
             return roottag
         return None
@@ -101,7 +101,7 @@ class Dataset:
     @property
     def version(self):
         try:
-            return self.xml.getroot().get('version')
+            return self.etree.getroot().get('version')
         except:
             pass
         return None

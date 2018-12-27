@@ -4,7 +4,7 @@ from ..standard import get_schema
 from ..utils.abstract import GenericSet
 from ..utils.querybuilder import QueryBuilder
 
-from lxml import etree
+from lxml import etree as ET
 
 
 class ActivitySet(GenericSet):
@@ -40,7 +40,7 @@ class ActivitySet(GenericSet):
                 prefix=prefix,
                 count=True
             ).where(**self._wheres)
-            total += int(dataset.xml.xpath(query))
+            total += int(dataset.etree.xpath(query))
         return total
 
     def _query(self, schema):
@@ -60,14 +60,14 @@ class ActivitySet(GenericSet):
                 schema = get_schema(dataset.filetype, dataset.version)
             except:
                 continue
-            activities_xml = dataset.xml.xpath(self._query(schema))
-            for xml in activities_xml:
-                yield self._instance_class(xml, dataset, schema)
+            activity_etrees = dataset.etree.xpath(self._query(schema))
+            for tree in activity_etrees:
+                yield self._instance_class(tree, dataset, schema)
 
 
 class Activity:
-    def __init__(self, xml, dataset=None, schema=None):
-        self.xml = xml
+    def __init__(self, etree, dataset=None, schema=None):
+        self.etree = etree
         self.dataset = dataset
         self._schema = schema
         self.version = self.schema.version
@@ -90,50 +90,50 @@ class Activity:
         return self._schema
 
     @property
-    def raw_xml(self):
-        return etree.tostring(self.xml)
+    def xml(self):
+        return ET.tostring(self.etree)
 
     @property
     def iati_identifier(self):
-        id_ = self.schema.iati_identifier().exec(self.xml)
+        id_ = self.schema.iati_identifier().exec(self.etree)
         if len(id_) > 0:
             return id_[0].strip()
         return None
 
     @property
     def title(self):
-        return self.schema.title().exec(self.xml)
+        return self.schema.title().exec(self.etree)
 
     @property
     def description(self):
-        return self.schema.description().exec(self.xml)
+        return self.schema.description().exec(self.etree)
 
     @property
     def location(self):
-        return self.schema.location().exec(self.xml)
+        return self.schema.location().exec(self.etree)
 
     @property
     def sector(self):
-        return self.schema.sector().exec(self.xml)
+        return self.schema.sector().exec(self.etree)
 
     @property
     def planned_start(self):
-        date = self.schema.planned_start().exec(self.xml)
+        date = self.schema.planned_start().exec(self.etree)
         return date[0] if len(date) > 0 else None
 
     @property
     def actual_start(self):
-        date = self.schema.actual_start().exec(self.xml)
+        date = self.schema.actual_start().exec(self.etree)
         return date[0] if len(date) > 0 else None
 
     @property
     def planned_end(self):
-        date = self.schema.planned_end().exec(self.xml)
+        date = self.schema.planned_end().exec(self.etree)
         return date[0] if len(date) > 0 else None
 
     @property
     def actual_end(self):
-        date = self.schema.actual_end().exec(self.xml)
+        date = self.schema.actual_end().exec(self.etree)
         return date[0] if len(date) > 0 else None
 
     @property
