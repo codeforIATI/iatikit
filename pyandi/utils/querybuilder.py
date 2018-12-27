@@ -1,5 +1,5 @@
 class QueryBuilder(object):
-    def __init__(self, schema, prefix=None, count=False):
+    def __init__(self, schema, prefix='', count=False):
         self._schema = schema
         self._count = count
         self._prefix = prefix
