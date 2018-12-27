@@ -1,6 +1,7 @@
 from os.path import basename, splitext
 from glob import glob
 import json
+import webbrowser
 
 from lxml import etree
 
@@ -62,6 +63,11 @@ class Dataset:
 
     def __repr__(self):
         return '<{} ({})>'.format(self.__class__.__name__, self.name)
+
+    def show(self):
+        url = 'https://iatiregistry.org/dataset/{}'.format(
+            self.name)
+        webbrowser.open_new_tab(url)
 
     def is_valid(self):
         # TODO: This currently just checks for valid XML

@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Add a publisher metadata property
 - Add `filter` as a synonym for `where`
+- Add show() function to Publisher, Dataset and Activity models
 
 ### Changed
 - Error when no data found (instead of returning None)

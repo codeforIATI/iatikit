@@ -1,6 +1,7 @@
 import json
 from os.path import basename, join
 from glob import glob
+import webbrowser
 
 from ..utils.abstract import GenericSet
 from .dataset import DatasetSet
@@ -44,6 +45,11 @@ class Publisher:
 
     def __repr__(self):
         return '<{} ({})>'.format(self.__class__.__name__, self.name)
+
+    def show(self):
+        url = 'https://iatiregistry.org/publisher/{}'.format(
+            self.name)
+        webbrowser.open_new_tab(url)
 
     @property
     def datasets(self):

@@ -1,3 +1,5 @@
+import webbrowser
+
 from ..standard import get_schema
 from ..utils.abstract import GenericSet
 from ..utils.querybuilder import QueryBuilder
@@ -74,6 +76,10 @@ class Activity:
         id_ = self.iati_identifier
         id_ = id_ if id_ else '[No identifier]'
         return '<{} ({})>'.format(self.__class__.__name__, id_)
+
+    def show(self):
+        url = 'http://d-portal.org/q.html?aid={}'.format(self.iati_identifier)
+        webbrowser.open_new_tab(url)
 
     @property
     def schema(self):
