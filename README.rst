@@ -16,13 +16,18 @@ Installation
 
     pip install pyandi
 
+Documentation
+-------------
+
+Refer to `pyandi.readthedocs.io <https://pyandi.readthedocs.io>`__.
+
 Roadmap
 -------
 
-Refer to `the github issue
+Check `the github issue
 tracker <https://github.com/andylolz/pyandi/issues>`__.
 
 License
 -------
 
-MIT
+This work is `MIT licensed <https://github.com/andylolz/pyandi/blob/master/LICENSE.md>`__.
