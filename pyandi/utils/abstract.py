@@ -35,19 +35,20 @@ class GenericSet(object):
         return len(self)
 
     def first(self):
-        try:
-            return self[0]
-        except StopIteration:
-            pass
-        raise NotFoundError()
+        for first in self:
+            return first
+        raise NotFoundError
 
     def all(self):
         return list(iter(self))
 
-    def get(self, item):
+    def get(self, item, default=None):
         if type(item) is self._instance_class:
             item = getattr(item, self._key)
-        return self.find(**{self._key: item})
+        try:
+            return self.find(**{self._key: item})
+        except NotFoundError:
+            return default
 
     def find(self, **kwargs):
         return self.where(**kwargs).first()

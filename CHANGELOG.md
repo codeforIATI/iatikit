@@ -12,7 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add show() function to Publisher, Dataset and Activity models
 
 ### Changed
-- Error when no data found (instead of returning None)
+- `find` and `first` raise errors when no data found. `get` returns a default value
 - `xml` property moved to `etree`; `raw_xml` property moved to `xml`
 
 ### Removed
