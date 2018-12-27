@@ -16,6 +16,9 @@ class GenericSet:
         self._wheres = dict(self._wheres, **kwargs)
         return self
 
+    def filter(self, **kwargs):
+        return self.where(**kwargs)
+
     def __getitem__(self, index):
         try:
             return next(islice(self, index, index + 1))
