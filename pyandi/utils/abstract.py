@@ -44,9 +44,7 @@ class GenericSet:
     def all(self):
         return list(iter(self))
 
-    def get(self, item=None):
-        if not item:
-            return self.all()
+    def get(self, item):
         if type(item) is self._instance_class:
             item = getattr(item, self._key)
         return self.find(**{self._key: item})
