@@ -18,11 +18,7 @@ setup(
     keywords='IATI',
     long_description=readme,
     install_requires=[
-        'certifi',
-        'chardet',
-        'idna',
         'lxml',
         'requests',
-        'urllib3',
     ],
 )
