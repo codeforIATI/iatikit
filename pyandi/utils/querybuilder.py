@@ -1,4 +1,4 @@
-class QueryBuilder:
+class QueryBuilder(object):
     def __init__(self, schema, prefix=None, count=False):
         self._schema = schema
         self._count = count

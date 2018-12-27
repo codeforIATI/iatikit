@@ -8,7 +8,7 @@ from ..utils import download
 
 class CodelistSet(GenericSet):
     def __init__(self, path=None, **kwargs):
-        super().__init__()
+        super(CodelistSet, self).__init__()
         self._key = 'name'
         self._filters = ['name', 'version']
         self._wheres = kwargs
@@ -48,7 +48,7 @@ class CodelistSet(GenericSet):
 
 class Codelist(GenericSet):
     def __init__(self, slug, path, version, **kwargs):
-        super().__init__()
+        super(Codelist, self).__init__()
         self._key = 'code'
         self._filters = ['code', 'version', 'category']
         self._wheres = kwargs
@@ -124,7 +124,7 @@ class Codelist(GenericSet):
         return self.metadata['complete']
 
 
-class CodelistItem:
+class CodelistItem(object):
     def __init__(self, codelist, **kwargs):
         self.category = kwargs.get('category')
         self.status = kwargs.get('status', 'active')

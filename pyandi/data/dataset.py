@@ -11,7 +11,7 @@ from .activity import ActivitySet
 
 class DatasetSet(GenericSet):
     def __init__(self, data_path, metadata_path, **kwargs):
-        super().__init__()
+        super(DatasetSet, self).__init__()
         self._key = 'name'
         self._filters = ['name', 'filetype']
         self._wheres = kwargs
@@ -40,7 +40,7 @@ class DatasetSet(GenericSet):
             yield dataset
 
 
-class Dataset:
+class Dataset(object):
     def __init__(self, data_path, metadata_path):
         self.data_path = data_path
         self.metadata_path = metadata_path

@@ -3,7 +3,7 @@ from ..utils.types import StringType, DateType, SectorType
 from ..utils.abstract import GenericType
 
 
-class ActivitySchema101:
+class ActivitySchema101(object):
     def __init__(self):
         self.version = '1.01'
 

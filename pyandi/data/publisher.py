@@ -10,7 +10,7 @@ from .activity import ActivitySet
 
 class PublisherSet(GenericSet):
     def __init__(self, data_path, metadata_path, **kwargs):
-        super().__init__()
+        super(PublisherSet, self).__init__()
         self._wheres = kwargs
         self._filters = ['name']
         self._key = 'name'
@@ -32,7 +32,7 @@ class PublisherSet(GenericSet):
             yield Publisher(data_path, metadata_path, metadata_filepath)
 
 
-class Publisher:
+class Publisher(object):
     def __init__(self, data_path, metadata_path, metadata_filepath):
         self.data_path = data_path
         self.metadata_path = metadata_path

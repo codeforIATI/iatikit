@@ -9,7 +9,7 @@ from lxml import etree as ET
 
 class ActivitySet(GenericSet):
     def __init__(self, datasets, **kwargs):
-        super().__init__()
+        super(ActivitySet, self).__init__()
         self._key = 'iati_identifier'
         self._filters = [
             'iati_identifier', 'title', 'description',
@@ -65,7 +65,7 @@ class ActivitySet(GenericSet):
                 yield self._instance_class(tree, dataset, schema)
 
 
-class Activity:
+class Activity(object):
     def __init__(self, etree, dataset=None, schema=None):
         self.etree = etree
         self.dataset = dataset

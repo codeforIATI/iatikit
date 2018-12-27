@@ -1,7 +1,7 @@
 from ..standard.codelist import CodelistSet, CodelistItem
 
 
-class Sector:
+class Sector(object):
     def __init__(self, code, vocabulary=None, percentage=None):
         codelists = CodelistSet()
 

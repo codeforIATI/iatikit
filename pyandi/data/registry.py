@@ -13,7 +13,7 @@ from ..utils import download
 logger = logging.getLogger(__name__)
 
 
-class Registry:
+class Registry(object):
     def __init__(self, path=None):
         if path:
             self.path = path

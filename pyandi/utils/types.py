@@ -19,7 +19,7 @@ class StringType(GenericType):
                 op=op,
                 value=value,
             )
-        return super().where(op, value)
+        return super(StringType, self).where(op, value)
 
 
 class DateType(GenericType):
@@ -35,7 +35,7 @@ class DateType(GenericType):
                 op=operator,
                 value=value.replace('-', ''),
             )
-        return super().where(op, value)
+        return super(DateType, self).where(op, value)
 
     def run(self, etree):
         dates = []
@@ -50,7 +50,7 @@ class DateType(GenericType):
 
 class SectorType(GenericType):
     def __init__(self, expr, version, condition):
-        super().__init__(expr)
+        super(SectorType, self).__init__(expr)
         self.condition = condition
 
     def _vocab_condition(self, conditions):
@@ -100,7 +100,7 @@ class SectorType(GenericType):
                 expr=self.get(),
                 conditions=' and '.join(conditions),
             )
-        return super().where(op, value)
+        return super(SectorType, self).where(op, value)
 
     def run(self, etree):
         return [Sector(x.get('code'),

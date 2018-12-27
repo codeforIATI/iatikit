@@ -2,7 +2,7 @@ from ..utils.exceptions import SchemaError
 from ..utils.types import StringType
 
 
-class OrganisationSchema101:
+class OrganisationSchema101(object):
     def __init__(self):
         self.version = '1.01'
 

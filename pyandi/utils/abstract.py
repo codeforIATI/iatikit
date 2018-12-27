@@ -2,7 +2,7 @@ from itertools import islice
 from .exceptions import OperationError, FilterError, NotFoundError
 
 
-class GenericSet:
+class GenericSet(object):
     def __init__(self):
         self._key = None
         self._filters = []
@@ -53,7 +53,7 @@ class GenericSet:
         return self.where(**kwargs).first()
 
 
-class GenericType:
+class GenericType(object):
     def __init__(self, expr):
         self._expr = expr
 
