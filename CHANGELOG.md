@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add a publisher metadata property
 - Add `filter` as a synonym for `where`
 - Add show() function to Publisher, Dataset and Activity models
+- Add an `xpath` activity filter
 
 ### Changed
 - `find` and `first` raise errors when no data found. `get` returns a default value

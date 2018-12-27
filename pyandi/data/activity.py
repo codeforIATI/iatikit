@@ -15,6 +15,7 @@ class ActivitySet(GenericSet):
             'iati_identifier', 'title', 'description',
             'location', 'sector', 'planned_start',
             'actual_start', 'planned_end', 'actual_end',
+            'xpath',
         ]
         self._wheres = kwargs
         self._instance_class = Activity

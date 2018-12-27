@@ -9,9 +9,6 @@ class QueryBuilder(object):
 
         exprs = []
         for shortcut, value in kwargs.items():
-            if shortcut == 'xml':
-                exprs.append(value)
-                continue
             if '__' in shortcut:
                 shortcut, operator = shortcut.split('__')
             else:

@@ -107,3 +107,8 @@ class SectorType(GenericType):
                        vocabulary=x.get('vocabulary', '1'),
                        percentage=x.get('percentage'))
                 for x in etree.xpath(self.get())]
+
+
+class XPathType(GenericType):
+    def where(self, op, value):
+        return value

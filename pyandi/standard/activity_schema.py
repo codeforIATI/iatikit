@@ -1,11 +1,14 @@
 from ..utils.exceptions import SchemaError
-from ..utils.types import StringType, DateType, SectorType
+from ..utils.types import StringType, DateType, SectorType, XPathType
 from ..utils.abstract import GenericType
 
 
 class ActivitySchema101(object):
     def __init__(self):
         self.version = '1.01'
+
+    def xpath(self):
+        return XPathType('')
 
     def iati_identifier(self):
         return StringType('iati-identifier/text()')
