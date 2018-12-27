@@ -8,6 +8,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 - Add a publisher metadata property
+- Add `filter` as a synonym for `where`
+
+### Changed
+- Error when no data found (instead of returning None)
+
+### Removed
+- `get()` shouldn’t be a synonym for `all()`
 
 ## [1.4.0] – 2018-12-21
 
