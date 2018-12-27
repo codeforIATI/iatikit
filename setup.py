@@ -7,9 +7,8 @@ with open(join(dirname(__file__), 'README.rst')) as f:
 
 setup(
     name='pyandi',
-    description='A query language wrapper around XPath, with some ' +
-                'IATI-related helpers included.',
-    url='https://github.com/andylolz/pyandi',
+    description='A toolkit for using IATI data.',
+    url='https://pyandi.readthedocs.io',
     author='Andy Lulham',
     author_email='a.lulham@gmail.com',
     version='1.4.0',
