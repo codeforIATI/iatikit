@@ -10,9 +10,6 @@ import requests
 import zipfile
 
 
-logger = logging.getLogger(__name__)
-
-
 # Ideally, information about embedded / non-embedded would
 # come from the codelist API, rather than a hardcoded list.
 #
@@ -42,16 +39,16 @@ def data(path=None):
     makedirs(path)
     zip_filepath = join(path, 'iati_dump.zip')
 
-    logger.info('Downloading all IATI registry data...')
+    logging.info('Downloading all IATI registry data...')
     r = requests.get(data_url, stream=True)
     with open(zip_filepath, 'wb') as f:
         shutil.copyfileobj(r.raw, f)
-    logger.info('Unzipping data...')
+    logging.info('Unzipping data...')
     with zipfile.ZipFile(zip_filepath, 'r') as zip_ref:
         zip_ref.extractall(path)
-    logger.info('Cleaning up...')
+    logging.info('Cleaning up...')
     _unlink(zip_filepath)
-    logger.info('Downloading zipfile metadata...')
+    logging.info('Downloading zipfile metadata...')
     meta_filepath = join(path, 'metadata.json')
     meta = 'https://www.dropbox.com/s/6a3wggckhbb9nla/metadata.json?dl=1'
     zip_metadata = requests.get(meta)
@@ -81,7 +78,7 @@ def codelists(path=None):
     shutil.rmtree(path, ignore_errors=True)
     makedirs(path)
 
-    logger.info('Downloading IATI Standard codelists...')
+    logging.info('Downloading IATI Standard codelists...')
     versions_url = 'http://reference.iatistandard.org/codelists/' + \
                    'downloads/clv2/json/en/Version.json'
     versions = [d['code'] for d in requests.get(versions_url).json()['data']]

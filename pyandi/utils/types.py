@@ -6,9 +6,6 @@ from ..standard.codelist import CodelistSet, CodelistItem
 from ..utils.abstract import GenericType
 
 
-logger = logging.getLogger(__name__)
-
-
 class StringType(GenericType):
     def where(self, op, value):
         if op in ['contains', 'startswith']:
@@ -44,7 +41,7 @@ class DateType(GenericType):
             try:
                 dates.append(datetime.strptime(date_str, '%Y-%m-%d').date())
             except ValueError:
-                logger.warn('Invalid date: "{}"'.format(date_str))
+                logging.warning('Invalid date: "{}"'.format(date_str))
         return dates
 
 
