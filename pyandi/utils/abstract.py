@@ -1,5 +1,5 @@
 from itertools import islice
-from .exceptions import OperationError, FilterError
+from .exceptions import OperationError, FilterError, NotFoundError
 
 
 class GenericSet:
@@ -35,8 +35,11 @@ class GenericSet:
         return len(self)
 
     def first(self):
-        for first in self:
-            return first
+        try:
+            return self[0]
+        except StopIteration:
+            pass
+        raise NotFoundError()
 
     def all(self):
         return list(iter(self))

@@ -10,6 +10,10 @@ class FilterError(Exception):
     pass
 
 
+class NotFoundError(Exception):
+    pass
+
+
 class NoDataError(Exception):
     pass
 
