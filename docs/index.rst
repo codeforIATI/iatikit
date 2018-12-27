@@ -14,9 +14,13 @@ some IATI-related helpers included.
 The name is a homage to its predecessor,
 `pyIATI <https://github.com/IATI/pyIATI>`__.
 
+Contents:
+---------
+
 .. toctree::
    :maxdepth: 2
-   :caption: Contents:
 
    getting-started
+   usage
    examples
+   api

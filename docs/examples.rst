@@ -1,5 +1,5 @@
-Usage examples
-==============
+Examples
+========
 
 Count datasets and publishers on the registry
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
