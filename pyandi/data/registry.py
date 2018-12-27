@@ -1,16 +1,13 @@
 from datetime import datetime
 from os.path import join
-import logging
 import json
+import warnings
 
 from .publisher import PublisherSet
 from .dataset import DatasetSet
 from .activity import ActivitySet
 from ..utils.exceptions import NoDataError
 from ..utils import download
-
-
-logger = logging.getLogger(__name__)
 
 
 class Registry(object):
@@ -27,7 +24,7 @@ class Registry(object):
                               'ago. Consider downloading a fresh ' + \
                               'data dump, using:\n\n   ' + \
                               '>>> pyandi.download.data()\n'
-                logger.warn(warning_msg.format(days_ago))
+                warnings.warn(warning_msg.format(days_ago))
         else:
             error_msg = 'Error: No data found! ' + \
                           'Download a fresh data dump ' + \
