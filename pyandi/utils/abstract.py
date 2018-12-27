@@ -60,7 +60,7 @@ class GenericType:
     def get(self):
         return self._expr
 
-    def exec(self, etree):
+    def run(self, etree):
         return etree.xpath(self.get())
 
     def where(self, op, value):

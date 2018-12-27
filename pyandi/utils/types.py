@@ -37,7 +37,7 @@ class DateType(GenericType):
             )
         return super().where(op, value)
 
-    def exec(self, etree):
+    def run(self, etree):
         dates = []
         dates_str = etree.xpath(self.get())
         for date_str in dates_str:
@@ -102,7 +102,7 @@ class SectorType(GenericType):
             )
         return super().where(op, value)
 
-    def exec(self, etree):
+    def run(self, etree):
         return [Sector(x.get('code'),
                        vocabulary=x.get('vocabulary', '1'),
                        percentage=x.get('percentage'))

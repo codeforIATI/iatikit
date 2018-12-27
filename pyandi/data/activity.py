@@ -95,45 +95,45 @@ class Activity:
 
     @property
     def iati_identifier(self):
-        id_ = self.schema.iati_identifier().exec(self.etree)
+        id_ = self.schema.iati_identifier().run(self.etree)
         if len(id_) > 0:
             return id_[0].strip()
         return None
 
     @property
     def title(self):
-        return self.schema.title().exec(self.etree)
+        return self.schema.title().run(self.etree)
 
     @property
     def description(self):
-        return self.schema.description().exec(self.etree)
+        return self.schema.description().run(self.etree)
 
     @property
     def location(self):
-        return self.schema.location().exec(self.etree)
+        return self.schema.location().run(self.etree)
 
     @property
     def sector(self):
-        return self.schema.sector().exec(self.etree)
+        return self.schema.sector().run(self.etree)
 
     @property
     def planned_start(self):
-        date = self.schema.planned_start().exec(self.etree)
+        date = self.schema.planned_start().run(self.etree)
         return date[0] if len(date) > 0 else None
 
     @property
     def actual_start(self):
-        date = self.schema.actual_start().exec(self.etree)
+        date = self.schema.actual_start().run(self.etree)
         return date[0] if len(date) > 0 else None
 
     @property
     def planned_end(self):
-        date = self.schema.planned_end().exec(self.etree)
+        date = self.schema.planned_end().run(self.etree)
         return date[0] if len(date) > 0 else None
 
     @property
     def actual_end(self):
-        date = self.schema.actual_end().exec(self.etree)
+        date = self.schema.actual_end().run(self.etree)
         return date[0] if len(date) > 0 else None
 
     @property
