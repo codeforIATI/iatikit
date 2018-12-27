@@ -2,7 +2,7 @@ import webbrowser
 
 from ..standard import get_schema
 from ..utils.abstract import GenericSet
-from ..utils.querybuilder import QueryBuilder
+from ..utils.querybuilder import XPathQueryBuilder
 
 from lxml import etree as ET
 
@@ -36,7 +36,7 @@ class ActivitySet(GenericSet):
             except:
                 continue
             prefix = '//' + self._element
-            query = QueryBuilder(
+            query = XPathQueryBuilder(
                 schema,
                 prefix=prefix,
                 count=True
@@ -46,7 +46,7 @@ class ActivitySet(GenericSet):
 
     def _query(self, schema):
         prefix = '//' + self._element
-        return QueryBuilder(
+        return XPathQueryBuilder(
             schema,
             prefix=prefix,
         ).where(**self._wheres)

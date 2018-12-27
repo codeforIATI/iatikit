@@ -1,4 +1,4 @@
-class QueryBuilder(object):
+class XPathQueryBuilder(object):
     def __init__(self, schema, prefix='', count=False):
         self._schema = schema
         self._count = count
