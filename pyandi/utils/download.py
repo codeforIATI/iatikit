@@ -2,7 +2,7 @@ from collections import OrderedDict
 import csv
 import json
 from os.path import join
-from os import makedirs, unlink
+from os import makedirs, unlink as _unlink
 import shutil
 import logging
 
@@ -17,7 +17,7 @@ logger = logging.getLogger(__name__)
 # come from the codelist API, rather than a hardcoded list.
 #
 # See: https://github.com/IATI/IATI-Codelists/issues/189
-EMBEDDED_CODELISTS = [
+_EMBEDDED_CODELISTS = [
     'ActivityDateType',
     'ActivityStatus',
     'AidTypeFlag',
@@ -50,7 +50,7 @@ def data(path=None):
     with zipfile.ZipFile(zip_filepath, 'r') as zip_ref:
         zip_ref.extractall(path)
     logger.info('Cleaning up...')
-    unlink(zip_filepath)
+    _unlink(zip_filepath)
     logger.info('Downloading zipfile metadata...')
     meta_filepath = join(path, 'metadata.json')
     meta = 'https://www.dropbox.com/s/6a3wggckhbb9nla/metadata.json?dl=1'
@@ -136,7 +136,7 @@ def codelists(path=None):
                     codelist_name=codelist_name,
                     version=version.replace('.', ''))
                 version_codelist = requests.get(codelist_url).json()
-            if codelist_name not in EMBEDDED_CODELISTS:
+            if codelist_name not in _EMBEDDED_CODELISTS:
                 codelist = version_codelist
                 codelist['data'] = OrderedDict(
                     [(x['code'], x) for x in codelist['data']])
