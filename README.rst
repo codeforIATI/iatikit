@@ -1,6 +1,12 @@
 pyandi
 ======
 
+.. image:: https://img.shields.io/pypi/v/pyandi.svg
+    :target: https://pypi.org/project/pyandi/
+
+.. image:: https://img.shields.io/pypi/l/pyandi.svg
+    :target: https://pypi.org/project/pyandi/
+
 pyandi is a toolkit for using `IATI data <https://iatistandard.org/>`__. It includes a `query
 language <https://erikbern.com/2018/08/30/i-dont-want-to-learn-your-garbage-query-language.html>`__
 wrapper around `XPath <https://en.wikipedia.org/wiki/XPath>`__, with
