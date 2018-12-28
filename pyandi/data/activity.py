@@ -2,17 +2,25 @@ import webbrowser
 
 from ..standard.schema import get_schema
 from ..utils.abstract import GenericSet
+from ..utils.exceptions import SchemaError
 from ..utils.querybuilder import XPathQueryBuilder
 
 from lxml import etree as ET
 
 
 class ActivitySet(GenericSet):
+    """Class representing a grouping of ``Activity`` objects.
+
+    Objects in this grouping can be filtered and iterated over.
+    Queries are only constructed and run when needed, so they
+    can be efficient.
+    """
+
     def __init__(self, datasets, **kwargs):
         super(ActivitySet, self).__init__()
         self._key = 'iati_identifier'
         self._filters = [
-            'iati_identifier', 'title', 'description',
+            'id', 'iati_identifier', 'title', 'description',
             'location', 'sector', 'planned_start',
             'actual_start', 'planned_end', 'actual_end',
             'xpath',
@@ -33,7 +41,7 @@ class ActivitySet(GenericSet):
                 continue
             try:
                 schema = get_schema(dataset.filetype, dataset.version)
-            except:
+            except SchemaError:
                 continue
             prefix = '//' + self._element
             query = XPathQueryBuilder(
@@ -59,7 +67,7 @@ class ActivitySet(GenericSet):
                 continue
             try:
                 schema = get_schema(dataset.filetype, dataset.version)
-            except:
+            except SchemaError:
                 continue
             activity_etrees = dataset.etree.xpath(self._query(schema))
             for tree in activity_etrees:
@@ -67,6 +75,8 @@ class ActivitySet(GenericSet):
 
 
 class Activity(object):
+    """Class representing an IATI activity."""
+
     def __init__(self, etree, dataset=None, schema=None):
         self.etree = etree
         self.dataset = dataset
@@ -79,6 +89,9 @@ class Activity(object):
         return '<{} ({})>'.format(self.__class__.__name__, id_)
 
     def show(self):
+        """Open a new browser tab to the d-portal.org page
+        for this dataset.
+        """
         url = 'http://d-portal.org/q.html?aid={}'.format(self.iati_identifier)
         webbrowser.open_new_tab(url)
 
@@ -92,60 +105,91 @@ class Activity(object):
 
     @property
     def xml(self):
+        """Return the raw XML of this activity, as a string."""
         return ET.tostring(self.etree)
 
     @property
     def iati_identifier(self):
+        """Return the iati-identifier for this activity,
+        or ``None`` if it isn't provided.
+        """
         id_ = self.schema.iati_identifier().run(self.etree)
         if len(id_) > 0:
             return id_[0].strip()
         return None
 
     @property
+    def id(self):
+        """Alias of ``iati_identifier``."""
+        return self.iati_identifier
+
+    @property
     def title(self):
+        """Return a list of titles for this activity."""
         return self.schema.title().run(self.etree)
 
     @property
     def description(self):
+        """Return a list of descriptions for this activity."""
         return self.schema.description().run(self.etree)
 
     @property
     def location(self):
+        """Return a list of locations for this activity."""
         return self.schema.location().run(self.etree)
 
     @property
     def sector(self):
+        """Return a list of sectors for this activity."""
         return self.schema.sector().run(self.etree)
 
     @property
     def planned_start(self):
+        """Return the planned start date for this activity,
+        as a python ``date``.
+        """
         date = self.schema.planned_start().run(self.etree)
         return date[0] if len(date) > 0 else None
 
     @property
     def actual_start(self):
+        """Return the actual start date for this activity,
+        as a python ``date``.
+        """
         date = self.schema.actual_start().run(self.etree)
         return date[0] if len(date) > 0 else None
 
     @property
-    def planned_end(self):
-        date = self.schema.planned_end().run(self.etree)
-        return date[0] if len(date) > 0 else None
-
-    @property
-    def actual_end(self):
-        date = self.schema.actual_end().run(self.etree)
-        return date[0] if len(date) > 0 else None
-
-    @property
     def start(self):
+        """Return the actual start date for this activity,
+        if present. Otherwise, return the planned start.
+        """
         start = self.actual_start
         if start:
             return start
         return self.planned_start
 
     @property
+    def planned_end(self):
+        """Return the planned end date for this activity,
+        as a python ``date``.
+        """
+        date = self.schema.planned_end().run(self.etree)
+        return date[0] if len(date) > 0 else None
+
+    @property
+    def actual_end(self):
+        """Return the actual end date for this activity,
+        as a python ``date``.
+        """
+        date = self.schema.actual_end().run(self.etree)
+        return date[0] if len(date) > 0 else None
+
+    @property
     def end(self):
+        """Return the actual end date for this activity,
+        if present. Otherwise, return the planned end.
+        """
         end = self.actual_end
         if end:
             return end

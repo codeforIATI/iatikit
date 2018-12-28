@@ -4,6 +4,20 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.5.1] – 2018-12-28
+
+### Added
+- Log a warning when dataset XML is invalid
+- Add some documentation in docs/ as well as some docstrings
+- Be more specific about exception handling (i.e. don’t use `except:`)
+- Add python 2.7 support
+- Start adding tests; Setup travis and coveralls
+
+### Changed
+- Make `dataset.root` less strict
+- metadata should return empty dict if file not found
+- Simplify some set operations
+
 ## [1.5.0] – 2018-12-27
 
 ### Added
