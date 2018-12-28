@@ -1,4 +1,4 @@
-from os.path import basename, splitext
+from os.path import basename, exists, splitext
 from glob import glob
 import json
 import logging
@@ -112,13 +112,13 @@ class Dataset(object):
     def metadata(self):
         """Return a dictionary of registry metadata for this dataset."""
         if self._metadata is None:
-            try:
+            if exists(self.metadata_path):
                 with open(self.metadata_path) as f:
                     self._metadata = json.load(f)
                 extras = self.metadata.get('extras')
                 self._metadata['extras'] = {x['key']: x['value']
                                             for x in extras}
-            except FileNotFoundError:
+            else:
                 msg = 'No metadata was found for dataset "{}"'
                 logging.warning(msg.format(self.name))
                 self._metadata = {}

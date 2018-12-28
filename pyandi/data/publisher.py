@@ -1,6 +1,6 @@
 import json
 import logging
-from os.path import basename, join
+from os.path import basename, exists, join
 from glob import glob
 import webbrowser
 
@@ -83,10 +83,10 @@ class Publisher(object):
     def metadata(self):
         """Return a dictionary of registry metadata for this publisher."""
         if self._metadata is None:
-            try:
+            if exists(self.metadata_filepath):
                 with open(self.metadata_filepath) as f:
                     self._metadata = json.load(f)
-            except FileNotFoundError:
+            else:
                 msg = 'No metadata was found for dataset "{}"'
                 logging.warning(msg.format(self.name))
                 self._metadata = {}
