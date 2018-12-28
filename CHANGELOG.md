@@ -4,11 +4,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Added
+- Deploy to pypi from travis ([#26](https://github.com/pwyf/pyandi/issues/26))
+
+### Changed
+- Move repo from andylolz to pwyf
+
 ## [1.5.1] – 2018-12-28
 
 ### Added
 - Log a warning when dataset XML is invalid
-- Add some documentation in docs/ as well as some docstrings
+- Add some documentation in docs/ as well as some docstrings ([#16](https://github.com/pwyf/pyandi/issues/16))
 - Be more specific about exception handling (i.e. don’t use `except:`)
 - Add python 2.7 support
 - Start adding tests; Setup travis and coveralls
@@ -21,7 +29,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.5.0] – 2018-12-27
 
 ### Added
-- Add a publisher metadata property
+- Add a publisher metadata property ([#17](https://github.com/pwyf/pyandi/issues/17))
 - Add `filter` as a synonym for `where`
 - Add show() function to Publisher, Dataset and Activity models
 - Add an `xpath` activity filter
@@ -43,7 +51,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Improved sector support ([#22](https://github.com/pwyf/pyandi/pull/22))
 
 ### Changed
-- Change internal representation of codelists
+- Change internal representation of codelists ([#20](https://github.com/pwyf/pyandi/issues/20))
 - Return python `date` objects for dates
 - Always strip IATI identifiers
 
@@ -99,7 +107,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `raw_xml` function added to dataset and activity
 - Expand key-value extras in dataset metadata
 - Add a filetype dataset filter
-- Add a warning about stale data
+- Add a warning about stale data ([#8](https://github.com/pwyf/pyandi/issues/8))
 - Add location, sector, title and description schema fields
 
 ### Changed
