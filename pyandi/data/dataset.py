@@ -120,6 +120,12 @@ class Dataset(object):
             return self.etree.getroot().get('version')
         except ET.XMLSyntaxError:
             pass
+
+        # try:
+        #     return self.metadata.get('extras').get('iati_version')
+        # except AttributeError:
+        #     pass
+
         return None
 
     @property
