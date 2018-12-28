@@ -29,21 +29,16 @@ class GenericSet(object):
         raise IndexError('index out of range')
 
     def __len__(self):
-        total = 0
-        for x in self:
-            total += 1
-        return total
+        return sum(1 for x in self)
 
     def count(self):
         return len(self)
 
     def first(self):
-        for first in self:
-            return first
-        raise IndexError('index out of range')
+        return self[0]
 
     def all(self):
-        return list(iter(self))
+        return list(self)
 
     def get(self, item, default=None):
         if type(item) is self._instance_class:
