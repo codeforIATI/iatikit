@@ -86,22 +86,29 @@ class Dataset(object):
 
     @property
     def metadata(self):
-        if not self._metadata:
-            with open(self.metadata_path) as f:
-                self._metadata = json.load(f)
-            self._metadata['extras'] = {x['key']: x['value']
-                                        for x in self.metadata.get('extras')}
+        if self._metadata is None:
+            try:
+                with open(self.metadata_path) as f:
+                    self._metadata = json.load(f)
+                extras = self.metadata.get('extras')
+                self._metadata['extras'] = {x['key']: x['value']
+                                            for x in extras}
+            except FileNotFoundError:
+                msg = 'No metadata was found for dataset "{}"'
+                logging.warning(msg.format(self.name))
+                self._metadata = {}
         return self._metadata
 
     @property
     def filetype(self):
         try:
             return self.metadata.get('extras').get('filetype')
-        except FileNotFoundError:
-            return {
-                'iati-activities': 'activity',
-                'iati-organisations': 'organisation',
-            }.get(self.root)
+        except AttributeError:
+            pass
+        return {
+            'iati-activities': 'activity',
+            'iati-organisations': 'organisation',
+        }.get(self.root)
 
     @property
     def root(self):
