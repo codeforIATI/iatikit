@@ -1,6 +1,7 @@
 from os.path import basename, splitext
 from glob import glob
 import json
+import logging
 import webbrowser
 
 from lxml import etree as ET
@@ -54,7 +55,12 @@ class Dataset(object):
     @property
     def etree(self):
         if not self._etree:
-            self._etree = ET.parse(self.data_path)
+            try:
+                self._etree = ET.parse(self.data_path)
+            except ET.XMLSyntaxError:
+                logging.warning('Dataset "{}" XML is invalid'.format(
+                    self.name))
+                raise
         return self._etree
 
     @property
