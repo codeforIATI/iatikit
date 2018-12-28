@@ -1,5 +1,5 @@
 from itertools import islice
-from .exceptions import OperationError, FilterError, NotFoundError
+from .exceptions import FilterError
 
 
 class GenericSet(object):
@@ -24,6 +24,9 @@ class GenericSet(object):
             return next(islice(self, index, index + 1))
         except TypeError:
             return list(islice(self, index.start, index.stop, index.step))
+        except StopIteration:
+            pass
+        raise IndexError('index out of range')
 
     def __len__(self):
         total = 0
@@ -37,7 +40,7 @@ class GenericSet(object):
     def first(self):
         for first in self:
             return first
-        raise NotFoundError
+        raise IndexError('index out of range')
 
     def all(self):
         return list(iter(self))
@@ -47,7 +50,7 @@ class GenericSet(object):
             item = getattr(item, self._key)
         try:
             return self.find(**{self._key: item})
-        except NotFoundError:
+        except IndexError:
             return default
 
     def find(self, **kwargs):
@@ -76,4 +79,4 @@ class GenericType(object):
                 expr=self.get(),
                 value=value,
             )
-        raise OperationError('Unknown operation: {}'.format(op))
+        raise FilterError('Unknown filter modifier: {}'.format(op))
