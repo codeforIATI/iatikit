@@ -20,6 +20,8 @@ class Registry(object):
         with the ``path`` argument.
 
         A warning is raised if the data is more than 7 days old.
+
+        A ``NoDataError`` is raised if there is no data.
         """
         self._last_updated = None
         if path:
@@ -27,7 +29,15 @@ class Registry(object):
         else:
             self.path = join('__pyandicache__', 'registry')
 
-        last_updated = self.last_updated
+        try:
+            last_updated = self.last_updated
+        except FileNotFoundError:
+            error_msg = 'Error: No data found! ' + \
+                        'Download a fresh data dump ' + \
+                        'using:\n\n   ' + \
+                        '>>> pyandi.download.data()\n'
+            raise NoDataError(error_msg)
+
         days_ago = (datetime.now() - last_updated).days
         if days_ago > 7:
             warning_msg = 'Warning: Data was last updated {} days ' + \
@@ -39,19 +49,10 @@ class Registry(object):
     @property
     def last_updated(self):
         """Return the datetime when the local cache was last updated.
-
-        Raise a ``FileNotFoundError`` if there is no data.
         """
         if not self._last_updated:
-            try:
-                with open(join(self.path, 'metadata.json')) as f:
-                    j = json.load(f)
-            except FileNotFoundError:
-                error_msg = 'Error: No data found! ' + \
-                            'Download a fresh data dump ' + \
-                            'using:\n\n   ' + \
-                            '>>> pyandi.download.data()\n'
-                raise NoDataError(error_msg)
+            with open(join(self.path, 'metadata.json')) as f:
+                j = json.load(f)
             last_updated = j['updated_at']
             self._last_updated = datetime.strptime(
                 last_updated, '%Y-%m-%dT%H:%M:%SZ')
