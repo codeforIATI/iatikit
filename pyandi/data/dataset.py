@@ -111,7 +111,7 @@ class Dataset(object):
     def version(self):
         try:
             return self.etree.getroot().get('version')
-        except:
+        except ET.XMLSyntaxError:
             pass
         return None
 
