@@ -7,11 +7,11 @@ pyandi
 .. image:: https://img.shields.io/pypi/l/pyandi.svg
     :target: https://pypi.org/project/pyandi/
 
-.. image:: https://travis-ci.org/andylolz/pyandi.svg?branch=master
-    :target: https://travis-ci.org/andylolz/pyandi
+.. image:: https://travis-ci.org/pwyf/pyandi.svg?branch=master
+    :target: https://travis-ci.org/pwyf/pyandi
 
-.. image:: https://coveralls.io/repos/github/andylolz/pyandi/badge.svg?branch=master
-    :target: https://coveralls.io/github/andylolz/pyandi?branch=master
+.. image:: https://coveralls.io/repos/github/pwyf/pyandi/badge.svg?branch=master
+    :target: https://coveralls.io/github/pwyf/pyandi?branch=master
 
 pyandi is a toolkit for using `IATI data <https://iatistandard.org/>`__. It includes a `query
 language <https://erikbern.com/2018/08/30/i-dont-want-to-learn-your-garbage-query-language.html>`__
@@ -37,10 +37,10 @@ Roadmap
 -------
 
 The `github issue
-tracker <https://github.com/andylolz/pyandi/issues>`__ will hopefully provide
+tracker <https://github.com/pwyf/pyandi/issues>`__ will hopefully provide
 some idea.
 
 License
 -------
 
-This work is `MIT licensed <https://github.com/andylolz/pyandi/blob/master/LICENSE.md>`__.
+This work is `MIT licensed <https://github.com/pwyf/pyandi/blob/master/LICENSE.md>`__.
