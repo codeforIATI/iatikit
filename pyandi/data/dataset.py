@@ -11,6 +11,13 @@ from .activity import ActivitySet
 
 
 class DatasetSet(GenericSet):
+    """Class representing a grouping of ``Dataset`` objects.
+
+    Objects in this grouping can be filtered and iterated over.
+    Queries are only constructed and run when needed, so they
+    can be efficient.
+    """
+
     def __init__(self, data_path, metadata_path, **kwargs):
         super(DatasetSet, self).__init__()
         self._key = 'name'
@@ -42,7 +49,14 @@ class DatasetSet(GenericSet):
 
 
 class Dataset(object):
+    """Class representing an IATI dataset."""
+
     def __init__(self, data_path, metadata_path):
+        """Construct a new Dataset object.
+
+        The file locations of the data and metadata must be specified with
+        the ``data_path`` and ``metadata_path`` arguments.
+        """
         self.data_path = data_path
         self.metadata_path = metadata_path
         self._etree = None
@@ -50,10 +64,12 @@ class Dataset(object):
 
     @property
     def name(self):
+        """Return the name of this dataset, derived from the filename."""
         return splitext(basename(self.data_path))[0]
 
     @property
     def etree(self):
+        """Return the XML of this dataset, as an lxml element tree."""
         if not self._etree:
             try:
                 self._etree = ET.parse(self.data_path)
@@ -65,18 +81,26 @@ class Dataset(object):
 
     @property
     def xml(self):
+        """Return the raw XML of this dataset, as a string."""
         return ET.tostring(self.etree)
 
     def __repr__(self):
         return '<{} ({})>'.format(self.__class__.__name__, self.name)
 
     def show(self):
+        """Open a new browser tab to the iatiregistry.org page
+        for this dataset.
+        """
         url = 'https://iatiregistry.org/dataset/{}'.format(
             self.name)
         webbrowser.open_new_tab(url)
 
     def is_valid(self):
-        # TODO: This currently just checks for valid XML
+        """Check whether the XML in this dataset is valid.
+
+        TODO: This could perform other checks, including validating
+        against a schema.
+        """
         try:
             if self.etree:
                 return True
@@ -86,6 +110,7 @@ class Dataset(object):
 
     @property
     def metadata(self):
+        """Return a dictionary of registry metadata for this dataset."""
         if self._metadata is None:
             try:
                 with open(self.metadata_path) as f:
@@ -101,6 +126,14 @@ class Dataset(object):
 
     @property
     def filetype(self):
+        """Return the filetype according to the metadata
+        (i.e. "activity" or "organisation").
+
+        If it can't be found in the metadata, revert to using
+        the XML root node.
+
+        Return ``None`` if the filetype can't be determined.
+        """
         try:
             return self.metadata.get('extras').get('filetype')
         except AttributeError:
@@ -112,10 +145,14 @@ class Dataset(object):
 
     @property
     def root(self):
+        """Return the name of the XML root node."""
         return self.etree.getroot().tag
 
     @property
     def version(self):
+        """Return the IATI version according to the XML,
+        or ``None`` if no version specified.
+        """
         try:
             return self.etree.getroot().get('version')
         except ET.XMLSyntaxError:
@@ -130,4 +167,5 @@ class Dataset(object):
 
     @property
     def activities(self):
+        """Return an iterator of all activities in this dataset."""
         return ActivitySet([self])

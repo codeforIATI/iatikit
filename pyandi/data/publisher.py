@@ -10,6 +10,13 @@ from .activity import ActivitySet
 
 
 class PublisherSet(GenericSet):
+    """Class representing a grouping of ``Publisher`` objects.
+
+    Objects in this grouping can be filtered and iterated over.
+    Queries are only constructed and run when needed, so they
+    can be efficient.
+    """
+
     def __init__(self, data_path, metadata_path, **kwargs):
         super(PublisherSet, self).__init__()
         self._wheres = kwargs
@@ -34,6 +41,8 @@ class PublisherSet(GenericSet):
 
 
 class Publisher(object):
+    """Class representing an IATI publisher."""
+
     def __init__(self, data_path, metadata_path, metadata_filepath):
         self.data_path = data_path
         self.metadata_path = metadata_path
@@ -42,28 +51,37 @@ class Publisher(object):
 
     @property
     def name(self):
+        """Return the "registry name" or "shortname" of this publisher,
+        derived from the filepath.
+        """
         return basename(self.data_path)
 
     def __repr__(self):
         return '<{} ({})>'.format(self.__class__.__name__, self.name)
 
     def show(self):
+        """Open a new browser tab to the iatiregistry.org page
+        for this publisher.
+        """
         url = 'https://iatiregistry.org/publisher/{}'.format(
             self.name)
         webbrowser.open_new_tab(url)
 
     @property
     def datasets(self):
+        """Return an iterator of all datasets for this publisher."""
         data_path = join(self.data_path, '*')
         metadata_path = join(self.metadata_path, '*')
         return DatasetSet(data_path, metadata_path)
 
     @property
     def activities(self):
+        """Return an iterator of all activities for this publisher."""
         return ActivitySet(self.datasets)
 
     @property
     def metadata(self):
+        """Return a dictionary of registry metadata for this publisher."""
         if self._metadata is None:
             try:
                 with open(self.metadata_filepath) as f:

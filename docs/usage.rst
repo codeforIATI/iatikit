@@ -12,12 +12,12 @@ pyandi uses a model that reflects IATI architecture.
        bgcolor="#fcfcfc";
 
        registry [label="Registry"];
-       publishers [label="Publishers", shape="box3d"];
+       publishers [label="PublisherSet", shape="box3d"];
        publisher [label="Publisher"];
-       datasets [label="Datasets", shape="box3d"];
+       datasets [label="DatasetSet", shape="box3d"];
        dataset [label="Dataset"];
-       activities [label="Activities", shape="box3d"];
-       organisations [label="Organisations", shape="box3d"];
+       activities [label="ActivitySet", shape="box3d"];
+       organisations [label="OrganisationSet", shape="box3d"];
 
        registry -> publishers -> publisher -> datasets -> dataset;
 
