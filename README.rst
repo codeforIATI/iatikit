@@ -31,13 +31,14 @@ Installation
 Documentation
 -------------
 
-Refer to `pyandi.readthedocs.io <https://pyandi.readthedocs.io>`__.
+Check out `Read the Docs <https://pyandi.readthedocs.io>`__!
 
 Roadmap
 -------
 
-Check `the github issue
-tracker <https://github.com/andylolz/pyandi/issues>`__.
+The `github issue
+tracker <https://github.com/andylolz/pyandi/issues>`__ will hopefully provide
+some idea.
 
 License
 -------
