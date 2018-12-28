@@ -2,6 +2,7 @@ import webbrowser
 
 from ..standard.schema import get_schema
 from ..utils.abstract import GenericSet
+from ..utils.exceptions import SchemaError
 from ..utils.querybuilder import XPathQueryBuilder
 
 from lxml import etree as ET
@@ -40,7 +41,7 @@ class ActivitySet(GenericSet):
                 continue
             try:
                 schema = get_schema(dataset.filetype, dataset.version)
-            except:
+            except SchemaError:
                 continue
             prefix = '//' + self._element
             query = XPathQueryBuilder(
@@ -66,7 +67,7 @@ class ActivitySet(GenericSet):
                 continue
             try:
                 schema = get_schema(dataset.filetype, dataset.version)
-            except:
+            except SchemaError:
                 continue
             activity_etrees = dataset.etree.xpath(self._query(schema))
             for tree in activity_etrees:
