@@ -10,6 +10,9 @@ class ActivitySchema101(object):
     def xpath(self):
         return XPathType('')
 
+    def id(self):
+        return self.iati_identifier()
+
     def iati_identifier(self):
         return StringType('iati-identifier/text()')
 

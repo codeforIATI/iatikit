@@ -12,7 +12,7 @@ class ActivitySet(GenericSet):
         super(ActivitySet, self).__init__()
         self._key = 'iati_identifier'
         self._filters = [
-            'iati_identifier', 'title', 'description',
+            'id', 'iati_identifier', 'title', 'description',
             'location', 'sector', 'planned_start',
             'actual_start', 'planned_end', 'actual_end',
             'xpath',
@@ -100,6 +100,10 @@ class Activity(object):
         if len(id_) > 0:
             return id_[0].strip()
         return None
+
+    @property
+    def id(self):
+        return self.iati_identifier
 
     @property
     def title(self):
