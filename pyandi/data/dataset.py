@@ -95,7 +95,13 @@ class Dataset(object):
 
     @property
     def filetype(self):
-        return self.metadata.get('extras').get('filetype')
+        try:
+            return self.metadata.get('extras').get('filetype')
+        except FileNotFoundError:
+            return {
+                'iati-activities': 'activity',
+                'iati-organisations': 'organisation',
+            }.get(self.root)
 
     @property
     def root(self):
