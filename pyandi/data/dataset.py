@@ -99,10 +99,7 @@ class Dataset(object):
 
     @property
     def root(self):
-        roottag = self.etree.getroot().tag
-        if roottag in ['iati-activities', 'iati-organisations']:
-            return roottag
-        return None
+        return self.etree.getroot().tag
 
     @property
     def version(self):
