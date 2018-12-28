@@ -24,6 +24,10 @@ The name is a homage to its predecessor,
 Installation
 ------------
 
+pyandi is tested for python 2.7, 3.5 and 3.6.
+
+You can install it using ``pip``:
+
 .. code:: shell
 
     pip install pyandi
@@ -39,6 +43,21 @@ Roadmap
 The `github issue
 tracker <https://github.com/pwyf/pyandi/issues>`__ will hopefully provide
 some idea.
+
+Development
+-----------
+
+You can set up a local version by creating a virtualenv and running:
+
+.. code:: shell
+
+    pip install -r requirements_dev.txt
+
+You can run tests with:
+
+.. code:: shell
+
+    tox
 
 License
 -------
