@@ -37,22 +37,33 @@ class TestRegistry(TestCase):
 
     @freeze_time("2015-12-02")
     def test_publishers(self):
+        publisher_names = ['fixture-org', 'old-org']
         registry = Registry(self.registry_path)
         publishers = registry.publishers
-        assert len(publishers) == 1
-        assert publishers[0].name == 'fixture-org'
+        assert len(publishers) == 2
+        assert publishers[0].name in publisher_names
 
     @freeze_time("2015-12-02")
     def test_datasets(self):
+        dataset_names = [
+            'fixture-org-activities',
+            'fixture-org-org',
+            'old-org-acts',
+        ]
         registry = Registry(self.registry_path)
         datasets = registry.datasets
-        assert len(datasets) == 2
+        assert len(datasets) == 3
         for x in datasets:
-            assert x.name in ['fixture-org-activities', 'fixture-org-org']
+            assert x.name in dataset_names
 
     @freeze_time("2015-12-02")
     def test_activities(self):
+        activity_dataset_names = [
+            'fixture-org-activities',
+            'old-org-acts',
+        ]
         registry = Registry(self.registry_path)
         activities = registry.activities
-        assert len(activities) == 1
-        assert activities[0].version == '2.03'
+        assert len(activities) == 3
+        for activity in activities:
+            assert activity.dataset.name in activity_dataset_names
