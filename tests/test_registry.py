@@ -9,6 +9,7 @@ import pytest
 
 from pyandi.data.registry import Registry
 from pyandi.utils.exceptions import NoDataError
+import pyandi.data
 
 
 class TestNoData(TestCase):
@@ -67,3 +68,8 @@ class TestRegistry(TestCase):
         assert len(activities) == 3
         for activity in activities:
             assert activity.dataset.name in activity_dataset_names
+
+    @freeze_time("2015-12-02")
+    def test_shortcut(self):
+        registry = pyandi.data(self.registry_path)
+        assert(len(registry.datasets)) == 3
