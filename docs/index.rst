@@ -10,8 +10,8 @@ Welcome to pyandi's documentation!
 
 pyandi is a toolkit for using `IATI data <https://iatistandard.org/>`__. It includes a `query
 language <https://erikbern.com/2018/08/30/i-dont-want-to-learn-your-garbage-query-language.html>`__
-wrapper around `XPath <https://en.wikipedia.org/wiki/XPath>`__, with
-some IATI-related helpers included.
+wrapper around `XPath <https://en.wikipedia.org/wiki/XPath>`__,
+to make dealing with disparate IATI versions easier.
 
 The name is a homage to its predecessor,
 `pyIATI <https://github.com/IATI/pyIATI>`__.
