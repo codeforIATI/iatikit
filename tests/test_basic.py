@@ -24,7 +24,7 @@ class TestNoData(TestCase):
 
 class TestRegistry(TestCase):
     def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+        super(TestRegistry, self).__init__(*args, **kwargs)
         self.registry_path = join(dirname(abspath(__file__)),
                                   'fixtures', 'registry')
 
