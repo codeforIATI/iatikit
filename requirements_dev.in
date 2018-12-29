@@ -7,3 +7,4 @@ tox
 pytest
 pytest-cov
 coveralls
+freezegun
