@@ -39,3 +39,16 @@ class TestPublishers(TestCase):
         publisher_names = ['fixture-org', 'old-org']
         assert self.publishers[0].name in publisher_names
         assert self.publishers[1].name in publisher_names
+
+    def test_publisher_from_publishers(self):
+        fixture_org = self.publishers.get('fixture-org')
+        assert fixture_org.name == 'fixture-org'
+        assert fixture_org.datasets.count() == 2
+        assert fixture_org.metadata.get(
+            'publisher_iati_id') == 'GB-COH-01234567'
+
+        old_org = self.publishers.get('old-org')
+        assert old_org.name == 'old-org'
+        assert old_org.datasets.count() == 1
+        assert old_org.metadata.get(
+            'publisher_iati_id') == 'NL-CHC-98765'
