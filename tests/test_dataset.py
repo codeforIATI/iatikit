@@ -31,22 +31,3 @@ class TestDatasets(TestCase):
         org_datasets = self.org_datasets.where(name='fixture-org-org').all()
         assert len(org_datasets) == 1
         assert org_datasets[0].name == 'fixture-org-org'
-
-    def test_datasets_get(self):
-        org_dataset = self.org_datasets.get('fixture-org-org')
-        assert org_dataset.name == 'fixture-org-org'
-
-    def test_datasets_get_unknown(self):
-        unknown_dataset = self.org_datasets.get('unknown')
-        assert unknown_dataset is None
-
-    def test_datasets_find(self):
-        org_dataset = self.org_datasets.find(name='fixture-org-org')
-        assert org_dataset.name == 'fixture-org-org'
-
-    def test_datasets_not_found(self):
-        with pytest.raises(IndexError):
-            self.org_datasets.find(name='not-a-dataset')
-
-    def test_datasets_count(self):
-        assert self.org_datasets.count() == 2
