@@ -1,7 +1,7 @@
 from os.path import abspath, dirname, join
 from unittest import TestCase
-from unittest.mock import patch
 
+from mock import patch
 import pytest
 
 from pyandi.data.publisher import PublisherSet, Publisher
