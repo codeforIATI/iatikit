@@ -33,5 +33,41 @@ class TestGenericSet(TestCase):
         with pytest.raises(IndexError):
             self.registry.datasets.find(name='not-a-dataset')
 
+    def test_set_first(self):
+        first_dataset = self.registry.datasets.first()
+        zero_index_dataset = self.registry.datasets[0]
+        assert first_dataset.name == zero_index_dataset.name
+
     def test_set_count(self):
-        assert self.registry.datasets.count() == 3
+        datasets = self.registry.datasets
+        assert datasets.count() == 3
+
+    def test_set_all(self):
+        dataset_names = [
+            'fixture-org-activities',
+            'fixture-org-org',
+            'old-org-acts',
+        ]
+        datasets = self.registry.datasets.all()
+        assert type(datasets) is list
+        assert len(datasets) == 3
+        for x in datasets:
+            assert x.name in dataset_names
+
+    def test_set_filter_chaining(self):
+        act_datasets = self.registry.datasets.filter(filetype='activity')
+        no_datasets = act_datasets.filter(name='fixture-org-org')
+        assert no_datasets.count() == 0
+
+        org_datasets = self.registry.datasets.filter(filetype='organisation')
+        org_dataset = org_datasets.filter(name='fixture-org-org')
+        assert org_dataset.count() == 1
+
+    def test_set_where_chaining(self):
+        act_datasets = self.registry.datasets.where(filetype='activity')
+        no_datasets = act_datasets.where(name='fixture-org-org')
+        assert no_datasets.count() == 0
+
+        org_datasets = self.registry.datasets.where(filetype='organisation')
+        org_dataset = org_datasets.where(name='fixture-org-org')
+        assert org_dataset.count() == 1

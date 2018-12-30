@@ -95,7 +95,7 @@ class TestPublisher(TestCase):
 
     def test_activities(self):
         assert self.old_org.activities.count() == 2
-        old_org_activity = self.old_org.activities.first()
+        old_org_activity = self.old_org.activities[0]
         assert old_org_activity.id == 'NL-CHC-98765-NL-CHC-98765-XX0D9001'
 
     def test_metadata(self):
