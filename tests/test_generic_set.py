@@ -40,17 +40,18 @@ class TestGenericSet(TestCase):
 
     def test_set_count(self):
         datasets = self.registry.datasets
-        assert datasets.count() == 3
+        assert datasets.count() == 4
 
     def test_set_all(self):
         dataset_names = [
             'fixture-org-activities',
+            'fixture-org-activities2',
             'fixture-org-org',
             'old-org-acts',
         ]
         datasets = self.registry.datasets.all()
         assert type(datasets) is list
-        assert len(datasets) == 3
+        assert len(datasets) == 4
         for x in datasets:
             assert x.name in dataset_names
 

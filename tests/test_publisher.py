@@ -50,7 +50,7 @@ class TestPublishers(TestCase):
     def test_publisher_from_publishers(self):
         fixture_org = self.publishers.get('fixture-org')
         assert fixture_org.name == 'fixture-org'
-        assert fixture_org.datasets.count() == 2
+        assert fixture_org.datasets.count() == 3
         assert fixture_org.metadata.get(
             'publisher_iati_id') == 'GB-COH-01234567'
 

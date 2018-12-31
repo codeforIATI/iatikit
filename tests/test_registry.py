@@ -48,12 +48,13 @@ class TestRegistry(TestCase):
     def test_datasets(self):
         dataset_names = [
             'fixture-org-activities',
+            'fixture-org-activities2',
             'fixture-org-org',
             'old-org-acts',
         ]
         registry = Registry(self.registry_path)
         datasets = registry.datasets
-        assert len(datasets) == 3
+        assert len(datasets) == 4
         for x in datasets:
             assert x.name in dataset_names
 
@@ -61,15 +62,16 @@ class TestRegistry(TestCase):
     def test_activities(self):
         activity_dataset_names = [
             'fixture-org-activities',
+            'fixture-org-activities2',
             'old-org-acts',
         ]
         registry = Registry(self.registry_path)
         activities = registry.activities
-        assert len(activities) == 3
+        assert len(activities) == 6
         for activity in activities:
             assert activity.dataset.name in activity_dataset_names
 
     @freeze_time("2015-12-02")
     def test_shortcut(self):
         registry = pyandi.data(self.registry_path)
-        assert(len(registry.datasets)) == 3
+        assert(len(registry.datasets)) == 4

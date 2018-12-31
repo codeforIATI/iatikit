@@ -20,11 +20,11 @@ class TestDatasets(TestCase):
 
     def test_datasets_iter(self):
         dataset_list = list(self.org_datasets)
-        assert len(dataset_list) == 2
+        assert len(dataset_list) == 3
 
     def test_datasets_filter_by_filetype(self):
         act_datasets = self.org_datasets.where(filetype='activity').all()
-        assert len(act_datasets) == 1
+        assert len(act_datasets) == 2
         assert act_datasets[0].name == 'fixture-org-activities'
 
     def test_datasets_filter_by_name(self):

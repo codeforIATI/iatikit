@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<iati-activities version="1.05" generated-datetime="2016-01-12T15:17:15">
+  <iati-activity default-currency="GBP" last-updated-datetime="2016-01-12T15:17:15">
+    <title>Humanitarian Aid - Implementor 1</title>
+    <description/>
+    <participating-org role="Funding" ref="FO">Big Funding Organisation</participating-org>
+    <participating-org role="Extending" ref="GB-COH-01234567">Fixture Organisation</participating-org>
+    <participating-org role="Implementing" ref="1">Implementer 1</participating-org>
+    <iati-identifier>GB-COH-01234567-Humanitarian Aid-0</iati-identifier>
+    <collaboration-type code="1">Bilateral</collaboration-type>
+    <default-flow-type code="10">ODA</default-flow-type>
+    <default-finance-type code="110">Standard grant</default-finance-type>
+    <default-aid-type code="C01">Project-type interventions</default-aid-type>
+    <default-tied-status code="5">Untied</default-tied-status>
+    <sector code="73010">Reconstruction relief and rehabilitation</sector>
+    <recipient-country code="CF">Central African Republic</recipient-country>
+    <transaction>
+      <transaction-type code="D">Disbursement</transaction-type>
+      <transaction-date iso-date="2013-12-31"/>
+      <value currency="GBP" value-date="2013-12-31">200000.0</value>
+    </transaction>
+    <transaction>
+      <transaction-type code="C">Commitment</transaction-type>
+      <transaction-date iso-date="2014-01-01"/>
+      <value currency="GBP" value-date="2013-12-31">200000.0</value>
+    </transaction>
+  </iati-activity>
+  <iati-activity default-currency="GBP" last-updated-datetime="2016-01-12T15:17:15">
+    <title>Humanitarian Aid - Implementer 2</title>
+    <description/>
+    <participating-org role="Funding" ref="FO">Big Funding Organisation</participating-org>
+    <participating-org role="Extending" ref="GB-COH-01234567">Fixture Organisation</participating-org>
+    <participating-org role="Implementing" ref="2">Implementer 2</participating-org>
+    <iati-identifier>GB-COH-01234567-Humanitarian Aid-1</iati-identifier>
+    <collaboration-type code="1">Bilateral</collaboration-type>
+    <default-flow-type code="10">ODA</default-flow-type>
+    <default-finance-type code="110">Standard grant</default-finance-type>
+    <default-aid-type code="C01">Project-type interventions</default-aid-type>
+    <default-tied-status code="5">Untied</default-tied-status>
+    <sector code="73010">Reconstruction relief and rehabilitation</sector>
+    <recipient-country code="PH">Philippines</recipient-country>
+    <transaction>
+      <transaction-type code="D">Disbursement</transaction-type>
+      <transaction-date iso-date="2013-12-31"/>
+      <value currency="GBP" value-date="2013-12-31">166275.0</value>
+    </transaction>
+    <transaction>
+      <transaction-type code="C">Commitment</transaction-type>
+      <transaction-date iso-date="2014-01-01"/>
+      <value currency="GBP" value-date="2013-12-31">166275.0</value>
+    </transaction>
+  </iati-activity>
+  <iati-activity default-currency="GBP" last-updated-datetime="2016-01-12T15:17:15">
+    <title>Humanitarian Aid - Implementer 3</title>
+    <description/>
+    <participating-org role="Funding" ref="FO">Big Funding Organisation</participating-org>
+    <participating-org role="Extending" ref="GB-COH-01234567">Fixture Organisation</participating-org>
+    <participating-org role="Implementing" ref="3">Implementer 3</participating-org>
+    <iati-identifier>GB-COH-01234567-Humanitarian Aid-2</iati-identifier>
+    <collaboration-type code="1">Bilateral</collaboration-type>
+    <default-flow-type code="10">ODA</default-flow-type>
+    <default-finance-type code="110">Standard grant</default-finance-type>
+    <default-aid-type code="C01">Project-type interventions</default-aid-type>
+    <default-tied-status code="5">Untied</default-tied-status>
+    <sector code="73010">Reconstruction relief and rehabilitation</sector>
+    <recipient-country code="PH">Philippines</recipient-country>
+    <transaction>
+      <transaction-type code="D">Disbursement</transaction-type>
+      <transaction-date iso-date="2013-12-31"/>
+      <value currency="GBP" value-date="2013-12-31">150000.0</value>
+    </transaction>
+    <transaction>
+      <transaction-type code="C">Commitment</transaction-type>
+      <transaction-date iso-date="2014-01-01"/>
+      <value currency="GBP" value-date="2013-12-31">150000.0</value>
+    </transaction>
+  </iati-activity>
+</iati-activities>
