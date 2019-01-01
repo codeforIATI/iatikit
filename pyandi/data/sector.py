@@ -2,8 +2,8 @@ from ..standard.codelist import CodelistSet, CodelistItem
 
 
 class Sector(object):
-    def __init__(self, code, vocabulary=None, percentage=None):
-        codelists = CodelistSet()
+    def __init__(self, code, vocabulary=None, percentage=None, path=None):
+        codelists = CodelistSet(path)
 
         if percentage is not None:
             self.percentage = float(percentage)
