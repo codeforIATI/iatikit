@@ -30,7 +30,7 @@ class DateType(GenericType):
             return 'number(translate({expr}, "-", "")) {op} {value}'.format(
                 expr=self.get(),
                 op=operator,
-                value=value.replace('-', ''),
+                value=str(value).replace('-', ''),
             )
         return super(DateType, self).where(op, value)
 
