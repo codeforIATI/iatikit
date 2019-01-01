@@ -3,6 +3,7 @@
   <iati-activity default-currency="GBP" last-updated-datetime="2016-01-12T15:17:15">
     <title>Humanitarian Aid - Implementor 1</title>
     <description/>
+    <activity-status code="2"/>
     <participating-org role="Funding" ref="FO">Big Funding Organisation</participating-org>
     <participating-org role="Extending" ref="GB-COH-01234567">Fixture Organisation</participating-org>
     <participating-org role="Implementing" ref="1">Implementer 1</participating-org>
@@ -28,6 +29,7 @@
   <iati-activity default-currency="GBP" last-updated-datetime="2016-01-12T15:17:15">
     <title>Humanitarian Aid - Implementer 2</title>
     <description/>
+    <activity-status code="3"/>
     <participating-org role="Funding" ref="FO">Big Funding Organisation</participating-org>
     <participating-org role="Extending" ref="GB-COH-01234567">Fixture Organisation</participating-org>
     <participating-org role="Implementing" ref="2">Implementer 2</participating-org>
@@ -53,6 +55,7 @@
   <iati-activity default-currency="GBP" last-updated-datetime="2016-01-12T15:17:15">
     <title>Humanitarian Aid - Implementer 3</title>
     <description/>
+    <activity-status code="3"/>
     <participating-org role="Funding" ref="FO">Big Funding Organisation</participating-org>
     <participating-org role="Extending" ref="GB-COH-01234567">Fixture Organisation</participating-org>
     <participating-org role="Implementing" ref="3">Implementer 3</participating-org>
