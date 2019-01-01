@@ -4,6 +4,7 @@ from unittest import TestCase
 
 from pyandi.data.dataset import DatasetSet
 from pyandi.data.activity import ActivitySet
+from pyandi import Sector
 
 
 class TestActivitySet(TestCase):
@@ -48,9 +49,17 @@ class TestActivitySet(TestCase):
         assert len(acts) == 1
         assert acts[0].iati_identifier == 'GB-COH-01234567-1'
 
-    def test_activities_filter_by_description_contains(self):
+    def test_activities_filter_by_description(self):
+        description = 'Just a short description.'
         acts = self.fixture_org_acts.where(
-            description__contains='bibendum tortor at orci').all()
+            description=description).all()
+        assert len(acts) == 1
+        assert acts[0].iati_identifier == 'GB-COH-01234567-Humanitarian Aid-1'
+
+    def test_activities_filter_by_sector(self):
+        sector = Sector('15163', vocabulary='DAC')
+        acts = self.fixture_org_acts.where(
+            sector=sector).all()
         assert len(acts) == 1
         assert acts[0].iati_identifier == 'GB-COH-01234567-1'
 

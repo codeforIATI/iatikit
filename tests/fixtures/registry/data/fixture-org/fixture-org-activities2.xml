@@ -28,7 +28,7 @@
   </iati-activity>
   <iati-activity default-currency="GBP" last-updated-datetime="2016-01-12T15:17:15">
     <title>Humanitarian Aid - Implementer 2</title>
-    <description/>
+    <description>Just a short description.</description>
     <activity-status code="3"/>
     <participating-org role="Funding" ref="FO">Big Funding Organisation</participating-org>
     <participating-org role="Extending" ref="GB-COH-01234567">Fixture Organisation</participating-org>
