@@ -9,4 +9,3 @@ pytest
 pytest-cov
 coveralls
 freezegun
-six

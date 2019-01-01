@@ -1,15 +1,12 @@
-from filecmp import dircmp
 from io import BytesIO
 import os
 from os.path import abspath, dirname, join
 import shutil
-import sys
 import tempfile
 from unittest import TestCase
 import zipfile
 
 from mock import patch
-from six import StringIO
 
 from pyandi.utils import download
 
@@ -37,27 +34,25 @@ class TestDownloadData(TestCase):
     def setUp(self):
         self.data_path = tempfile.mkdtemp(dir=dirname(abspath(__file__)))
 
-    def compare(self, first, second):
-        comp = dircmp(first, second)
-        _stdout = sys.stdout
-        _stringio = StringIO()
-        sys.stdout = _stringio
-        comp.report_full_closure()
-        sys.stdout = _stdout
-        _stringio.seek(0)
-        report = _stringio.read()
-        del _stringio
-        return report
-
     @patch('requests.get', MockRequest)
     def test_download_data(self):
+        def list_files(path):
+            all_files = []
+            for root, _, files in os.walk(path):
+                for file in files:
+                    all_files.append(join(root, file)[len(path):])
+            return all_files
+
         registry_path = join(dirname(abspath(__file__)),
                              'fixtures', 'registry')
         download.data(self.data_path)
-        report = self.compare(registry_path, self.data_path)
 
-        assert 'Only in' not in report
-        assert 'Differing files' not in report
+        source_files = list_files(registry_path)
+        dest_files = list_files(self.data_path)
+
+        assert len(source_files) == len(dest_files)
+        for x in dest_files:
+            assert x in source_files
 
     def tearDown(self):
         shutil.rmtree(self.data_path, ignore_errors=True)
