@@ -11,7 +11,7 @@ setup(
     url='https://pyandi.readthedocs.io',
     author='Andy Lulham',
     author_email='a.lulham@gmail.com',
-    version='1.5.2',
+    version='1.5.3',
     packages=find_packages(),
     license='MIT',
     keywords='IATI',
