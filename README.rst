@@ -59,6 +59,11 @@ You can run tests with:
 
     tox
 
+Deployment
+----------
+
+pyandi is `deployed to pypi <https://pypi.org/project/pyandi/>`__ automatically `by Travis <https://travis-ci.org/pwyf/pyandi>`__, whenever a new `tag is pushed to github <https://github.com/pwyf/pyandi/tags>`__.
+
 License
 -------
 
