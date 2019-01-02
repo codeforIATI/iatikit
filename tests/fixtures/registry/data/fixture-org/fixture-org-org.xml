@@ -1,0 +1,29 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<iati-organisations version="2.03" generated-datetime="2018-10-23T22:27:45">
+  <iati-organisation last-updated-datetime="2018-10-23T22:27:45" default-currency="GBP" xml:lang="en">
+    <organisation-identifier>GB-COH-01234567</organisation-identifier>
+    <name>
+      <narrative>Fixture Organisation</narrative>
+    </name>
+    <reporting-org ref="GB-COH-01234567" type="21">
+      <narrative>Fixture Organisation</narrative>
+    </reporting-org>
+    <total-budget status="2">
+      <period-start iso-date="2015-10-01"/>
+      <period-end iso-date="2016-09-30"/>
+      <value value-date="2015-10-01">500000.00</value>
+    </total-budget>
+    <total-expenditure>
+      <period-start iso-date="2014-10-01"/>
+      <period-end iso-date="2015-09-30"/>
+      <value value-date="2014-10-01">600000.00</value>
+    </total-expenditure>
+    <document-link url="http://www.fixture.org/3-year-strategy.pdf" format="application/pdf">
+      <title>
+        <narrative>Three year strategy: January 2018 – December 2021</narrative>
+      </title>
+      <category code="B02"/>
+      <document-date iso-date="2018-01-01"/>
+    </document-link>
+  </iati-organisation>
+</iati-organisations>

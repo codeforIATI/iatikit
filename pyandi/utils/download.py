@@ -1,5 +1,5 @@
 from collections import OrderedDict
-import csv
+import unicodecsv as csv
 import json
 from os.path import join
 from os import makedirs, unlink as _unlink
@@ -89,7 +89,7 @@ def codelists(path=None):
         if version in very_old_versions:
             r = requests.get(very_old_codelists_url)
             codelists = [x['name'] for x in csv.DictReader(
-                [x.decode() for x in r.iter_lines()])]
+                [x for x in r.iter_lines()])]
         elif version in old_versions:
             j = requests.get(old_codelists_url).json()
             codelists = [x['name'] for x in j['codelist']]
@@ -119,14 +119,14 @@ def codelists(path=None):
                     codelist_name=codelist_name)
                 r = requests.get(codelist_url)
                 codes = list(csv.DictReader(
-                    [x.decode() for x in r.iter_lines()]))
+                    [x for x in r.iter_lines()]))
                 version_codelist = {'data': codes}
             elif version in old_versions:
                 codelist_url = old_codelist_tmpl.format(
                     codelist_name=codelist_name)
                 r = requests.get(codelist_url)
                 codes = list(csv.DictReader(
-                    [x.decode() for x in r.iter_lines()]))
+                    [x for x in r.iter_lines()]))
                 version_codelist = {'data': codes}
             else:
                 codelist_url = new_codelist_tmpl.format(

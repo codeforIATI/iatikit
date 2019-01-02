@@ -4,7 +4,9 @@ Getting started
 Installation
 ------------
 
-You can install pyandi using ``pip``:
+pyandi is tested for python 2.7, 3.5 and 3.6.
+
+You can install it using ``pip``:
 
 .. code:: shell
 

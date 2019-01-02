@@ -26,7 +26,9 @@ class GenericSet(object):
         return self
 
     def filter(self, **kwargs):
-        """Alias of ``where(**kwargs)``.
+        """Return a new set, with the filters provided in ``**kwargs``.
+
+        Alias of ``where(**kwargs)``.
         """
         return self.where(**kwargs)
 

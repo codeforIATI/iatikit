@@ -1,0 +1,54 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<iati-activities version="2.03" generated-datetime="2018-10-24T22:51:42">
+  <iati-activity last-updated-datetime="2018-10-24T22:51:42" default-currency="GBP">
+    <iati-identifier>GB-COH-01234567-1</iati-identifier>
+    <reporting-org ref="GB-COH-01234567" type="21">
+      <narrative>Fixture Organisation</narrative>
+    </reporting-org>
+    <title>
+      <narrative>Development work</narrative>
+    </title>
+    <description>
+      <narrative>Lorem ipsum dolor sit amet consectetur adipiscing elit elementum class maecenas dis libero, bibendum tortor at orci rhoncus curabitur pulvinar mus netus aliquam turpis. Sed potenti sapien taciti ante vulputate praesent platea vel urna commodo curabitur, odio mauris eget tincidunt arcu gravida libero eleifend semper. Pharetra penatibus elementum natoque a quisque condimentum suspendisse curabitur rutrum, tempor mollis ullamcorper cum fames mus semper.</narrative>
+    </description>
+    <participating-org role="1" ref="GB-CHC-9999999" type="60">
+      <narrative>Funding Organisation</narrative>
+    </participating-org>
+    <participating-org role="4" ref="GB-COH-01234567" type="21">
+      <narrative>Fixture Organisation</narrative>
+    </participating-org>
+    <participating-org role="3" ref="GB-COH-01234567" type="21">
+      <narrative>Fixture Organisation</narrative>
+    </participating-org>
+    <activity-status code="2"/>
+    <activity-date type="1" iso-date="2011-11-01"/>
+    <activity-date type="2" iso-date="2011-10-01"/>
+    <activity-date type="3" iso-date="2019-09-30"/>
+    <contact-info>
+      <organisation>
+        <narrative>Fixture Organisation</narrative>
+      </organisation>
+      <person-name>
+        <narrative>Steve Bobbins</narrative>
+      </person-name>
+      <telephone>+44 20 3123 4567</telephone>
+      <email>no-reply@fixture.org</email>
+      <website>http://www.fixture.org</website>
+    </contact-info>
+    <recipient-region code="998"/>
+    <sector code="15163" vocabulary="1"/>
+    <default-flow-type code="30"/>
+    <default-aid-type code="C01"/>
+    <transaction ref="9687">
+      <transaction-type code="4"/>
+      <transaction-date iso-date="2015-07-21"/>
+      <value value-date="2015-07-21">171.19</value>
+      <description>
+        <narrative>Fixture payment</narrative>
+      </description>
+      <sector code="62650" vocabulary="99">
+        <narrative>Fixture Costs</narrative>
+      </sector>
+    </transaction>
+  </iati-activity>
+</iati-activities>

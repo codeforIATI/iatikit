@@ -4,6 +4,8 @@ sphinx
 sphinx_rtd_theme
 
 tox
+mock
 pytest
 pytest-cov
 coveralls
+freezegun
