@@ -26,3 +26,15 @@ Contents:
    usage
    examples
    api
+
+.. image:: https://img.shields.io/pypi/v/pyandi.svg
+    :target: https://pypi.org/project/pyandi/
+
+.. image:: https://img.shields.io/pypi/l/pyandi.svg
+    :target: https://pypi.org/project/pyandi/
+
+.. image:: https://travis-ci.org/pwyf/pyandi.svg?branch=master
+    :target: https://travis-ci.org/pwyf/pyandi
+
+.. image:: https://img.shields.io/coveralls/github/pwyf/pyandi/master.svg
+    :target: https://coveralls.io/github/pwyf/pyandi?branch=master
