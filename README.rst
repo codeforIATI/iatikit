@@ -10,7 +10,7 @@ pyandi
 .. image:: https://travis-ci.org/pwyf/pyandi.svg?branch=master
     :target: https://travis-ci.org/pwyf/pyandi
 
-.. image:: https://coveralls.io/repos/github/pwyf/pyandi/badge.svg?branch=master
+.. image:: https://img.shields.io/coveralls/github/pwyf/pyandi/master.svg
     :target: https://coveralls.io/github/pwyf/pyandi?branch=master
 
 pyandi is a toolkit for using `IATI data <https://iatistandard.org/>`__. It includes a `query
