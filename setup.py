@@ -1,9 +1,14 @@
 from setuptools import setup, find_packages
-from os.path import join, dirname
+from os.path import abspath, dirname, join
 
 
-with open(join(dirname(__file__), 'README.rst')) as f:
+path = abspath(dirname(__file__))
+with open(join(path, 'README.rst')) as f:
     readme = f.read()
+
+data = {}
+with open(join(path, 'pyandi', '__version__.py')) as f:
+    exec(f.read(), data)
 
 setup(
     name='pyandi',
@@ -11,7 +16,7 @@ setup(
     url='https://pyandi.readthedocs.io',
     author='Andy Lulham',
     author_email='a.lulham@gmail.com',
-    version='1.5.3',
+    version=data.get('__version__'),
     packages=find_packages(),
     license='MIT',
     keywords='IATI',
