@@ -4,6 +4,7 @@ from unittest import TestCase
 
 from mock import patch
 from lxml import etree as ET
+import pytest
 
 from pyandi.data.dataset import DatasetSet, Dataset
 from pyandi.data.activity import ActivitySet, Activity
@@ -76,6 +77,11 @@ class TestActivitySet(TestCase):
         acts = self.fixture_org_acts.where(
             sector__in=sector).all()
         assert len(acts) == 1
+
+    def test_activities_filter_by_bad_sector_in(self):
+        err_msg = 'bad-sector-cat is not a sector category'
+        with pytest.raises(Exception, message=err_msg):
+            self.fixture_org_acts.where(sector__in='bad-sector-cat').all()
 
     def test_activities_filter_by_sector_exists(self):
         acts = self.fixture_org_acts.where(
