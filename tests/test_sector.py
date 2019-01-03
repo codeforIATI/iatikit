@@ -6,7 +6,8 @@ import pytest
 from pyandi import Sector
 from pyandi.standard.codelist import Codelist
 from pyandi.utils.exceptions import UnknownSectorVocabError, \
-                                    UnknownSectorCodeError
+                                    UnknownSectorCodeError, \
+                                    InvalidSectorCodeError
 
 
 class TestSector(TestCase):
@@ -43,8 +44,20 @@ class TestSector(TestCase):
         with pytest.raises(UnknownSectorCodeError):
             Sector(12345, path=self.codelist_path, vocabulary=1)
 
-    def test_sector_from_codelist_item(self):
+    def test_sector_from_dac_5_codelist_item(self):
         codelist = Codelist('Sector', self.codelist_path, '2.03')
         codelist_item = codelist.get('73010')
         sector = Sector(codelist_item, path=self.codelist_path)
         assert sector.code.code == '73010'
+
+    def test_sector_from_dac_3_codelist_item(self):
+        codelist = Codelist('SectorCategory', self.codelist_path, '2.03')
+        codelist_item = codelist.get('151')
+        sector = Sector(codelist_item, path=self.codelist_path)
+        assert sector.code.code == '151'
+
+    def test_sector_from_bad_codelist_item(self):
+        codelist = Codelist('Vocabulary', self.codelist_path, '1.05')
+        codelist_item = codelist.get('DAC')
+        with pytest.raises(InvalidSectorCodeError):
+            Sector(codelist_item, path=self.codelist_path)
