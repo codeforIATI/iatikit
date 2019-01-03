@@ -2,8 +2,12 @@ import datetime
 from os.path import abspath, dirname, join
 from unittest import TestCase
 
-from pyandi.data.dataset import DatasetSet
-from pyandi.data.activity import ActivitySet
+from mock import patch
+from lxml import etree as ET
+
+from pyandi.data.dataset import DatasetSet, Dataset
+from pyandi.data.activity import ActivitySet, Activity
+from pyandi.standard.activity_schema import ActivitySchema105
 from pyandi import Sector
 
 
@@ -93,3 +97,23 @@ class TestActivitySet(TestCase):
         assert len(acts) == 2
         for act in acts:
             assert act.iati_identifier in implmentation_ids
+
+
+class TestActivity(TestCase):
+    def __init__(self, *args, **kwargs):
+        super(TestActivity, self).__init__(*args, **kwargs)
+        data_path = join(dirname(abspath(__file__)),
+                         'fixtures', 'registry', 'data', 'fixture-org',
+                         'fixture-org-activities2.xml')
+        etree = ET.parse(data_path)
+        activity_el = etree.xpath('//iati-activity')[0]
+        dataset = Dataset(data_path, None)
+        schema = ActivitySchema105()
+        self.activity = Activity(activity_el, dataset, schema)
+
+    @patch('webbrowser.open_new_tab')
+    def test_activity_show(self, fake_open_new_tab):
+        url = 'http://d-portal.org/q.html' + \
+              '?aid=GB-COH-01234567-Humanitarian+Aid-0'
+        self.activity.show()
+        fake_open_new_tab.assert_called_once_with(url)
