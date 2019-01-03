@@ -71,7 +71,6 @@
     <default-finance-type code="110">Standard grant</default-finance-type>
     <default-aid-type code="C01">Project-type interventions</default-aid-type>
     <default-tied-status code="5">Untied</default-tied-status>
-    <sector code="73010">Reconstruction relief and rehabilitation</sector>
     <recipient-country code="PH">Philippines</recipient-country>
     <transaction>
       <transaction-type code="D">Disbursement</transaction-type>

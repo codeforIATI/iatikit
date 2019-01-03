@@ -77,6 +77,11 @@ class TestActivitySet(TestCase):
             sector__in=sector).all()
         assert len(acts) == 1
 
+    def test_activities_filter_by_sector_exists(self):
+        acts = self.fixture_org_acts.where(
+            sector__exists=False).all()
+        assert len(acts) == 1
+
     def test_activities_filter_by_planned_start_v2(self):
         acts = self.fixture_org_acts.where(
             planned_start='2011-11-01').all()
