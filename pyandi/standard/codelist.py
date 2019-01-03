@@ -69,10 +69,12 @@ class Codelist(GenericSet):
         return self._data['data']
 
     @property
+    def attributes(self):
+        return self._data['attributes']
+
+    @property
     def metadata(self):
-        attributes = self._data['attributes']
-        metadata = self._data['metadata']
-        return dict(attributes, **metadata)
+        return self._data['metadata']
 
     def __iter__(self):
         code = self._wheres.get('code')
@@ -119,7 +121,7 @@ class Codelist(GenericSet):
 
     @property
     def complete(self):
-        return self.metadata['complete']
+        return self.attributes['complete']
 
 
 class CodelistItem(object):
