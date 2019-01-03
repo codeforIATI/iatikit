@@ -1,5 +1,6 @@
 from ..standard.codelist import CodelistSet, CodelistItem
-from ..utils.exceptions import UnknownSectorVocabError, UnknownSectorCodeError
+from ..utils.exceptions import UnknownSectorVocabError, \
+                               UnknownSectorCodeError, InvalidSectorCodeError
 
 
 class Sector(object):
@@ -46,7 +47,8 @@ class Sector(object):
                     self.vocabulary = codelists.get(
                         'SectorVocabulary').get('2')
                 else:
-                    raise Exception('Invalid sector code: {}'.format(code))
+                    raise InvalidSectorCodeError(
+                        'Not a sector code: {}'.format(code))
                 self.code = code
             else:
                 self.code = str(code)

@@ -30,3 +30,9 @@ class UnknownSectorCodeError(Exception):
        IATI codelists.
     """
     pass
+
+
+class InvalidSectorCodeError(Exception):
+    """Raised when a sector is constructed using a non-sector codelist item
+    """
+    pass
