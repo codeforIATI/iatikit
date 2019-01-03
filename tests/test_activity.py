@@ -68,6 +68,13 @@ class TestActivitySet(TestCase):
         assert len(acts) == 1
         assert acts[0].iati_identifier == 'GB-COH-01234567-1'
 
+    def test_activities_filter_by_sector_in(self):
+        path = join(dirname(abspath(__file__)), 'fixtures', 'codelists')
+        sector = Sector('151', vocabulary='2', path=path)
+        acts = self.fixture_org_acts.where(
+            sector__in=sector).all()
+        assert len(acts) == 1
+
     def test_activities_filter_by_planned_start_v2(self):
         acts = self.fixture_org_acts.where(
             planned_start='2011-11-01').all()
