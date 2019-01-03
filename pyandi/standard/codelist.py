@@ -32,15 +32,13 @@ class CodelistSet(GenericSet):
         with open(os.path.join(self.path, 'codelists.json')) as f:
             codelists = json.load(f)
         for codelist_slug, codelist_versions in codelists.items():
-            if 'non-embedded' in codelist_versions:
-                current_version = None
-            else:
-                if version is not None and version not in codelist_versions:
-                    continue
-                current_version = version
+            if version is not None and version not in codelist_versions:
+                continue
+
             if slug is not None and slug != codelist_slug:
                 continue
-            yield Codelist(codelist_slug, self.path, current_version)
+
+            yield Codelist(codelist_slug, self.path, version)
 
     def download(self):
         return download.codelists(self.path)
