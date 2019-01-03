@@ -82,6 +82,10 @@ class TestPublisher(TestCase):
     def test_publisher_name(self):
         assert self.fixture_org.name == 'fixture-org'
 
+    def test_publisher_repr(self):
+        publisher_repr = '<Publisher (fixture-org)>'
+        assert str(self.fixture_org) == publisher_repr
+
     @patch('webbrowser.open_new_tab')
     def test_publisher_show(self, fake_open_new_tab):
         url = 'https://iatiregistry.org/publisher/fixture-org'

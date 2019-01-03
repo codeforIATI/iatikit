@@ -138,6 +138,10 @@ class TestActivity(TestCase):
         assert self.activity.id == id_
         assert self.activity.iati_identifier == id_
 
+    def test_activity_repr(self):
+        act_repr = '<Activity (GB-COH-01234567-Humanitarian Aid-0)>'
+        assert str(self.activity) == act_repr
+
     def test_activity_title(self):
         title = 'Humanitarian Aid - Implementor 1'
         assert self.activity.title[0] == title

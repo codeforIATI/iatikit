@@ -48,6 +48,10 @@ class TestDataset(TestCase):
     def test_dataset_name(self):
         assert self.activity_dataset.name == 'old-org-acts'
 
+    def test_dataset_repr(self):
+        dataset_repr = '<Dataset (old-org-acts)>'
+        assert str(self.activity_dataset) == dataset_repr
+
     @patch('webbrowser.open_new_tab')
     def test_dataset_show(self, fake_open_new_tab):
         url = 'https://iatiregistry.org/dataset/old-org-acts'

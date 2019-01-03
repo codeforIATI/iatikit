@@ -97,3 +97,9 @@ class TestCodelist(TestCase):
         assert len(codelist_items) == 2
         for x in codelist_items:
             assert x.name in codelist_item_names
+
+    def test_codelist_item(self):
+        codelist_item = self.codelist.get('73010')
+        item_repr = '<CodelistItem (Reconstruction relief and ' + \
+                    'rehabilitation (73010))>'
+        assert str(codelist_item) == item_repr
