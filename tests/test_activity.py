@@ -101,6 +101,12 @@ class TestActivitySet(TestCase):
         assert len(acts) == 1
         assert acts[0].iati_identifier == 'GB-COH-01234567-1'
 
+    def test_activities_filter_by_actual_end_exists(self):
+        acts = self.fixture_org_acts.where(
+            actual_end__exists=True).all()
+        assert len(acts) == 1
+        assert acts[0].iati_identifier == 'GB-COH-01234567-Humanitarian Aid-1'
+
     def test_activities_filter_by_xpath(self):
         implmentation_ids = [
             'GB-COH-01234567-1',
