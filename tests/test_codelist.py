@@ -5,6 +5,7 @@ from unittest import TestCase
 
 import pytest
 
+import pyandi
 from pyandi.standard.codelist import CodelistSet, Codelist
 from pyandi.utils.exceptions import NoCodelistsError
 
@@ -24,9 +25,9 @@ class TestNoCodelists(TestCase):
 class TestCodelistSet(TestCase):
     def __init__(self, *args, **kwargs):
         super(TestCodelistSet, self).__init__(*args, **kwargs)
-        codelist_path = join(dirname(abspath(__file__)),
-                             'fixtures', 'codelists')
-        self.codelists = CodelistSet(codelist_path)
+        self.codelist_path = join(dirname(abspath(__file__)),
+                                  'fixtures', 'codelists')
+        self.codelists = CodelistSet(self.codelist_path)
 
     def test_codelists_iter(self):
         codelist_slugs = [
@@ -52,6 +53,10 @@ class TestCodelistSet(TestCase):
         sector_codelist = self.codelists.find(slug='Sector')
         assert sector_codelist.slug == 'Sector'
 
+    def test_codelists_shortcut(self):
+        codelists = pyandi.codelists(self.codelist_path)
+        assert(len(codelists)) == 3
+
 
 class TestCodelist(TestCase):
     def __init__(self, *args, **kwargs):
@@ -73,3 +78,20 @@ class TestCodelist(TestCase):
 
     def test_codelist_complete(self):
         assert self.codelist.complete is True
+
+    def test_codelist_iter(self):
+        items = [x for x in self.codelist]
+        assert len(items) == 3
+
+    def test_codelist_repr(self):
+        assert str(self.codelist) == '<Codelist (Sector v1.05)>'
+
+    def test_codelist_filter_category(self):
+        codelist_item_names = [
+            'Media and free flow of information',
+            'Free flow of information',
+        ]
+        codelist_items = [x for x in self.codelist.filter(category='151')]
+        assert len(codelist_items) == 2
+        for x in codelist_items:
+            assert x.name in codelist_item_names
