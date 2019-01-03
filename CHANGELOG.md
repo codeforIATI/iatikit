@@ -4,7 +4,25 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [1.5.2] – 2019-01-02
+## [Unreleased]
+
+### Added
+- Add a `__version__` string to the module (to help with debugging)
+- Add badges to docs
+- Use more custom exceptions
+- Add lots more tests
+
+### Fixed
+- URL-encode d-portal param
+- Ensure xml property returns a byte-string
+- `where` should not modify the original set object
+
+### Changed
+- Split codelist attributes and metadata
+- Rename codelist `name` filter to `slug`
+- Make `codelist.complete` return a boolean
+
+## [1.5.3] – 2019-01-02
 
 ### Added
 - Various unit tests
