@@ -5,6 +5,7 @@ from freezegun import freeze_time
 import pytest
 
 from pyandi.data.registry import Registry
+from pyandi.utils.exceptions import FilterError
 
 
 class TestGenericSet(TestCase):
@@ -72,3 +73,7 @@ class TestGenericSet(TestCase):
         org_datasets = self.registry.datasets.where(filetype='organisation')
         org_dataset = org_datasets.where(name='fixture-org-org')
         assert org_dataset.count() == 1
+
+    def test_set_unknown_filter(self):
+        with pytest.raises(FilterError):
+            self.registry.datasets.where(unknown_filter='unknown')
