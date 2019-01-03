@@ -4,6 +4,8 @@
     <title>Humanitarian Aid - Implementor 1</title>
     <description/>
     <activity-status code="2"/>
+    <activity-date iso-date="2013-04-15" type="start-planned" />
+    <activity-date iso-date="2013-04-16" type="start-actual" />
     <participating-org role="Funding" ref="FO">Big Funding Organisation</participating-org>
     <participating-org role="Extending" ref="GB-COH-01234567">Fixture Organisation</participating-org>
     <participating-org role="Implementing" ref="1">Implementer 1</participating-org>
@@ -30,6 +32,10 @@
     <title>Humanitarian Aid - Implementer 2</title>
     <description>Just a short description.</description>
     <activity-status code="3"/>
+    <activity-date iso-date="2013-01-15" type="start-planned" />
+    <activity-date iso-date="2013-01-16" type="start-actual" />
+    <activity-date iso-date="2015-01-15" type="end-planned" />
+    <activity-date iso-date="2015-01-16" type="end-actual" />
     <participating-org role="Funding" ref="FO">Big Funding Organisation</participating-org>
     <participating-org role="Extending" ref="GB-COH-01234567">Fixture Organisation</participating-org>
     <participating-org role="Implementing" ref="2">Implementer 2</participating-org>

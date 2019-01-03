@@ -99,6 +99,14 @@ class TestActivitySet(TestCase):
             assert act.iati_identifier in implmentation_ids
 
 
+def mod_join(*args):
+    if '/'.join(args) == '__pyandicache__/standard/codelists':
+        path = join(dirname(abspath(__file__)), 'fixtures', 'codelists')
+        return path
+    else:
+        return join(*args)
+
+
 class TestActivity(TestCase):
     def __init__(self, *args, **kwargs):
         super(TestActivity, self).__init__(*args, **kwargs)
@@ -117,3 +125,32 @@ class TestActivity(TestCase):
               '?aid=GB-COH-01234567-Humanitarian+Aid-0'
         self.activity.show()
         fake_open_new_tab.assert_called_once_with(url)
+
+    def test_activity_xml(self):
+        xml = self.activity.xml
+        first_line = '<iati-activity default-currency="GBP" ' + \
+                     'last-updated-datetime="2016-01-12T15:17:15">'
+        assert xml.decode().split('\n', 1)[0] == first_line
+
+    def test_activity_id(self):
+        id_ = 'GB-COH-01234567-Humanitarian Aid-0'
+        assert self.activity.id == id_
+        assert self.activity.iati_identifier == id_
+
+    def test_activity_title(self):
+        title = 'Humanitarian Aid - Implementor 1'
+        assert self.activity.title[0] == title
+
+    def test_activity_description(self):
+        assert len(self.activity.description) == 0
+
+    @patch('os.path.join', mod_join)
+    def test_activity_sector(self):
+        sector = Sector('73010', vocabulary='1')
+        self.activity.sector[0] == sector
+
+    def test_activity_start(self):
+        assert self.activity.start == datetime.date(2013, 4, 16)
+
+    def test_activity_end(self):
+        assert self.activity.end is None
