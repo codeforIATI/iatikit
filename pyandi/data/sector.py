@@ -27,9 +27,9 @@ class Sector(object):
                 vocab_item = codelists.get('SectorVocabulary').get(vocabulary)
                 if vocab_item is None:
                     raise Exception('Unknown vocabulary')
-            if vocab_item.code in ['DAC', '1']:
+            if vocab_item.code == '1':
                 self.code = codelists.get('Sector').get(code)
-            elif vocab_item.code in ['DAC-3', '2']:
+            elif vocab_item.code == '2':
                 self.code = codelists.get('SectorCategory').get(code)
             else:
                 self.code = str(code)
