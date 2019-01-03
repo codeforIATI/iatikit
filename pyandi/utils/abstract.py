@@ -1,3 +1,4 @@
+from copy import copy
 from itertools import islice
 from .exceptions import FilterError
 
@@ -22,8 +23,9 @@ class GenericSet(object):
         for k in kwargs.keys():
             if k.split('__')[0] not in self._filters:
                 raise FilterError('Unknown filter: {}'.format(k))
-        self._wheres = dict(self._wheres, **kwargs)
-        return self
+        clone = copy(self)
+        clone._wheres = dict(clone._wheres, **kwargs)
+        return clone
 
     def filter(self, **kwargs):
         """Return a new set, with the filters provided in ``**kwargs``.
