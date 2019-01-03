@@ -4,6 +4,7 @@ from unittest import TestCase
 import pytest
 
 from pyandi import Sector
+from pyandi.standard.codelist import Codelist
 from pyandi.utils.exceptions import UnknownSectorVocabError, \
                                     UnknownSectorCodeError
 
@@ -41,3 +42,9 @@ class TestSector(TestCase):
     def test_sector_unknown_code(self):
         with pytest.raises(UnknownSectorCodeError):
             Sector(12345, path=self.codelist_path, vocabulary=1)
+
+    def test_sector_from_codelist_item(self):
+        codelist = Codelist('Sector', self.codelist_path, '2.03')
+        codelist_item = codelist.get('73010')
+        sector = Sector(codelist_item, path=self.codelist_path)
+        assert sector.code.code == '73010'
