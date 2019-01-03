@@ -17,7 +17,7 @@ class CodelistSet(GenericSet):
         if not path:
             path = os.path.join('__pyandicache__', 'standard', 'codelists')
         self.path = path
-        if not os.path.exists(self.path):
+        if not os.path.exists(os.path.join(self.path, 'codelists.json')):
             error_msg = 'Error: No codelists found! ' + \
                           'Download fresh codelists ' + \
                           'using:\n\n   ' + \
