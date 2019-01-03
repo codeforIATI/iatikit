@@ -9,8 +9,8 @@ from ..utils import download
 class CodelistSet(GenericSet):
     def __init__(self, path=None, **kwargs):
         super(CodelistSet, self).__init__()
-        self._key = 'name'
-        self._filters = ['name', 'version']
+        self._key = 'slug'
+        self._filters = ['slug', 'version']
         self._wheres = kwargs
         self._instance_class = Codelist
 
@@ -28,7 +28,7 @@ class CodelistSet(GenericSet):
         version = self._wheres.get('version')
         if version:
             version = str(version)
-        slug = self._wheres.get('name')
+        slug = self._wheres.get('slug')
         with open(os.path.join(self.path, 'codelists.json')) as f:
             codelists = json.load(f)
         for codelist_slug, codelist_versions in codelists.items():
