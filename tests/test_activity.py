@@ -49,6 +49,12 @@ class TestActivitySet(TestCase):
         assert len(acts) == 1
         assert acts[0].iati_identifier == 'GB-COH-01234567-Humanitarian Aid-1'
 
+    def test_activities_filter_by_title_startswith(self):
+        title_start = 'Development'
+        acts = self.fixture_org_acts.where(title__startswith=title_start).all()
+        assert len(acts) == 1
+        assert acts[0].iati_identifier == 'GB-COH-01234567-1'
+
     def test_activities_filter_by_title_v2(self):
         title = 'Development work'
         acts = self.fixture_org_acts.where(title=title).all()
@@ -69,6 +75,11 @@ class TestActivitySet(TestCase):
             sector=sector).all()
         assert len(acts) == 1
         assert acts[0].iati_identifier == 'GB-COH-01234567-1'
+
+    def test_activities_filter_by_bad_sector(self):
+        err_msg = 'bad-sector is not a sector'
+        with pytest.raises(Exception, message=err_msg):
+            self.fixture_org_acts.where(sector='bad-sector').all()
 
     @patch('os.path.join', mod_join)
     def test_activities_filter_by_sector_in(self):
