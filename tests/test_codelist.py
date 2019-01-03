@@ -60,13 +60,16 @@ class TestCodelist(TestCase):
                              'fixtures', 'codelists')
         self.codelist = Codelist('Sector', codelist_path, '1.05')
 
-    def test_metadata(self):
-        metadata = {
-            'category-codelist': 'SectorCategory',
-            'name': 'Sector',
-            'complete': '1',
-            'url': 'http://www.oecd.org/dac/stats/dacandcrscodelists.htm',
-            'name': 'DAC 5 Digit Sector',
-            'description': 'Sector codelist description',
-        }
-        assert self.codelist.metadata == metadata
+    def test_codelist_name(self):
+        assert self.codelist.name == 'DAC 5 Digit Sector'
+
+    def test_codelist_description(self):
+        description = 'Sector codelist description'
+        assert self.codelist.description == description
+
+    def test_codelist_url(self):
+        url = 'http://www.oecd.org/dac/stats/dacandcrscodelists.htm'
+        assert self.codelist.url == url
+
+    def test_codelist_complete(self):
+        assert self.codelist.complete is True
