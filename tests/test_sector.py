@@ -24,3 +24,8 @@ class TestSector(TestCase):
         sector_repr = '<Sector (ABCD, Vocabulary: Classification of the ' + \
                       'Functions of Government (UN))>'
         assert str(sector) == sector_repr
+
+    def test_sector_percentage(self):
+        sector = Sector(12345, path=self.codelist_path, percentage=100)
+        assert type(sector.percentage) is float
+        assert sector.percentage == 100.0
