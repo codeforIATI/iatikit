@@ -121,7 +121,7 @@ class Codelist(GenericSet):
 
     @property
     def complete(self):
-        return self.attributes['complete']
+        return self.attributes['complete'] == '1'
 
 
 class CodelistItem(object):
