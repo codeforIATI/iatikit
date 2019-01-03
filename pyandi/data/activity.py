@@ -1,4 +1,8 @@
 import webbrowser
+try:
+    from urllib.parse import urlencode
+except ImportError:
+    from urllib import urlencode
 
 from ..standard.schema import get_schema
 from ..utils.abstract import GenericSet
@@ -92,7 +96,8 @@ class Activity(object):
         """Open a new browser tab to the d-portal.org page
         for this dataset.
         """
-        url = 'http://d-portal.org/q.html?aid={}'.format(self.iati_identifier)
+        params = {'aid': self.iati_identifier}
+        url = 'http://d-portal.org/q.html?{}'.format(urlencode(params))
         webbrowser.open_new_tab(url)
 
     @property
