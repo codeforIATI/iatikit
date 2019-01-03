@@ -19,3 +19,8 @@ class TestSector(TestCase):
                       '(151), Vocabulary: OECD DAC CRS Purpose Codes ' + \
                       '(3 digit))>'
         assert str(sector) == sector_repr
+
+        sector = Sector('ABCD', vocabulary=3, path=self.codelist_path)
+        sector_repr = '<Sector (ABCD, Vocabulary: Classification of the ' + \
+                      'Functions of Government (UN))>'
+        assert str(sector) == sector_repr
