@@ -62,6 +62,7 @@
     <title>Humanitarian Aid - Implementer 3</title>
     <description/>
     <activity-status code="3"/>
+    <activity-date iso-date="2009-01-01" type="start-planned" />
     <participating-org role="Funding" ref="FO">Big Funding Organisation</participating-org>
     <participating-org role="Extending" ref="GB-COH-01234567">Fixture Organisation</participating-org>
     <participating-org role="Implementing" ref="3">Implementer 3</participating-org>

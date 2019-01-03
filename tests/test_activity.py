@@ -144,9 +144,13 @@ class TestActivity(TestCase):
                          'fixture-org-activities2.xml')
         etree = ET.parse(data_path)
         activity_el = etree.xpath('//iati-activity')[0]
+        activity_el1 = etree.xpath('//iati-activity')[1]
+        activity_el2 = etree.xpath('//iati-activity')[2]
         dataset = Dataset(data_path, None)
         schema = ActivitySchema105()
         self.activity = Activity(activity_el, dataset, schema)
+        self.activity1 = Activity(activity_el1, dataset, schema)
+        self.activity2 = Activity(activity_el2, dataset, schema)
 
     @patch('webbrowser.open_new_tab')
     def test_activity_show(self, fake_open_new_tab):
@@ -182,8 +186,14 @@ class TestActivity(TestCase):
         sector = Sector('73010', vocabulary='1')
         self.activity.sector[0] == sector
 
+    def test_activity_planned_start(self):
+        assert self.activity2.planned_start == datetime.date(2009, 1, 1)
+
     def test_activity_start(self):
         assert self.activity.start == datetime.date(2013, 4, 16)
 
-    def test_activity_end(self):
+    def test_activity_no_end(self):
         assert self.activity.end is None
+
+    def test_activity_end(self):
+        assert self.activity1.end == datetime.date(2015, 1, 16)
