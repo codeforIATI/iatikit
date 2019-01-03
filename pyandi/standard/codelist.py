@@ -1,5 +1,5 @@
 import json
-from os.path import join, exists
+import os.path
 
 from ..utils.abstract import GenericSet
 from ..utils.exceptions import NoCodelistsError
@@ -15,9 +15,9 @@ class CodelistSet(GenericSet):
         self._instance_class = Codelist
 
         if not path:
-            path = join('__pyandicache__', 'standard', 'codelists')
+            path = os.path.join('__pyandicache__', 'standard', 'codelists')
         self.path = path
-        if not exists(self.path):
+        if not os.path.exists(self.path):
             error_msg = 'Error: No codelists found! ' + \
                           'Download fresh codelists ' + \
                           'using:\n\n   ' + \
@@ -29,7 +29,7 @@ class CodelistSet(GenericSet):
         if version:
             version = str(version)
         slug = self._wheres.get('name')
-        with open(join(self.path, 'codelists.json')) as f:
+        with open(os.path.join(self.path, 'codelists.json')) as f:
             codelists = json.load(f)
         for codelist_slug, codelist_versions in codelists.items():
             if 'non-embedded' in codelist_versions:
@@ -55,7 +55,7 @@ class Codelist(GenericSet):
         self._instance_class = CodelistItem
 
         self.slug = slug
-        self.path = join(path, slug + '.json')
+        self.path = os.path.join(path, slug + '.json')
         self.version = version
         self.__data = None
 
