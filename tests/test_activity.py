@@ -9,6 +9,7 @@ from pyandi.data.dataset import DatasetSet, Dataset
 from pyandi.data.activity import ActivitySet, Activity
 from pyandi.standard.activity_schema import ActivitySchema105
 from pyandi import Sector
+from .helpers import mod_join
 
 
 class TestActivitySet(TestCase):
@@ -68,6 +69,7 @@ class TestActivitySet(TestCase):
         assert len(acts) == 1
         assert acts[0].iati_identifier == 'GB-COH-01234567-1'
 
+    @patch('os.path.join', mod_join)
     def test_activities_filter_by_sector_in(self):
         path = join(dirname(abspath(__file__)), 'fixtures', 'codelists')
         sector = Sector('151', vocabulary='2', path=path)
@@ -104,14 +106,6 @@ class TestActivitySet(TestCase):
         assert len(acts) == 2
         for act in acts:
             assert act.iati_identifier in implmentation_ids
-
-
-def mod_join(*args):
-    if '/'.join(args) == '__pyandicache__/standard/codelists':
-        path = join(dirname(abspath(__file__)), 'fixtures', 'codelists')
-        return path
-    else:
-        return join(*args)
 
 
 class TestActivity(TestCase):
