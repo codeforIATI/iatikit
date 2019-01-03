@@ -71,7 +71,7 @@ class TestPublisher(TestCase):
         self.fixture_org = Publisher(
             join(self.registry_path, 'data', 'fixture-org'),
             join(self.registry_path, 'metadata', 'fixture-org'),
-            join(self.registry_path, 'metadata', 'fixture-org.json'),
+            join(self.registry_path, 'metadata', 'no-metadata.json'),
         )
         self.old_org = Publisher(
             join(self.registry_path, 'data', 'old-org'),
@@ -105,3 +105,6 @@ class TestPublisher(TestCase):
     def test_metadata(self):
         old_org_metadata = self.old_org.metadata
         assert old_org_metadata.get('publisher_country') == 'NL'
+
+    def test_no_metadata(self):
+        assert self.fixture_org.metadata == {}
