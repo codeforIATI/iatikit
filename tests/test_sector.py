@@ -1,7 +1,11 @@
 from os.path import abspath, dirname, join
 from unittest import TestCase
 
+import pytest
+
 from pyandi import Sector
+from pyandi.utils.exceptions import UnknownSectorVocabError, \
+                                    UnknownSectorCodeError
 
 
 class TestSector(TestCase):
@@ -29,3 +33,11 @@ class TestSector(TestCase):
         sector = Sector(12345, path=self.codelist_path, percentage=100)
         assert type(sector.percentage) is float
         assert sector.percentage == 100.0
+
+    def test_sector_unknown_vocab(self):
+        with pytest.raises(UnknownSectorVocabError):
+            Sector(12345, path=self.codelist_path, vocabulary=10)
+
+    def test_sector_unknown_code(self):
+        with pytest.raises(UnknownSectorCodeError):
+            Sector(12345, path=self.codelist_path, vocabulary=1)
