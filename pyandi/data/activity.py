@@ -110,8 +110,8 @@ class Activity(object):
 
     @property
     def xml(self):
-        """Return the raw XML of this activity, as a string."""
-        return ET.tostring(self.etree)
+        """Return the raw XML of this activity, as a byte-string."""
+        return bytes(ET.tostring(self.etree))
 
     @property
     def iati_identifier(self):
