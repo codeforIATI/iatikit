@@ -1,4 +1,5 @@
 from ..standard.codelist import CodelistSet, CodelistItem
+from ..utils.exceptions import UnknownSectorVocabError, UnknownSectorCodeError
 
 
 class Sector(object):
@@ -26,7 +27,7 @@ class Sector(object):
             else:
                 vocab_item = codelists.get('SectorVocabulary').get(vocabulary)
                 if vocab_item is None:
-                    raise Exception('Unknown vocabulary')
+                    raise UnknownSectorVocabError()
             if vocab_item.code == '1':
                 self.code = codelists.get('Sector').get(code)
             elif vocab_item.code == '2':
@@ -34,7 +35,7 @@ class Sector(object):
             else:
                 self.code = str(code)
             if self.code is None:
-                raise Exception('Code and vocabulary don\'t match')
+                raise UnknownSectorCodeError()
             self.vocabulary = vocab_item
         else:
             if type(code) is CodelistItem:

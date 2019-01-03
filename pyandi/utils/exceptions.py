@@ -16,3 +16,17 @@ class NoDataError(Exception):
 class NoCodelistsError(Exception):
     """Raised when no codelists are found in the local cache."""
     pass
+
+
+class UnknownSectorVocabError(Exception):
+    """Raised when a sector vocabulary is used that is not on the
+       IATI codelists.
+    """
+    pass
+
+
+class UnknownSectorCodeError(Exception):
+    """Raised when a sector code is used that is not on the
+       IATI codelists.
+    """
+    pass
