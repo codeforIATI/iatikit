@@ -28,16 +28,21 @@ Contents:
    api
 
 .. image:: https://img.shields.io/pypi/v/pyandi.svg
+    :alt: PyPI Package latest release
     :target: https://pypi.org/project/pyandi/
 
 .. image:: https://img.shields.io/pypi/l/pyandi.svg
+    :alt: License
     :target: https://pypi.org/project/pyandi/
 
 .. image:: https://img.shields.io/pypi/pyversions/pyandi.svg
+    :alt: Supported versions
     :target: https://pypi.org/project/pyandi/
 
 .. image:: https://img.shields.io/travis/pwyf/pyandi/master.svg
+    :alt: Travis-CI Build Status
     :target: https://travis-ci.org/pwyf/pyandi
 
 .. image:: https://img.shields.io/coveralls/github/pwyf/pyandi/master.svg
+    :alt: Test coverage
     :target: https://coveralls.io/github/pwyf/pyandi?branch=master
