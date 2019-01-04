@@ -7,7 +7,7 @@ pyandi
 .. image:: https://img.shields.io/pypi/l/pyandi.svg
     :target: https://pypi.org/project/pyandi/
 
-.. image:: https://travis-ci.org/pwyf/pyandi.svg?branch=master
+.. image:: https://img.shields.io/travis/pwyf/pyandi/master.svg
     :target: https://travis-ci.org/pwyf/pyandi
 
 .. image:: https://img.shields.io/coveralls/github/pwyf/pyandi/master.svg
