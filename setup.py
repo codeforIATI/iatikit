@@ -10,6 +10,16 @@ data = {}
 with open(join(path, 'pyandi', '__version__.py')) as f:
     exec(f.read(), data)
 
+test_deps = [
+    'tox',
+    'mock',
+    'pytest',
+    'pytest-cov',
+    'coveralls',
+    'freezegun',
+]
+extras = {'test': test_deps}
+
 setup(
     name='pyandi',
     description='A toolkit for using IATI data.',
@@ -26,4 +36,7 @@ setup(
         'requests',
         'unicodecsv',
     ],
+    setup_requires=['pytest-runner'],
+    tests_require=test_deps,
+    extras_require=extras,
 )
