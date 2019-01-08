@@ -4,7 +4,7 @@ Getting started
 Installation
 ------------
 
-pyandi is tested for pythons 2.7, 3.4, 3.5 and 3.6.
+pyandi is tested for pythons 2.7, 3.5 and 3.6.
 
 You can install it using ``pip``:
 
