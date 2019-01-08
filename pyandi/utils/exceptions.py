@@ -36,3 +36,7 @@ class InvalidSectorCodeError(Exception):
     """Raised when a sector is constructed using a non-sector codelist item
     """
     pass
+
+
+class SchemaNotFoundError(Exception):
+    pass

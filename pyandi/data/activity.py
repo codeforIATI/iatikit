@@ -41,7 +41,7 @@ class ActivitySet(GenericSet):
         for dataset in self.datasets:
             if dataset.filetype != self._filetype:
                 continue
-            if not dataset.is_valid():
+            if not dataset.is_valid_xml():
                 continue
             try:
                 schema = get_schema(dataset.filetype, dataset.version)
@@ -67,7 +67,7 @@ class ActivitySet(GenericSet):
         for dataset in self.datasets:
             if dataset.filetype != self._filetype:
                 continue
-            if not dataset.is_valid():
+            if not dataset.is_valid_xml():
                 continue
             try:
                 schema = get_schema(dataset.filetype, dataset.version)

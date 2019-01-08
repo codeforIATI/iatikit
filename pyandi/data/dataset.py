@@ -7,6 +7,8 @@ import webbrowser
 from lxml import etree as ET
 
 from ..utils.abstract import GenericSet
+from ..utils.exceptions import SchemaNotFoundError
+from ..standard.xsd_schema import XSDSchema
 from .activity import ActivitySet
 
 
@@ -95,18 +97,24 @@ class Dataset(object):
             self.name)
         webbrowser.open_new_tab(url)
 
-    def is_valid(self):
-        """Check whether the XML in this dataset is valid.
-
-        TODO: This could perform other checks, including validating
-        against a schema.
-        """
+    def is_valid_xml(self):
+        """Check whether the XML in this dataset can be parsed."""
         try:
             if self.etree:
                 return True
         except ET.XMLSyntaxError:
             pass
         return False
+
+    def is_valid_iati(self):
+        """Validate dataset against the relevant IATI schema."""
+        if not self.is_valid_xml():
+            return False
+        try:
+            return XSDSchema(self.filetype, self.version).validate(self)
+        except SchemaNotFoundError as e:
+            logging.warning(e)
+            return False
 
     @property
     def metadata(self):
@@ -173,7 +181,7 @@ class Dataset(object):
         if version is not None:
             return version
 
-        logging.warning('@version attribute is not declared. Assuming v1.01.')
+        logging.warning('@version attribute is not declared. Assuming "1.01".')
         # default version
         return '1.01'
 
