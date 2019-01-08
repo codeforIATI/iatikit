@@ -81,8 +81,3 @@ class Registry(object):
     def download(self):
         """Download all IATI data and registry metadata."""
         return download.data(self.path)
-
-
-def data(path=None):
-    """Helper function for constructing a Registry object."""
-    return Registry(path)
