@@ -138,3 +138,8 @@ class CodelistItem(object):
             self.__class__.__name__,
             self.name,
             self.code)
+
+
+def codelists(path=None):
+    """Helper function for fetching all codelists."""
+    return CodelistSet(path)
