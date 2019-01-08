@@ -159,3 +159,30 @@ def codelists(path=None):
 
         with open(join(path, codelist_name + '.json'), 'w') as f:
             json.dump(codelist, f)
+
+
+def schemas(path=None):
+    if not path:
+        path = join('__pyandicache__', 'standard', 'schemas')
+
+    shutil.rmtree(path, ignore_errors=True)
+    makedirs(path)
+
+    versions_url = 'http://reference.iatistandard.org/codelists/' + \
+                   'downloads/clv2/json/en/Version.json'
+    versions = [d['code'] for d in requests.get(versions_url).json()['data']]
+    versions.reverse()
+
+    logging.info('Downloading IATI Standard schemas...')
+    filenames = ['iati-activities-schema.xsd', 'iati-organisations-schema.xsd',
+                 'iati-common.xsd', 'xml.xsd']
+    tmpl = 'https://raw.githubusercontent.com/IATI/IATI-Schemas/' + \
+           'version-{version}/{filename}'
+    for version in versions:
+        version_path = version.replace('.', '')
+        makedirs(join(path, version_path))
+        for filename in filenames:
+            r = requests.get(tmpl.format(version=version, filename=filename))
+            filepath = join(path, version_path, filename)
+            with open(filepath, 'wb') as f:
+                f.write(r.content)
