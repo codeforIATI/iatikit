@@ -51,7 +51,7 @@ class DatasetSet(GenericSet):
 class Dataset(object):
     """Class representing an IATI dataset."""
 
-    def __init__(self, data_path, metadata_path):
+    def __init__(self, data_path, metadata_path=None):
         """Construct a new Dataset object.
 
         The file locations of the data and metadata must be specified with
@@ -112,7 +112,7 @@ class Dataset(object):
     def metadata(self):
         """Return a dictionary of registry metadata for this dataset."""
         if self._metadata is None:
-            if exists(self.metadata_path):
+            if self.metadata_path is not None and exists(self.metadata_path):
                 with open(self.metadata_path) as f:
                     self._metadata = json.load(f)
                 extras = self.metadata.get('extras')
