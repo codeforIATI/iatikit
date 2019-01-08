@@ -150,20 +150,32 @@ class Dataset(object):
 
     @property
     def version(self):
-        """Return the IATI version according to the XML,
-        or ``None`` if no version specified.
+        """Return the IATI version according to the metadata.
+
+        If it can't be found in the metadata, revert to using the
+        XML root node.
+
+        Return "1.01" if the version can't be determined.
         """
+        try:
+            version = self.metadata.get('extras').get('iati_version')
+        except AttributeError:
+            pass
+
+        if version is not None:
+            return version
+
         try:
             return self.etree.getroot().get('version')
         except ET.XMLSyntaxError:
             pass
 
-        # try:
-        #     return self.metadata.get('extras').get('iati_version')
-        # except AttributeError:
-        #     pass
+        if version is not None:
+            return version
 
-        return None
+        logging.warning('@version attribute is not declared. Assuming v1.01.')
+        # default version
+        return '1.01'
 
     @property
     def activities(self):
