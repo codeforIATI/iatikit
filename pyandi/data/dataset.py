@@ -97,6 +97,10 @@ class Dataset(object):
             self.name)
         webbrowser.open_new_tab(url)
 
+    def get_schema(self):
+        """Get the XSD Schema for this dataset."""
+        return XSDSchema(self.filetype, self.version)
+
     def is_valid_xml(self):
         """Check whether the XML in this dataset can be parsed."""
         try:
@@ -111,7 +115,7 @@ class Dataset(object):
         if not self.is_valid_xml():
             return False
         try:
-            return XSDSchema(self.filetype, self.version).validate(self)
+            return self.get_schema().validate(self)
         except SchemaNotFoundError as e:
             logging.warning(e)
             return False
