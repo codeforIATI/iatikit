@@ -21,6 +21,10 @@ class CodelistItem(object):
             self.name,
             self.code)
 
+    def __eq__(self, value):
+        return self.code == value.code and \
+               self.codelist.slug == value.codelist.slug
+
 
 class Codelist(GenericSet):
     _key = 'code'
