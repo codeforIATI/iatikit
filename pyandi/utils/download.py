@@ -98,11 +98,6 @@ def codelists(path=None):
                 version=version.replace('.', ''))
             version_codelists = requests.get(codelists_url).json()
 
-        # make unique.
-        #
-        # See: https://github.com/IATI/IATI-Codelists/issues/183
-        version_codelists = list(set(version_codelists))
-
         for codelist_name in version_codelists:
             if codelist_name not in codelist_versions_by_name:
                 codelist_versions_by_name[codelist_name] = []
