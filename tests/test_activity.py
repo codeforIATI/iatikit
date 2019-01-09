@@ -78,7 +78,7 @@ class TestActivitySet(TestCase):
 
     def test_activities_filter_by_bad_sector(self):
         err_msg = 'bad-sector is not a sector'
-        with pytest.raises(Exception, message=err_msg):
+        with pytest.raises(Exception, match=err_msg):
             self.fixture_org_acts.where(sector='bad-sector').all()
 
     @patch('os.path.join', mod_join)
@@ -91,7 +91,7 @@ class TestActivitySet(TestCase):
 
     def test_activities_filter_by_bad_sector_in(self):
         err_msg = 'bad-sector-cat is not a sector category'
-        with pytest.raises(Exception, message=err_msg):
+        with pytest.raises(Exception, match=err_msg):
             self.fixture_org_acts.where(sector__in='bad-sector-cat').all()
 
     def test_activities_filter_by_sector_exists(self):
