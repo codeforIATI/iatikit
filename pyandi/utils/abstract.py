@@ -20,7 +20,7 @@ class GenericSet(object):
     def where(self, **kwargs):
         """Return a new set, with the filters provided in ``**kwargs``.
         """
-        for k in kwargs.keys():
+        for k in kwargs:
             if k.split('__')[0] not in self._filters:
                 raise FilterError('Unknown filter: {}'.format(k))
         clone = copy(self)
