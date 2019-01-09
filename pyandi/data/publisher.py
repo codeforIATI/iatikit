@@ -22,6 +22,7 @@ class PublisherSet(GenericSet):
         self.wheres = kwargs
         self._filters = ['name']
         self._key = 'name'
+        self._instance_class = Publisher
         self.data_path = data_path
         self.metadata_path = metadata_path
 
