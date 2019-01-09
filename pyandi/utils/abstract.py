@@ -14,7 +14,7 @@ class GenericSet(object):
     def __init__(self):
         self._key = None
         self._filters = []
-        self._wheres = {}
+        self.wheres = {}
         self._instance_class = None
 
     def where(self, **kwargs):
@@ -24,7 +24,7 @@ class GenericSet(object):
             if k.split('__')[0] not in self._filters:
                 raise FilterError('Unknown filter: {}'.format(k))
         clone = copy(self)
-        clone._wheres = dict(clone._wheres, **kwargs)
+        clone.wheres = dict(clone.wheres, **kwargs)
         return clone
 
     def filter(self, **kwargs):

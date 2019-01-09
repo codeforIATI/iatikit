@@ -11,7 +11,7 @@ class CodelistSet(GenericSet):
         super(CodelistSet, self).__init__()
         self._key = 'slug'
         self._filters = ['slug', 'version']
-        self._wheres = kwargs
+        self.wheres = kwargs
         self._instance_class = Codelist
 
         if not path:
@@ -25,10 +25,10 @@ class CodelistSet(GenericSet):
             raise NoCodelistsError(error_msg)
 
     def __iter__(self):
-        version = self._wheres.get('version')
+        version = self.wheres.get('version')
         if version:
             version = str(version)
-        slug = self._wheres.get('slug')
+        slug = self.wheres.get('slug')
         with open(os.path.join(self.path, 'codelists.json')) as f:
             codelists = json.load(f)
         for codelist_slug, codelist_versions in codelists.items():
@@ -49,7 +49,7 @@ class Codelist(GenericSet):
         super(Codelist, self).__init__()
         self._key = 'code'
         self._filters = ['code', 'version', 'category']
-        self._wheres = kwargs
+        self.wheres = kwargs
         self._instance_class = CodelistItem
 
         self.slug = slug
@@ -77,9 +77,9 @@ class Codelist(GenericSet):
         return self._data['metadata']
 
     def __iter__(self):
-        code = self._wheres.get('code')
-        category = self._wheres.get('category')
-        version = self._wheres.get('version', self.version)
+        code = self.wheres.get('code')
+        category = self.wheres.get('category')
+        version = self.wheres.get('version', self.version)
         if version is not None:
             version = str(version)
         if code is not None:

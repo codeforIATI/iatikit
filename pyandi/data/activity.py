@@ -29,7 +29,7 @@ class ActivitySet(GenericSet):
             'actual_start', 'planned_end', 'actual_end',
             'xpath',
         ]
-        self._wheres = kwargs
+        self.wheres = kwargs
         self._instance_class = Activity
 
         self.datasets = datasets
@@ -52,7 +52,7 @@ class ActivitySet(GenericSet):
                 schema,
                 prefix=prefix,
                 count=True
-            ).where(**self._wheres)
+            ).where(**self.wheres)
             total += int(dataset.etree.xpath(query))
         return total
 
@@ -61,7 +61,7 @@ class ActivitySet(GenericSet):
         return XPathQueryBuilder(
             schema,
             prefix=prefix,
-        ).where(**self._wheres)
+        ).where(**self.wheres)
 
     def __iter__(self):
         for dataset in self.datasets:

@@ -24,7 +24,7 @@ class DatasetSet(GenericSet):
         super(DatasetSet, self).__init__()
         self._key = 'name'
         self._filters = ['name', 'filetype']
-        self._wheres = kwargs
+        self.wheres = kwargs
         self._instance_class = Dataset
 
         self.data_path = data_path
@@ -35,12 +35,12 @@ class DatasetSet(GenericSet):
         metadata_paths = sorted(glob(self.metadata_path))
         paths = zip(data_paths, metadata_paths)
 
-        name = self._wheres.get('name')
+        name = self.wheres.get('name')
         if name is not None:
             paths = filter(
                 lambda x: splitext(basename(x[0]))[0] == name, paths)
 
-        where_filetype = self._wheres.get('filetype')
+        where_filetype = self.wheres.get('filetype')
 
         for data_path, metadata_path in paths:
             dataset = Dataset(data_path, metadata_path)

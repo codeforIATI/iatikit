@@ -19,7 +19,7 @@ class PublisherSet(GenericSet):
 
     def __init__(self, data_path, metadata_path, **kwargs):
         super(PublisherSet, self).__init__()
-        self._wheres = kwargs
+        self.wheres = kwargs
         self._filters = ['name']
         self._key = 'name'
         self.data_path = data_path
@@ -31,7 +31,7 @@ class PublisherSet(GenericSet):
         metadata_filepaths = sorted(glob(join(self.metadata_path + '.json')))
         paths = zip(data_paths, metadata_paths, metadata_filepaths)
 
-        name = self._wheres.get('name')
+        name = self.wheres.get('name')
         if name is not None:
             paths = filter(lambda x: basename(x[0]) == name,
                            paths)
