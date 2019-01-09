@@ -102,16 +102,16 @@ class GenericType(object):
     def run(self, etree):
         return etree.xpath(self.get())
 
-    def where(self, op, value):
-        if op == 'exists':
-            subop = '!= 0' if value else '= 0'
+    def where(self, operation, value):
+        if operation == 'exists':
+            sub_operation = '!= 0' if value else '= 0'
             return 'count({expr}) {subop}'.format(
                 expr=self.get(),
-                subop=subop,
+                subop=sub_operation,
             )
-        elif op == 'eq':
+        elif operation == 'eq':
             return '{expr} = "{value}"'.format(
                 expr=self.get(),
                 value=value,
             )
-        raise FilterError('Unknown filter modifier: {}'.format(op))
+        raise FilterError('Unknown filter modifier: {}'.format(operation))

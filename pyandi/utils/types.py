@@ -7,32 +7,32 @@ from ..utils.abstract import GenericType
 
 
 class StringType(GenericType):
-    def where(self, op, value):
-        if op in ['contains', 'startswith']:
-            if op == 'startswith':
-                op = 'starts-with'
-            return '{expr}[{op}(., "{value}")]'.format(
+    def where(self, operation, value):
+        if operation in ['contains', 'startswith']:
+            if operation == 'startswith':
+                operation = 'starts-with'
+            return '{expr}[{operation}(., "{value}")]'.format(
                 expr=self.get(),
-                op=op,
+                operation=operation,
                 value=value,
             )
-        return super(StringType, self).where(op, value)
+        return super(StringType, self).where(operation, value)
 
 
 class DateType(GenericType):
-    def where(self, op, value):
+    def where(self, operation, value):
         operator = {
             'lt': '<', 'lte': '<=',
             'gt': '>', 'gte': '>=',
             'eq': '=',
-        }.get(op)
+        }.get(operation)
         if operator:
-            return 'number(translate({expr}, "-", "")) {op} {value}'.format(
+            return 'number(translate({expr}, "-", "")) {operator} {value}'.format(
                 expr=self.get(),
-                op=operator,
+                operator=operator,
                 value=str(value).replace('-', ''),
             )
-        return super(DateType, self).where(op, value)
+        return super(DateType, self).where(operation, value)
 
     def run(self, etree):
         dates = []
@@ -64,8 +64,8 @@ class SectorType(GenericType):
             conditions_str = '({})'.format(conditions_str)
         return conditions_str
 
-    def where(self, op, value):
-        if op == 'in':
+    def where(self, operation, value):
+        if operation == 'in':
             if not isinstance(value, Sector) or value.vocabulary.code != '2':
                 raise Exception('{} is not a sector category'.format(value))
             codelist_items = CodelistSet().get('Sector').where(
@@ -79,7 +79,7 @@ class SectorType(GenericType):
                 expr=self.get(),
                 conditions=' and '.join(conditions),
             )
-        elif op == 'eq':
+        elif operation == 'eq':
             conditions = []
             if not isinstance(value, Sector):
                 raise Exception('{} is not a sector'.format(value))
@@ -97,7 +97,7 @@ class SectorType(GenericType):
                 expr=self.get(),
                 conditions=' and '.join(conditions),
             )
-        return super(SectorType, self).where(op, value)
+        return super(SectorType, self).where(operation, value)
 
     def run(self, etree):
         return [Sector(x.get('code'),
@@ -107,5 +107,5 @@ class SectorType(GenericType):
 
 
 class XPathType(GenericType):
-    def where(self, op, value):
+    def where(self, operation, value):
         return value

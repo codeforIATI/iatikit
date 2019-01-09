@@ -115,8 +115,8 @@ class Dataset(object):
             return False
         try:
             return self.get_schema().validate(self)
-        except SchemaNotFoundError as e:
-            logging.warning(e)
+        except SchemaNotFoundError as error:
+            logging.warning(error)
             return False
 
     @property
@@ -124,8 +124,8 @@ class Dataset(object):
         """Return a dictionary of registry metadata for this dataset."""
         if self._metadata is None:
             if self.metadata_path is not None and exists(self.metadata_path):
-                with open(self.metadata_path) as f:
-                    self._metadata = json.load(f)
+                with open(self.metadata_path) as handler:
+                    self._metadata = json.load(handler)
                 extras = self.metadata.get('extras')
                 self._metadata['extras'] = {x['key']: x['value']
                                             for x in extras}

@@ -29,9 +29,9 @@ class CodelistSet(GenericSet):
         if version:
             version = str(version)
         slug = self.wheres.get('slug')
-        with open(os.path.join(self.path, 'codelists.json')) as f:
-            codelists = json.load(f)
-        for codelist_slug, codelist_versions in codelists.items():
+        with open(os.path.join(self.path, 'codelists.json')) as handler:
+            all_codelists = json.load(handler)
+        for codelist_slug, codelist_versions in all_codelists.items():
             if version is not None and version not in codelist_versions:
                 continue
 
@@ -60,8 +60,8 @@ class Codelist(GenericSet):
     @property
     def _data(self):
         if not self.__data:
-            with open(self.path) as f:
-                self.__data = json.load(f)
+            with open(self.path) as handler:
+                self.__data = json.load(handler)
         return self.__data
 
     @property

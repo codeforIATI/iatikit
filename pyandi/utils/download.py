@@ -40,9 +40,9 @@ def data(path=None):
     zip_filepath = join(path, 'iati_dump.zip')
 
     logging.info('Downloading all IATI registry data...')
-    r = requests.get(data_url, stream=True)
-    with open(zip_filepath, 'wb') as f:
-        shutil.copyfileobj(r.raw, f)
+    request = requests.get(data_url, stream=True)
+    with open(zip_filepath, 'wb') as handler:
+        shutil.copyfileobj(request.raw, handler)
     logging.info('Unzipping data...')
     with zipfile.ZipFile(zip_filepath, 'r') as zip_ref:
         zip_ref.extractall(path)
@@ -52,8 +52,8 @@ def data(path=None):
     meta_filepath = join(path, 'metadata.json')
     meta = 'https://www.dropbox.com/s/6a3wggckhbb9nla/metadata.json?dl=1'
     zip_metadata = requests.get(meta)
-    with open(meta_filepath, 'wb') as f:
-        f.write(zip_metadata.content)
+    with open(meta_filepath, 'wb') as handler:
+        handler.write(zip_metadata.content)
 
 
 def codelists(path=None):
@@ -87,29 +87,29 @@ def codelists(path=None):
     codelist_versions_by_name = {}
     for version in versions:
         if version in very_old_versions:
-            r = requests.get(very_old_codelists_url)
-            codelists = [x['name'] for x in csv.DictReader(
-                [x for x in r.iter_lines()])]
+            request = requests.get(very_old_codelists_url)
+            version_codelists = [x['name'] for x in csv.DictReader(
+                [x for x in request.iter_lines()])]
         elif version in old_versions:
             j = requests.get(old_codelists_url).json()
-            codelists = [x['name'] for x in j['codelist']]
+            version_codelists = [x['name'] for x in j['codelist']]
         else:
             codelists_url = new_codelists_tmpl.format(
                 version=version.replace('.', ''))
-            codelists = requests.get(codelists_url).json()
+            version_codelists = requests.get(codelists_url).json()
 
         # make unique.
         #
         # See: https://github.com/IATI/IATI-Codelists/issues/183
-        codelists = list(set(codelists))
+        version_codelists = list(set(version_codelists))
 
-        for codelist_name in codelists:
+        for codelist_name in version_codelists:
             if codelist_name not in codelist_versions_by_name:
                 codelist_versions_by_name[codelist_name] = []
             codelist_versions_by_name[codelist_name].append(version)
 
-    with open(join(path, 'codelists.json'), 'w') as f:
-        json.dump(codelist_versions_by_name, f)
+    with open(join(path, 'codelists.json'), 'w') as handler:
+        json.dump(codelist_versions_by_name, handler)
 
     for codelist_name, versions in codelist_versions_by_name.items():
         codelist = None
@@ -117,16 +117,16 @@ def codelists(path=None):
             if version in very_old_versions:
                 codelist_url = very_old_codelist_tmpl.format(
                     codelist_name=codelist_name)
-                r = requests.get(codelist_url)
+                request = requests.get(codelist_url)
                 codes = list(csv.DictReader(
-                    [x for x in r.iter_lines()]))
+                    [x for x in request.iter_lines()]))
                 version_codelist = {'data': codes}
             elif version in old_versions:
                 codelist_url = old_codelist_tmpl.format(
                     codelist_name=codelist_name)
-                r = requests.get(codelist_url)
+                request = requests.get(codelist_url)
                 codes = list(csv.DictReader(
-                    [x for x in r.iter_lines()]))
+                    [x for x in request.iter_lines()]))
                 version_codelist = {'data': codes}
             else:
                 codelist_url = new_codelist_tmpl.format(
@@ -157,8 +157,8 @@ def codelists(path=None):
                         current_item['until'] = version
                     codelist['data'][item['code']] = current_item
 
-        with open(join(path, codelist_name + '.json'), 'w') as f:
-            json.dump(codelist, f)
+        with open(join(path, codelist_name + '.json'), 'w') as handler:
+            json.dump(codelist, handler)
 
 
 def schemas(path=None):
@@ -182,7 +182,7 @@ def schemas(path=None):
         version_path = version.replace('.', '')
         makedirs(join(path, version_path))
         for filename in filenames:
-            r = requests.get(tmpl.format(version=version, filename=filename))
+            request = requests.get(tmpl.format(version=version, filename=filename))
             filepath = join(path, version_path, filename)
-            with open(filepath, 'wb') as f:
-                f.write(r.content)
+            with open(filepath, 'wb') as handler:
+                handler.write(request.content)

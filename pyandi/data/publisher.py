@@ -84,8 +84,8 @@ class Publisher(object):
         """Return a dictionary of registry metadata for this publisher."""
         if self._metadata is None:
             if exists(self.metadata_filepath):
-                with open(self.metadata_filepath) as f:
-                    self._metadata = json.load(f)
+                with open(self.metadata_filepath) as handler:
+                    self._metadata = json.load(handler)
             else:
                 msg = 'No metadata was found for dataset "%s"'
                 logging.warning(msg, self.name)

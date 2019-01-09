@@ -45,8 +45,8 @@ class Registry(object):
         if not self._last_updated:
             filepath = join(self.path, 'metadata.json')
             if exists(filepath):
-                with open(filepath) as f:
-                    j = json.load(f)
+                with open(filepath) as handler:
+                    j = json.load(handler)
                 last_updated = j['updated_at']
                 self._last_updated = datetime.strptime(
                     last_updated, '%Y-%m-%dT%H:%M:%SZ')
@@ -68,9 +68,9 @@ class Registry(object):
     @property
     def datasets(self):
         """Return an iterator of all IATI datasets on the registry."""
-        r = self.publishers
-        data_path = join(r.data_path, '*')
-        metadata_path = join(r.metadata_path, '', '*')
+        publisher_set = self.publishers
+        data_path = join(publisher_set.data_path, '*')
+        metadata_path = join(publisher_set.metadata_path, '', '*')
         return DatasetSet(data_path, metadata_path)
 
     @property
