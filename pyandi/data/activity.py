@@ -148,7 +148,7 @@ class ActivitySet(GenericSet):
         'id', 'iati_identifier', 'title', 'description',
         'location', 'sector', 'planned_start',
         'actual_start', 'planned_end', 'actual_end',
-        'xpath',
+        'xpath', 'fast_find',
     ]
     _instance_class = Activity
     _filetype = 'activity'
@@ -187,9 +187,20 @@ class ActivitySet(GenericSet):
         ).where(**self.wheres)
 
     def __iter__(self):
+        fast_find = self.wheres.get('fast_find')
+        if fast_find is not None:
+            if fast_find:
+                identifier = self.wheres.get('iati_identifier')
+            del self.wheres['fast_find']
+
         for dataset in self.datasets:
             if dataset.filetype != self._filetype:
                 continue
+            if fast_find:
+                org_id = dataset.metadata.get('extras', {}). \
+                         get('publisher_iati_id')
+                if org_id and not identifier.startswith(org_id + '-'):
+                    continue
             if not dataset.is_valid_xml():
                 continue
             try:
