@@ -148,7 +148,7 @@ class ActivitySet(GenericSet):
         'id', 'iati_identifier', 'title', 'description',
         'location', 'sector', 'planned_start',
         'actual_start', 'planned_end', 'actual_end',
-        'xpath', 'fast_find',
+        'xpath', 'fast',
     ]
     _instance_class = Activity
     _filetype = 'activity'
@@ -194,21 +194,21 @@ class ActivitySet(GenericSet):
         if isinstance(item, self._instance_class):
             item = getattr(item, self._key)
         try:
-            return self.find(**{self._key: item, 'fast_find': fast})
+            return self.find(**{self._key: item, 'fast': fast})
         except IndexError:
             return default
 
     def __iter__(self):
-        fast_find = self.wheres.get('fast_find')
-        if fast_find is not None:
-            if fast_find:
+        fast_search = self.wheres.get('fast')
+        if fast_search is not None:
+            if fast_search:
                 identifier = self.wheres.get('iati_identifier')
-            del self.wheres['fast_find']
+            del self.wheres['fast']
 
         for dataset in self.datasets:
             if dataset.filetype != self._filetype:
                 continue
-            if fast_find:
+            if fast_search:
                 org_id = dataset.metadata.get('extras', {}). \
                          get('publisher_iati_id')
                 if org_id and not identifier.startswith(org_id + '-'):
