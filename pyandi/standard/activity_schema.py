@@ -38,7 +38,7 @@ class ActivitySchema101(object):
             '1': [None, 'DAC'],
             '2': 'DAC-3',
         }
-        return SectorType('sector', cls.version, condition)
+        return SectorType('sector', condition)
 
     @classmethod
     def planned_start(cls):
@@ -89,7 +89,7 @@ class ActivitySchema201(ActivitySchema105):
         condition = {
             '1': [None, '1'],
         }
-        return SectorType('sector', cls.version, condition)
+        return SectorType('sector', condition)
 
     @classmethod
     def planned_start(cls):

@@ -47,7 +47,7 @@ class DateType(GenericType):
 
 
 class SectorType(GenericType):
-    def __init__(self, expr, version, condition):
+    def __init__(self, expr, condition):
         super(SectorType, self).__init__(expr)
         self.condition = condition
 
