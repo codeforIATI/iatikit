@@ -34,8 +34,6 @@ class Codelist(GenericSet):
     def __init__(self, slug, path, version, **kwargs):
         super(Codelist, self).__init__()
         self.wheres = kwargs
-        # self._instance_class = CodelistItem
-
         self.slug = slug
         self.path = os.path.join(path, slug + '.json')
         self.version = version
