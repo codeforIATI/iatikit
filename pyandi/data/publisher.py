@@ -9,38 +9,6 @@ from .dataset import DatasetSet
 from .activity import ActivitySet
 
 
-class PublisherSet(GenericSet):
-    """Class representing a grouping of ``Publisher`` objects.
-
-    Objects in this grouping can be filtered and iterated over.
-    Queries are only constructed and run when needed, so they
-    can be efficient.
-    """
-
-    def __init__(self, data_path, metadata_path, **kwargs):
-        super(PublisherSet, self).__init__()
-        self.wheres = kwargs
-        self._filters = ['name']
-        self._key = 'name'
-        self._instance_class = Publisher
-        self.data_path = data_path
-        self.metadata_path = metadata_path
-
-    def __iter__(self):
-        data_paths = sorted(glob(self.data_path))
-        metadata_paths = sorted(glob(join(self.metadata_path, '')))
-        metadata_filepaths = sorted(glob(join(self.metadata_path + '.json')))
-        paths = zip(data_paths, metadata_paths, metadata_filepaths)
-
-        name = self.wheres.get('name')
-        if name is not None:
-            paths = filter(lambda x: basename(x[0]) == name,
-                           paths)
-
-        for data_path, metadata_path, metadata_filepath in paths:
-            yield Publisher(data_path, metadata_path, metadata_filepath)
-
-
 class Publisher(object):
     """Class representing an IATI publisher."""
 
@@ -92,3 +60,36 @@ class Publisher(object):
                 logging.warning(msg, self.name)
                 self._metadata = {}
         return self._metadata
+
+
+class PublisherSet(GenericSet):
+    """Class representing a grouping of ``Publisher`` objects.
+
+    Objects in this grouping can be filtered and iterated over.
+    Queries are only constructed and run when needed, so they
+    can be efficient.
+    """
+
+    _filters = ['name']
+    _key = 'name'
+    _instance_class = Publisher
+
+    def __init__(self, data_path, metadata_path, **kwargs):
+        super(PublisherSet, self).__init__()
+        self.wheres = kwargs
+        self.data_path = data_path
+        self.metadata_path = metadata_path
+
+    def __iter__(self):
+        data_paths = sorted(glob(self.data_path))
+        metadata_paths = sorted(glob(join(self.metadata_path, '')))
+        metadata_filepaths = sorted(glob(join(self.metadata_path + '.json')))
+        paths = zip(data_paths, metadata_paths, metadata_filepaths)
+
+        name = self.wheres.get('name')
+        if name is not None:
+            paths = filter(lambda x: basename(x[0]) == name,
+                           paths)
+
+        for data_path, metadata_path, metadata_filepath in paths:
+            yield Publisher(data_path, metadata_path, metadata_filepath)

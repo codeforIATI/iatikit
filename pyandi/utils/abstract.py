@@ -11,11 +11,12 @@ class GenericSet(object):
     can be efficient.
     """
 
+    _key = None
+    _filters = []
+    _instance_class = None
+
     def __init__(self):
-        self._key = None
-        self._filters = []
         self.wheres = {}
-        self._instance_class = None
 
     def where(self, **kwargs):
         """Return a new set, with the filters provided in ``**kwargs``.

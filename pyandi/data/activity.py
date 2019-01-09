@@ -12,72 +12,6 @@ from ..utils.exceptions import SchemaError
 from ..utils.querybuilder import XPathQueryBuilder
 
 
-class ActivitySet(GenericSet):
-    """Class representing a grouping of ``Activity`` objects.
-
-    Objects in this grouping can be filtered and iterated over.
-    Queries are only constructed and run when needed, so they
-    can be efficient.
-    """
-
-    def __init__(self, datasets, **kwargs):
-        super(ActivitySet, self).__init__()
-        self._key = 'iati_identifier'
-        self._filters = [
-            'id', 'iati_identifier', 'title', 'description',
-            'location', 'sector', 'planned_start',
-            'actual_start', 'planned_end', 'actual_end',
-            'xpath',
-        ]
-        self.wheres = kwargs
-        self._instance_class = Activity
-
-        self.datasets = datasets
-        self._filetype = 'activity'
-        self._element = 'iati-activity'
-
-    def __len__(self):
-        total = 0
-        for dataset in self.datasets:
-            if dataset.filetype != self._filetype:
-                continue
-            if not dataset.is_valid_xml():
-                continue
-            try:
-                schema = get_schema(dataset.filetype, dataset.version)
-            except SchemaError:
-                continue
-            prefix = '//' + self._element
-            query = XPathQueryBuilder(
-                schema,
-                prefix=prefix,
-                count=True
-            ).where(**self.wheres)
-            total += int(dataset.etree.xpath(query))
-        return total
-
-    def _query(self, schema):
-        prefix = '//' + self._element
-        return XPathQueryBuilder(
-            schema,
-            prefix=prefix,
-        ).where(**self.wheres)
-
-    def __iter__(self):
-        for dataset in self.datasets:
-            if dataset.filetype != self._filetype:
-                continue
-            if not dataset.is_valid_xml():
-                continue
-            try:
-                schema = get_schema(dataset.filetype, dataset.version)
-            except SchemaError:
-                continue
-            activity_etrees = dataset.etree.xpath(self._query(schema))
-            for tree in activity_etrees:
-                yield self._instance_class(tree, dataset, schema)
-
-
 class Activity(object):
     """Class representing an IATI activity."""
 
@@ -199,3 +133,69 @@ class Activity(object):
         if end:
             return end
         return self.planned_end
+
+
+class ActivitySet(GenericSet):
+    """Class representing a grouping of ``Activity`` objects.
+
+    Objects in this grouping can be filtered and iterated over.
+    Queries are only constructed and run when needed, so they
+    can be efficient.
+    """
+
+    _key = 'iati_identifier'
+    _filters = [
+        'id', 'iati_identifier', 'title', 'description',
+        'location', 'sector', 'planned_start',
+        'actual_start', 'planned_end', 'actual_end',
+        'xpath',
+    ]
+    _instance_class = Activity
+    _filetype = 'activity'
+    _element = 'iati-activity'
+
+    def __init__(self, datasets, **kwargs):
+        super(ActivitySet, self).__init__()
+        self.wheres = kwargs
+        self.datasets = datasets
+
+    def __len__(self):
+        total = 0
+        for dataset in self.datasets:
+            if dataset.filetype != self._filetype:
+                continue
+            if not dataset.is_valid_xml():
+                continue
+            try:
+                schema = get_schema(dataset.filetype, dataset.version)
+            except SchemaError:
+                continue
+            prefix = '//' + self._element
+            query = XPathQueryBuilder(
+                schema,
+                prefix=prefix,
+                count=True
+            ).where(**self.wheres)
+            total += int(dataset.etree.xpath(query))
+        return total
+
+    def _query(self, schema):
+        prefix = '//' + self._element
+        return XPathQueryBuilder(
+            schema,
+            prefix=prefix,
+        ).where(**self.wheres)
+
+    def __iter__(self):
+        for dataset in self.datasets:
+            if dataset.filetype != self._filetype:
+                continue
+            if not dataset.is_valid_xml():
+                continue
+            try:
+                schema = get_schema(dataset.filetype, dataset.version)
+            except SchemaError:
+                continue
+            activity_etrees = dataset.etree.xpath(self._query(schema))
+            for tree in activity_etrees:
+                yield self._instance_class(tree, dataset, schema)

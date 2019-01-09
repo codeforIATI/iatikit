@@ -12,44 +12,6 @@ from ..standard.xsd_schema import XSDSchema
 from .activity import ActivitySet
 
 
-class DatasetSet(GenericSet):
-    """Class representing a grouping of ``Dataset`` objects.
-
-    Objects in this grouping can be filtered and iterated over.
-    Queries are only constructed and run when needed, so they
-    can be efficient.
-    """
-
-    def __init__(self, data_path, metadata_path, **kwargs):
-        super(DatasetSet, self).__init__()
-        self._key = 'name'
-        self._filters = ['name', 'filetype']
-        self.wheres = kwargs
-        self._instance_class = Dataset
-
-        self.data_path = data_path
-        self.metadata_path = metadata_path
-
-    def __iter__(self):
-        data_paths = sorted(glob(self.data_path))
-        metadata_paths = sorted(glob(self.metadata_path))
-        paths = zip(data_paths, metadata_paths)
-
-        name = self.wheres.get('name')
-        if name is not None:
-            paths = filter(
-                lambda x: splitext(basename(x[0]))[0] == name, paths)
-
-        where_filetype = self.wheres.get('filetype')
-
-        for data_path, metadata_path in paths:
-            dataset = Dataset(data_path, metadata_path)
-            if where_filetype is not None and \
-                    dataset.filetype != where_filetype:
-                continue
-            yield dataset
-
-
 class Dataset(object):
     """Class representing an IATI dataset."""
 
@@ -180,3 +142,42 @@ class Dataset(object):
     def activities(self):
         """Return an iterator of all activities in this dataset."""
         return ActivitySet([self])
+
+
+class DatasetSet(GenericSet):
+    """Class representing a grouping of ``Dataset`` objects.
+
+    Objects in this grouping can be filtered and iterated over.
+    Queries are only constructed and run when needed, so they
+    can be efficient.
+    """
+
+    _key = 'name'
+    _filters = ['name', 'filetype']
+    _instance_class = Dataset
+
+    def __init__(self, data_path, metadata_path, **kwargs):
+        super(DatasetSet, self).__init__()
+        self.wheres = kwargs
+
+        self.data_path = data_path
+        self.metadata_path = metadata_path
+
+    def __iter__(self):
+        data_paths = sorted(glob(self.data_path))
+        metadata_paths = sorted(glob(self.metadata_path))
+        paths = zip(data_paths, metadata_paths)
+
+        name = self.wheres.get('name')
+        if name is not None:
+            paths = filter(
+                lambda x: splitext(basename(x[0]))[0] == name, paths)
+
+        where_filetype = self.wheres.get('filetype')
+
+        for data_path, metadata_path in paths:
+            dataset = Dataset(data_path, metadata_path)
+            if where_filetype is not None and \
+                    dataset.filetype != where_filetype:
+                continue
+            yield dataset
