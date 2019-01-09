@@ -186,6 +186,12 @@ class ActivitySet(GenericSet):
             prefix=prefix,
         ).where(**self.wheres)
 
+    def fast_get(self, identifier, default=None):
+        try:
+            return self.find(**{self._key: identifier, 'fast_find': True})
+        except IndexError:
+            return default
+
     def __iter__(self):
         fast_find = self.wheres.get('fast_find')
         if fast_find is not None:
