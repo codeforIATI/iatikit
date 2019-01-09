@@ -6,53 +6,62 @@ from ..utils.exceptions import UnknownSectorVocabError, \
 class Sector(object):
     def __init__(self, code, vocabulary=None, percentage=None, path=None):
         codelists = CodelistSet(path)
+        vocab_lookup = {
+            '1': 'Sector',
+            '2': 'SectorCategory',
+        }
+
+        def get_vocabulary(vocabulary_code):
+            old_vocab_item = codelists.get(
+                'Vocabulary').get(vocabulary_code)
+
+            if old_vocab_item is not None:
+                new_vocab_code = {
+                    'ADT': '6', 'COFOG': '3',
+                    'DAC': '1', 'DAC-3': '2',
+                    'ISO': None, 'NACE': '4',
+                    'NTEE': '5', 'RO': '99',
+                    'RO2': '98', 'WB': None,
+                }.get(old_vocab_item.code)
+                if new_vocab_code:
+                    vocab_item = codelists.get(
+                        'SectorVocabulary').get(new_vocab_code)
+            else:
+                vocab_item = codelists.get(
+                    'SectorVocabulary').get(vocabulary_code)
+                if vocab_item is None:
+                    raise UnknownSectorVocabError()
+            return vocab_item
 
         if percentage is not None:
             self.percentage = float(percentage)
         else:
             self.percentage = None
 
-        if vocabulary:
-            vocab_item = codelists.get('Vocabulary').get(vocabulary)
-            if vocab_item is not None:
-                new_code = {
-                    'ADT': '6', 'COFOG': '3',
-                    'DAC': '1', 'DAC-3': '2',
-                    'ISO': None, 'NACE': '4',
-                    'NTEE': '5', 'RO': '99',
-                    'RO2': '98', 'WB': None,
-                }.get(vocab_item.code)
-                if new_code:
-                    vocab_item = codelists.get(
-                        'SectorVocabulary').get(new_code)
+        if isinstance(code, CodelistItem):
+            if code.codelist.slug == 'Sector':
+                self.vocabulary = codelists.get(
+                    'SectorVocabulary').get('1')
+            elif code.codelist.slug == 'SectorCategory':
+                self.vocabulary = codelists.get(
+                    'SectorVocabulary').get('2')
             else:
-                vocab_item = codelists.get('SectorVocabulary').get(vocabulary)
-                if vocab_item is None:
-                    raise UnknownSectorVocabError()
-            if vocab_item.code == '1':
-                self.code = codelists.get('Sector').get(code)
-            elif vocab_item.code == '2':
-                self.code = codelists.get('SectorCategory').get(code)
+                raise InvalidSectorCodeError(
+                    'Not a sector code: {}'.format(code))
+            self.code = code
+        elif vocabulary:
+            self.vocabulary = get_vocabulary(vocabulary)
+
+            vocab_codelist_name = vocab_lookup.get(self.vocabulary.code)
+            if vocab_codelist_name:
+                self.code = codelists.get(vocab_codelist_name).get(code)
+                if self.code is None:
+                    raise UnknownSectorCodeError()
             else:
                 self.code = str(code)
-            if self.code is None:
-                raise UnknownSectorCodeError()
-            self.vocabulary = vocab_item
         else:
-            if isinstance(code, CodelistItem):
-                if code.codelist.slug == 'Sector':
-                    self.vocabulary = codelists.get(
-                        'SectorVocabulary').get('1')
-                elif code.codelist.slug == 'SectorCategory':
-                    self.vocabulary = codelists.get(
-                        'SectorVocabulary').get('2')
-                else:
-                    raise InvalidSectorCodeError(
-                        'Not a sector code: {}'.format(code))
-                self.code = code
-            else:
-                self.code = str(code)
-                self.vocabulary = None
+            self.code = str(code)
+            self.vocabulary = None
 
     def __repr__(self):
         if isinstance(self.code, CodelistItem):
