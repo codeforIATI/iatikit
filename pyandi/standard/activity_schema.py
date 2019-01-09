@@ -106,22 +106,27 @@ class ActivitySchema203(ActivitySchema202):
 
 
 def get_activity_schema(version):
-    if version == '2.03':
-        return ActivitySchema203()
-    elif version == '2.02':
-        return ActivitySchema202()
-    elif version == '2.01':
-        return ActivitySchema201()
-    elif version == '1.05':
-        return ActivitySchema105()
-    elif version == '1.04':
-        return ActivitySchema104()
-    elif version == '1.03':
-        return ActivitySchema103()
-    elif version == '1.02':
-        return ActivitySchema102()
-    elif version == '1.01':
-        return ActivitySchema101()
+    schema = None
 
-    msg = 'Unknown activity schema: version: {}'.format(version)
-    raise SchemaError(msg)
+    if version == '2.03':
+        schema = ActivitySchema203()
+    elif version == '2.02':
+        schema = ActivitySchema202()
+    elif version == '2.01':
+        schema = ActivitySchema201()
+    elif version == '1.05':
+        schema = ActivitySchema105()
+    elif version == '1.04':
+        schema = ActivitySchema104()
+    elif version == '1.03':
+        schema = ActivitySchema103()
+    elif version == '1.02':
+        schema = ActivitySchema102()
+    elif version == '1.01':
+        schema = ActivitySchema101()
+
+    if not schema:
+        msg = 'Unknown activity schema: version: {}'.format(version)
+        raise SchemaError(msg)
+
+    return schema
