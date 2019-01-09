@@ -51,7 +51,8 @@ class SectorType(GenericType):
         super(SectorType, self).__init__(expr)
         self.condition = condition
 
-    def _vocab_condition(self, conditions):
+    @staticmethod
+    def _vocab_condition(conditions):
         conditions_list = []
         if not isinstance(conditions, list):
             conditions = [conditions]
