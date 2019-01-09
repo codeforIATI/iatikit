@@ -17,6 +17,7 @@ test_deps = [
     'pytest-cov',
     'coveralls',
     'freezegun',
+    'pylint<2.0.0',
 ]
 extras = {'test': test_deps}
 
