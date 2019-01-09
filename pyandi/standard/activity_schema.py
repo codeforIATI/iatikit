@@ -10,7 +10,7 @@ class ActivitySchema101(object):
     def xpath(self):
         return XPathType('')
 
-    def id(self):
+    def id(self):  # pylint: disable=invalid-name
         return self.iati_identifier()
 
     def iati_identifier(self):

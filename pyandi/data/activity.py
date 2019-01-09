@@ -124,7 +124,7 @@ class Activity(object):
         return None
 
     @property
-    def id(self):
+    def id(self):  # pylint: disable=invalid-name
         """Alias of ``iati_identifier``."""
         return self.iati_identifier
 
