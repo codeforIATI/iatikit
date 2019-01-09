@@ -1,4 +1,4 @@
-from collections import OrderedDict
+from collections import OrderedDict, defaultdict
 import json
 from os.path import join
 from os import makedirs, unlink as _unlink
@@ -8,25 +8,6 @@ import zipfile
 
 import requests
 import unicodecsv as csv
-
-
-# Ideally, information about embedded / non-embedded would
-# come from the codelist API, rather than a hardcoded list.
-#
-# See: https://github.com/IATI/IATI-Codelists/issues/189
-_EMBEDDED_CODELISTS = [
-    'ActivityDateType',
-    'ActivityStatus',
-    'AidTypeFlag',
-    'BudgetStatus',
-    'BudgetType',
-    'DocumentCategory',
-    'GazetteerAgency',
-    'OrganisationRole',
-    'RelatedActivityType',
-    'TransactionType',
-    'Vocabulary',
-]
 
 
 def data(path=None):
@@ -56,51 +37,80 @@ def data(path=None):
         handler.write(zip_metadata.content)
 
 
+_VERY_OLD_IATI_VERSIONS = ['1.01', '1.02']
+_OLD_IATI_VERSIONS = ['1.03']
+_VERY_OLD_CODELISTS_URL = 'http://codelists102.archive.iatistandard.org' + \
+                         '/data/codelist.csv'
+_OLD_CODELISTS_URL = 'http://codelists103.archive.iatistandard.org' + \
+                    '/data/codelist.json'
+_NEW_CODELISTS_TMPL = 'http://reference.iatistandard.org/{version}/' + \
+                     'codelists/downloads/clv2/codelists.json'
+_VERY_OLD_CODELIST_TMPL = 'http://codelists102.archive.iatistandard.org' + \
+                         '/data/codelist/{codelist_name}.csv'
+_OLD_CODELIST_TMPL = 'http://codelists103.archive.iatistandard.org' + \
+                    '/data/codelist/{codelist_name}.csv'
+_NEW_CODELIST_TMPL = 'http://reference.iatistandard.org/{version}/' + \
+                    'codelists/downloads/clv2/json/en/{codelist_name}.json'
+
+
 def codelists(path=None):
+    def get_iati_versions():
+        versions_url = 'http://reference.iatistandard.org/codelists/' + \
+                       'downloads/clv2/json/en/Version.json'
+        versions = [d['code']
+                    for d in requests.get(versions_url).json()['data']]
+        versions.reverse()
+        return versions
+
+    def get_list_of_codelists(version):
+        if version in _VERY_OLD_IATI_VERSIONS:
+            request = requests.get(_VERY_OLD_CODELISTS_URL)
+            list_of_codelists = [x['name'] for x in csv.DictReader(
+                [x for x in request.iter_lines()])]
+        elif version in _OLD_IATI_VERSIONS:
+            j = requests.get(_OLD_CODELISTS_URL).json()
+            list_of_codelists = [x['name'] for x in j['codelist']]
+        else:
+            codelists_url = _NEW_CODELISTS_TMPL.format(
+                version=version.replace('.', ''))
+            list_of_codelists = requests.get(codelists_url).json()
+        return list_of_codelists
+
+    def get_codelist(codelist_name, version):
+        if version in _VERY_OLD_IATI_VERSIONS:
+            codelist_url = _VERY_OLD_CODELIST_TMPL.format(
+                codelist_name=codelist_name)
+            request = requests.get(codelist_url)
+            codes = list(csv.DictReader(
+                [x for x in request.iter_lines()]))
+            version_codelist = {'data': codes}
+        elif version in _OLD_IATI_VERSIONS:
+            codelist_url = _OLD_CODELIST_TMPL.format(
+                codelist_name=codelist_name)
+            request = requests.get(codelist_url)
+            codes = list(csv.DictReader(
+                [x for x in request.iter_lines()]))
+            version_codelist = {'data': codes}
+        else:
+            codelist_url = _NEW_CODELIST_TMPL.format(
+                codelist_name=codelist_name,
+                version=version.replace('.', ''))
+            version_codelist = requests.get(codelist_url).json()
+        return version_codelist
+
     if not path:
         path = join('__pyandicache__', 'standard', 'codelists')
-
-    very_old_versions = ['1.01', '1.02']
-    old_versions = ['1.03']
-    very_old_codelists_url = 'http://codelists102.archive.iatistandard.org' + \
-                             '/data/codelist.csv'
-    old_codelists_url = 'http://codelists103.archive.iatistandard.org' + \
-                        '/data/codelist.json'
-    new_codelists_tmpl = 'http://reference.iatistandard.org/{version}/' + \
-                         'codelists/downloads/clv2/codelists.json'
-    very_old_codelist_tmpl = 'http://codelists102.archive.iatistandard.org' + \
-                             '/data/codelist/{codelist_name}.csv'
-    old_codelist_tmpl = 'http://codelists103.archive.iatistandard.org' + \
-                        '/data/codelist/{codelist_name}.csv'
-    new_codelist_tmpl = 'http://reference.iatistandard.org/{version}/' + \
-                        'codelists/downloads/clv2/json/en/{codelist_name}.json'
 
     shutil.rmtree(path, ignore_errors=True)
     makedirs(path)
 
     logging.info('Downloading IATI Standard codelists...')
-    versions_url = 'http://reference.iatistandard.org/codelists/' + \
-                   'downloads/clv2/json/en/Version.json'
-    versions = [d['code'] for d in requests.get(versions_url).json()['data']]
-    versions.reverse()
 
-    codelist_versions_by_name = {}
-    for version in versions:
-        if version in very_old_versions:
-            request = requests.get(very_old_codelists_url)
-            list_of_codelists = [x['name'] for x in csv.DictReader(
-                [x for x in request.iter_lines()])]
-        elif version in old_versions:
-            j = requests.get(old_codelists_url).json()
-            list_of_codelists = [x['name'] for x in j['codelist']]
-        else:
-            codelists_url = new_codelists_tmpl.format(
-                version=version.replace('.', ''))
-            list_of_codelists = requests.get(codelists_url).json()
+    codelist_versions_by_name = defaultdict(list)
+    for version in get_iati_versions():
+        list_of_codelists = get_list_of_codelists(version)
 
         for codelist_name in list_of_codelists:
-            if codelist_name not in codelist_versions_by_name:
-                codelist_versions_by_name[codelist_name] = []
             codelist_versions_by_name[codelist_name].append(version)
 
     with open(join(path, 'codelists.json'), 'w') as handler:
@@ -109,36 +119,21 @@ def codelists(path=None):
     for codelist_name, versions in codelist_versions_by_name.items():
         codelist = None
         for version in versions:
-            if version in very_old_versions:
-                codelist_url = very_old_codelist_tmpl.format(
-                    codelist_name=codelist_name)
-                request = requests.get(codelist_url)
-                codes = list(csv.DictReader(
-                    [x for x in request.iter_lines()]))
-                version_codelist = {'data': codes}
-            elif version in old_versions:
-                codelist_url = old_codelist_tmpl.format(
-                    codelist_name=codelist_name)
-                request = requests.get(codelist_url)
-                codes = list(csv.DictReader(
-                    [x for x in request.iter_lines()]))
-                version_codelist = {'data': codes}
-            else:
-                codelist_url = new_codelist_tmpl.format(
-                    codelist_name=codelist_name,
-                    version=version.replace('.', ''))
-                version_codelist = requests.get(codelist_url).json()
-            if codelist_name not in _EMBEDDED_CODELISTS:
+            version_codelist = get_codelist(codelist_name, version)
+
+            if version_codelist.get('attributes', {}).get('embedded') == '0':
                 codelist = version_codelist
                 codelist['data'] = OrderedDict(
                     [(x['code'], x) for x in codelist['data']])
                 break
+
             if codelist is None:
                 codelist = {
                     'attributes': version_codelist.get('attributes'),
                     'metadata': version_codelist.get('metadata'),
                     'data': OrderedDict(),
                 }
+
             for item in version_codelist['data']:
                 if item['code'] not in codelist['data']:
                     item['from'] = version
