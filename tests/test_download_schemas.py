@@ -26,7 +26,7 @@ class MockRequest():
         filename = url.rsplit('/', 1)[-1]
         if filename == 'Version.json':
             codelist_path = join(dirname(abspath(__file__)),
-                                 'fixtures', 'codelists', 'download')
+                                 'fixtures', 'codelist_downloads')
             self.filepath = join(codelist_path, filename)
         self.content = XSD_TMPL.format(filename=filename).encode()
 

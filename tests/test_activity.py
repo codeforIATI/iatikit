@@ -69,7 +69,8 @@ class TestActivitySet(TestCase):
         assert acts[0].iati_identifier == 'GB-COH-01234567-Humanitarian Aid-1'
 
     def test_activities_filter_by_sector(self):
-        path = join(dirname(abspath(__file__)), 'fixtures', 'codelists')
+        path = join(dirname(abspath(__file__)), 'fixtures',
+                    'standard', 'codelists')
         sector = Sector('15163', vocabulary='DAC', path=path)
         acts = self.fixture_org_acts.where(
             sector=sector).all()
@@ -83,7 +84,8 @@ class TestActivitySet(TestCase):
 
     @patch('os.path.join', mod_join)
     def test_activities_filter_by_sector_in(self):
-        path = join(dirname(abspath(__file__)), 'fixtures', 'codelists')
+        path = join(dirname(abspath(__file__)), 'fixtures',
+                    'standard', 'codelists')
         sector = Sector('151', vocabulary='2', path=path)
         acts = self.fixture_org_acts.where(
             sector__in=sector).all()

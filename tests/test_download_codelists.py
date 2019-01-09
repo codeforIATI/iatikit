@@ -13,7 +13,7 @@ from pyandi.utils import download
 class MockRequest():
     def __init__(self, url, stream=False):
         codelist_path = join(dirname(abspath(__file__)),
-                             'fixtures', 'codelists', 'download')
+                             'fixtures', 'codelist_downloads')
         fname = url.rsplit('/', 1)[-1]
         if fname in ['Version.json', 'Vocabulary.json', 'Sector.json',
                      'SectorVocabulary.json', 'Vocabulary.csv']:

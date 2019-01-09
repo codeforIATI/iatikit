@@ -4,6 +4,7 @@ from unittest import TestCase
 from mock import patch
 
 from pyandi.data.dataset import DatasetSet, Dataset
+from .helpers import mod_join
 
 
 class TestDatasets(TestCase):
@@ -55,6 +56,7 @@ class TestDataset(TestCase):
     def test_dataset_is_valid_xml(self):
         assert self.activity_dataset.is_valid_xml() is True
 
+    @patch('os.path.join', mod_join)
     def test_dataset_is_valid_iati(self):
         assert self.activity_dataset.is_valid_iati() is True
 

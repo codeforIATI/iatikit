@@ -26,7 +26,7 @@ class TestCodelistSet(TestCase):
     def __init__(self, *args, **kwargs):
         super(TestCodelistSet, self).__init__(*args, **kwargs)
         self.codelist_path = join(dirname(abspath(__file__)),
-                                  'fixtures', 'codelists')
+                                  'fixtures', 'standard', 'codelists')
         self.codelists = CodelistSet(self.codelist_path)
 
     def test_codelists_iter(self):
@@ -64,7 +64,7 @@ class TestCodelist(TestCase):
     def __init__(self, *args, **kwargs):
         super(TestCodelist, self).__init__(*args, **kwargs)
         codelist_path = join(dirname(abspath(__file__)),
-                             'fixtures', 'codelists')
+                             'fixtures', 'standard', 'codelists')
         self.codelist = Codelist('Sector', codelist_path, '1.05')
 
     def test_codelist_name(self):
