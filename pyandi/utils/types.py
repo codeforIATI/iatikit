@@ -41,7 +41,7 @@ class DateType(GenericType):
             try:
                 dates.append(datetime.strptime(date_str, '%Y-%m-%d').date())
             except ValueError:
-                logging.warning('Invalid date: "{}"'.format(date_str))
+                logging.warning('Invalid date: "%s"', date_str)
         return dates
 
 

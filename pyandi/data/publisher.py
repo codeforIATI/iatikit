@@ -87,7 +87,7 @@ class Publisher(object):
                 with open(self.metadata_filepath) as f:
                     self._metadata = json.load(f)
             else:
-                msg = 'No metadata was found for dataset "{}"'
-                logging.warning(msg.format(self.name))
+                msg = 'No metadata was found for dataset "%s"'
+                logging.warning(msg, self.name)
                 self._metadata = {}
         return self._metadata

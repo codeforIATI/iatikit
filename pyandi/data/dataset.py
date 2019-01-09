@@ -76,8 +76,7 @@ class Dataset(object):
             try:
                 self._etree = ET.parse(self.data_path)
             except ET.XMLSyntaxError:
-                logging.warning('Dataset "{}" XML is invalid'.format(
-                    self.name))
+                logging.warning('Dataset "%s" XML is invalid', self.name)
                 raise
         return self._etree
 
@@ -131,8 +130,8 @@ class Dataset(object):
                 self._metadata['extras'] = {x['key']: x['value']
                                             for x in extras}
             else:
-                msg = 'No metadata was found for dataset "{}"'
-                logging.warning(msg.format(self.name))
+                msg = 'No metadata was found for dataset "%s"'
+                logging.warning(msg, self.name)
                 self._metadata = {}
         return self._metadata
 
