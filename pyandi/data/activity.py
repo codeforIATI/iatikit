@@ -4,12 +4,12 @@ try:
 except ImportError:
     from urllib import urlencode
 
+from lxml import etree as ET
+
 from ..standard.schema import get_schema
 from ..utils.abstract import GenericSet
 from ..utils.exceptions import SchemaError
 from ..utils.querybuilder import XPathQueryBuilder
-
-from lxml import etree as ET
 
 
 class ActivitySet(GenericSet):

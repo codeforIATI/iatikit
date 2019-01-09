@@ -1,13 +1,13 @@
 from collections import OrderedDict
-import unicodecsv as csv
 import json
 from os.path import join
 from os import makedirs, unlink as _unlink
 import shutil
 import logging
+import zipfile
 
 import requests
-import zipfile
+import unicodecsv as csv
 
 
 # Ideally, information about embedded / non-embedded would
