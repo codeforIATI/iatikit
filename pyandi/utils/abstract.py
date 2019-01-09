@@ -74,7 +74,7 @@ class GenericSet(object):
 
         If no matching item is found, ``default`` is returned.
         """
-        if type(item) is self._instance_class:
+        if isinstance(item, self._instance_class):
             item = getattr(item, self._key)
         try:
             return self.find(**{self._key: item})

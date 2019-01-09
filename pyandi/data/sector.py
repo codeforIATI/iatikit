@@ -39,7 +39,7 @@ class Sector(object):
                 raise UnknownSectorCodeError()
             self.vocabulary = vocab_item
         else:
-            if type(code) is CodelistItem:
+            if isinstance(code, CodelistItem):
                 if code.codelist.slug == 'Sector':
                     self.vocabulary = codelists.get(
                         'SectorVocabulary').get('1')
@@ -55,7 +55,7 @@ class Sector(object):
                 self.vocabulary = None
 
     def __repr__(self):
-        if type(self.code) is CodelistItem:
+        if isinstance(self.code, CodelistItem):
             txt = '{} ({}), Vocabulary: {}'.format(
                 self.code.name, self.code.code, self.vocabulary.name)
         else:

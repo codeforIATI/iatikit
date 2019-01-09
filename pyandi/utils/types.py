@@ -52,7 +52,7 @@ class SectorType(GenericType):
 
     def _vocab_condition(self, conditions):
         conditions_list = []
-        if type(conditions) is not list:
+        if not isinstance(conditions, list):
             conditions = [conditions]
         for condition in conditions:
             if condition is None:
@@ -66,7 +66,7 @@ class SectorType(GenericType):
 
     def where(self, op, value):
         if op == 'in':
-            if type(value) is not Sector or value.vocabulary.code != '2':
+            if not isinstance(value, Sector) or value.vocabulary.code != '2':
                 raise Exception('{} is not a sector category'.format(value))
             codelist_items = CodelistSet().get('Sector').where(
                 category=value.code.code).all()
@@ -81,9 +81,9 @@ class SectorType(GenericType):
             )
         elif op == 'eq':
             conditions = []
-            if type(value) is not Sector:
+            if not isinstance(value, Sector):
                 raise Exception('{} is not a sector'.format(value))
-            if type(value.code) is CodelistItem:
+            if isinstance(value.code, CodelistItem):
                 code = value.code.code
             else:
                 code = value.code
