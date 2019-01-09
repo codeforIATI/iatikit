@@ -27,7 +27,8 @@ class DateType(GenericType):
             'eq': '=',
         }.get(operation)
         if operator:
-            return 'number(translate({expr}, "-", "")) {operator} {value}'.format(
+            tmpl = 'number(translate({expr}, "-", "")) {operator} {value}'
+            return tmpl.format(
                 expr=self.get(),
                 operator=operator,
                 value=str(value).replace('-', ''),

@@ -182,7 +182,8 @@ def schemas(path=None):
         version_path = version.replace('.', '')
         makedirs(join(path, version_path))
         for filename in filenames:
-            request = requests.get(tmpl.format(version=version, filename=filename))
+            url = tmpl.format(version=version, filename=filename)
+            request = requests.get(url)
             filepath = join(path, version_path, filename)
             with open(filepath, 'wb') as handler:
                 handler.write(request.content)
