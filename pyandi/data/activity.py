@@ -119,7 +119,7 @@ class Activity(object):
         or ``None`` if it isn't provided.
         """
         id_ = self.schema.iati_identifier().run(self.etree)
-        if len(id_) > 0:
+        if id_:
             return id_[0].strip()
         return None
 
@@ -154,7 +154,7 @@ class Activity(object):
         as a python ``date``.
         """
         date = self.schema.planned_start().run(self.etree)
-        return date[0] if len(date) > 0 else None
+        return date[0] if date else None
 
     @property
     def actual_start(self):
@@ -162,7 +162,7 @@ class Activity(object):
         as a python ``date``.
         """
         date = self.schema.actual_start().run(self.etree)
-        return date[0] if len(date) > 0 else None
+        return date[0] if date else None
 
     @property
     def start(self):
@@ -180,7 +180,7 @@ class Activity(object):
         as a python ``date``.
         """
         date = self.schema.planned_end().run(self.etree)
-        return date[0] if len(date) > 0 else None
+        return date[0] if date else None
 
     @property
     def actual_end(self):
@@ -188,7 +188,7 @@ class Activity(object):
         as a python ``date``.
         """
         date = self.schema.actual_end().run(self.etree)
-        return date[0] if len(date) > 0 else None
+        return date[0] if date else None
 
     @property
     def end(self):
