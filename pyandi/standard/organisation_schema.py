@@ -43,22 +43,27 @@
 
 
 # def get_organisation_schema(version):
-#     if version == '2.03':
-#         return OrganisationSchema203
-#     elif version == '2.02':
-#         return OrganisationSchema202
-#     elif version == '2.01':
-#         return OrganisationSchema201
-#     elif version == '1.05':
-#         return OrganisationSchema105
-#     elif version == '1.04':
-#         return OrganisationSchema104
-#     elif version == '1.03':
-#         return OrganisationSchema103
-#     elif version == '1.02':
-#         return OrganisationSchema102
-#     elif version == '1.01':
-#         return OrganisationSchema101
+#     schema = None
 
-#     msg = 'Unknown organisation schema: version: {}'.format(version)
-#     raise SchemaError(msg)
+#     if version == '2.03':
+#         schema = OrganisationSchema203
+#     elif version == '2.02':
+#         schema = OrganisationSchema202
+#     elif version == '2.01':
+#         schema = OrganisationSchema201
+#     elif version == '1.05':
+#         schema = OrganisationSchema105
+#     elif version == '1.04':
+#         schema = OrganisationSchema104
+#     elif version == '1.03':
+#         schema = OrganisationSchema103
+#     elif version == '1.02':
+#         schema = OrganisationSchema102
+#     elif version == '1.01':
+#         schema = OrganisationSchema101
+
+#     if not schema:
+#         msg = 'Unknown organisation schema: version: {}'.format(version)
+#         raise SchemaError(msg)
+
+#     return schema
