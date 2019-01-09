@@ -1,5 +1,5 @@
 import logging
-from os.path import exists, join
+import os.path
 
 from lxml import etree
 
@@ -17,10 +17,10 @@ class XSDSchema(object):
         }.get(filetype)
 
         if not path:
-            path = join('__pyandicache__', 'standard', 'schemas')
-        self.path = join(path, version.replace('.', ''), schema)
+            path = os.path.join('__pyandicache__', 'standard', 'schemas')
+        self.path = os.path.join(path, version.replace('.', ''), schema)
 
-        if not exists(self.path):
+        if not os.path.exists(self.path):
             msg = 'No {filetype} schema found for IATI version "{version}".'
             msg = msg.format(filetype=filetype, version=version)
             raise SchemaNotFoundError(msg)
