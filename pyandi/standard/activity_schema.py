@@ -3,6 +3,7 @@ from ..utils.types import StringType, DateType, SectorType, XPathType
 from ..utils.abstract import GenericType
 
 
+# pylint: disable=too-many-ancestors
 class ActivitySchema101(object):
     version = '1.01'
 

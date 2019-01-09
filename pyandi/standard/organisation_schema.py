@@ -2,6 +2,7 @@
 # from ..utils.types import StringType
 
 
+# # pylint: disable=too-many-ancestors
 # class OrganisationSchema101(object):
 #     version = '1.01'
 
