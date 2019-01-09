@@ -88,17 +88,17 @@ def codelists(path=None):
     for version in versions:
         if version in very_old_versions:
             request = requests.get(very_old_codelists_url)
-            version_codelists = [x['name'] for x in csv.DictReader(
+            list_of_codelists = [x['name'] for x in csv.DictReader(
                 [x for x in request.iter_lines()])]
         elif version in old_versions:
             j = requests.get(old_codelists_url).json()
-            version_codelists = [x['name'] for x in j['codelist']]
+            list_of_codelists = [x['name'] for x in j['codelist']]
         else:
             codelists_url = new_codelists_tmpl.format(
                 version=version.replace('.', ''))
-            version_codelists = requests.get(codelists_url).json()
+            list_of_codelists = requests.get(codelists_url).json()
 
-        for codelist_name in version_codelists:
+        for codelist_name in list_of_codelists:
             if codelist_name not in codelist_versions_by_name:
                 codelist_versions_by_name[codelist_name] = []
             codelist_versions_by_name[codelist_name].append(version)
