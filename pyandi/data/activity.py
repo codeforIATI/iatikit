@@ -186,9 +186,15 @@ class ActivitySet(GenericSet):
             prefix=prefix,
         ).where(**self.wheres)
 
-    def fast_get(self, identifier, default=None):
+    def get(self, item, default=None, fast=False):
+        """Return an item from the set, according to the primary key.
+
+        If no matching item is found, ``default`` is returned.
+        """
+        if isinstance(item, self._instance_class):
+            item = getattr(item, self._key)
         try:
-            return self.find(**{self._key: identifier, 'fast_find': True})
+            return self.find(**{self._key: item, 'fast_find': fast})
         except IndexError:
             return default
 
