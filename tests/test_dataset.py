@@ -60,6 +60,9 @@ class TestDataset(TestCase):
     def test_dataset_is_valid_iati(self):
         assert self.activity_dataset.is_valid_iati() is True
 
+    def test_dataset_root(self):
+        assert self.activity_dataset.root == 'iati-activities'
+
     @patch('webbrowser.open_new_tab')
     def test_dataset_show(self, fake_open_new_tab):
         url = 'https://iatiregistry.org/dataset/old-org-acts'
