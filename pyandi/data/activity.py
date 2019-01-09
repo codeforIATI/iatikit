@@ -203,6 +203,8 @@ class ActivitySet(GenericSet):
         if fast_search is not None:
             if fast_search:
                 identifier = self.wheres.get('iati_identifier')
+                if identifier is None:
+                    identifier = self.wheres.get('id')
             del self.wheres['fast']
 
         for dataset in self.datasets:
