@@ -191,7 +191,7 @@ class TestActivity(TestCase):
     @patch('os.path.join', mod_join)
     def test_activity_sector(self):
         sector = Sector('73010', vocabulary='1')
-        self.activity.sector[0] == sector
+        assert self.activity.sector[0] == sector
 
     def test_activity_planned_start(self):
         assert self.activity2.planned_start == datetime.date(2009, 1, 1)

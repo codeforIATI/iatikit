@@ -74,3 +74,14 @@ class Sector(object):
             else:
                 txt = '{}, Vocabulary: Unspecified'.format(self.code)
         return '<{} ({})>'.format(self.__class__.__name__, txt)
+
+    def __eq__(self, value):
+        if not isinstance(value, Sector):
+            return False
+        if self.vocabulary and self.vocabulary != value.vocabulary:
+            return False
+        if self.code and self.code != value.code:
+            return False
+        if self.percentage != value.percentage:
+            return False
+        return True
