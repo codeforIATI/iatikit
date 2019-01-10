@@ -1,8 +1,8 @@
 import json
-import logging
 import os.path
 
 from ..utils.exceptions import MappingsNotFoundError
+from ..utils.validator import Validator
 from .codelist import CodelistSet
 
 
@@ -47,12 +47,14 @@ class CodelistMappings(object):
             mappings = json.load(handler)
 
         success = True
+        error_log = []
         for mapping in mappings:
             xpath_query, codelist = parse_mapping(mapping)
             values = dataset.etree.xpath(xpath_query)
             for value in set(values):
                 if not codelist.get(value):
-                    msg = '"%s" not in %s codelist.'
-                    logging.warning(msg, value, codelist.name)
+                    error = '"{}" not in {} codelist.'.format(
+                        value, codelist.name)
+                    error_log.append(error)
                     success = False
-        return success
+        return Validator(success, error_log)

@@ -1,9 +1,9 @@
-import logging
 import os.path
 
 from lxml import etree
 
 from ..utils.exceptions import SchemaNotFoundError
+from ..utils.validator import Validator
 
 
 class XSDSchema(object):
@@ -34,7 +34,6 @@ class XSDSchema(object):
 
     def validate(self, dataset):
         is_valid = self.schema.validate(dataset.etree)
-        if not is_valid:
-            for error in self.schema.error_log:
-                logging.warning('%s / %s', error.type_name, error.message)
-        return is_valid
+        error_log = ['{}: {}'.format(e.type_name, e.message)
+                     for e in self.schema.error_log]
+        return Validator(is_valid, error_log)

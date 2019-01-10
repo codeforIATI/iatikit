@@ -164,7 +164,7 @@ class ActivitySet(GenericSet):
         for dataset in self.datasets:
             if dataset.filetype != self._filetype:
                 continue
-            if not dataset.is_valid_xml():
+            if not dataset.validate_xml():
                 continue
             try:
                 schema = get_schema(dataset.filetype, dataset.version)
@@ -220,7 +220,7 @@ class ActivitySet(GenericSet):
                          get('publisher_iati_id')
                 if org_id and not identifier.startswith(org_id + '-'):
                     continue
-            if not dataset.is_valid_xml():
+            if not dataset.validate_xml():
                 continue
             try:
                 schema = get_schema(dataset.filetype, dataset.version)

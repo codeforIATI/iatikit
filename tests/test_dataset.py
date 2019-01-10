@@ -54,11 +54,11 @@ class TestDataset(TestCase):
         assert str(self.activity_dataset) == dataset_repr
 
     def test_dataset_is_valid_xml(self):
-        assert self.activity_dataset.is_valid_xml() is True
+        assert bool(self.activity_dataset.validate_xml()) is True
 
     @patch('os.path.join', mod_join)
     def test_dataset_is_valid_iati(self):
-        assert self.activity_dataset.is_valid_iati() is True
+        assert bool(self.activity_dataset.validate_iati()) is True
 
     def test_dataset_root(self):
         assert self.activity_dataset.root == 'iati-activities'

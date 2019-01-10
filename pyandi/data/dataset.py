@@ -1,3 +1,4 @@
+from collections import defaultdict
 from os.path import basename, exists, splitext
 from glob import glob
 import json
@@ -8,6 +9,7 @@ from lxml import etree as ET
 
 from ..utils.abstract import GenericSet
 from ..utils.exceptions import SchemaNotFoundError, MappingsNotFoundError
+from ..utils.validator import Validator
 from ..standard.xsd_schema import XSDSchema
 from ..standard.codelist_mappings import CodelistMappings
 from .activity import ActivitySet
@@ -36,12 +38,11 @@ class Dataset(object):
     @property
     def etree(self):
         """Return the XML of this dataset, as an lxml element tree."""
-        if not self._etree:
-            try:
-                self._etree = ET.parse(self.data_path)
-            except ET.XMLSyntaxError:
-                logging.warning('Dataset "%s" XML is invalid', self.name)
-                raise
+        try:
+            self.validate_xml()
+        except ET.XMLSyntaxError:
+            logging.warning('Dataset "%s" XML is invalid', self.name)
+            raise
         return self._etree
 
     @property
@@ -67,37 +68,56 @@ class Dataset(object):
             self._schema = XSDSchema(self.filetype, self.version)
         return self._schema
 
-    def is_valid_xml(self):
+    def validate_xml(self):
         """Check whether the XML in this dataset can be parsed."""
-        try:
-            if self.etree:
-                return True
-        except ET.XMLSyntaxError:
-            pass
-        return False
+        if not self._etree:
+            try:
+                self._etree = ET.parse(self.data_path)
+            except ET.XMLSyntaxError as error:
+                return Validator(False, [str(error)])
+        return Validator(True)
 
-    def is_valid_iati(self):
+    def validate_iati(self):
         """Validate dataset against the relevant IATI schema."""
-        if not self.is_valid_xml():
-            return False
+        xml_valid = self.validate_xml()
+        if not xml_valid:
+            return xml_valid
         try:
             return self.schema.validate(self)
         except SchemaNotFoundError as error:
             logging.warning(error)
-            return False
+            return Validator(False, [str(error)])
 
-    def is_valid_codelists(self):
+    def validate_codelists(self):
         """Validate dataset against the relevant IATI codelists."""
-        if not self.is_valid_xml():
-            return False
+        xml_valid = self.validate_xml()
+        if not xml_valid:
+            return xml_valid
         try:
             mappings = CodelistMappings(self.filetype, self.version)
         except MappingsNotFoundError:
             msg = 'Can\'t perform codelist validation for ' + \
                   'IATI version %s datasets.'
             logging.warning(msg, self.version)
-            return True
+            return Validator(True)
         return mappings.validate(self)
+
+    def validate_unique_ids(self):
+        seen = {}
+        dupes = defaultdict(lambda: 1)
+        for activity in self.activities:
+            id_ = activity.iati_identifier
+            if id_ is None:
+                continue
+            if id_ not in seen:
+                seen[id_] = None
+            else:
+                dupes[id_] += 1
+        if dict(dupes) == {}:
+            return Validator(True)
+        msg = 'Activity "{}" repeated {} times'
+        error_log = [msg.format(*tup) for tup in dupes.items()]
+        return Validator(False, error_log)
 
     @property
     def metadata(self):
