@@ -50,7 +50,7 @@ class CodelistMappings(object):
         for mapping in mappings:
             xpath_query, codelist = parse_mapping(mapping)
             values = dataset.etree.xpath(xpath_query)
-            for value in values:
+            for value in set(values):
                 if not codelist.get(value):
                     msg = '"%s" not in %s codelist.'
                     logging.warning(msg, value, codelist.name)
