@@ -186,7 +186,7 @@ class TestActivity(TestCase):
         assert self.activity.title[0] == title
 
     def test_activity_description(self):
-        assert len(self.activity.description) == 0
+        assert self.activity.description == []
 
     @patch('os.path.join', mod_join)
     def test_activity_sector(self):

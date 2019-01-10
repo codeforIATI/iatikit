@@ -33,7 +33,7 @@ class TestSector(TestCase):
 
     def test_sector_percentage(self):
         sector = Sector(12345, path=self.codelist_path, percentage=100)
-        assert type(sector.percentage) is float
+        assert isinstance(sector.percentage, float)
         assert sector.percentage == 100.0
 
     def test_sector_unknown_vocab(self):

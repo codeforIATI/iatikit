@@ -37,8 +37,8 @@ class TestCodelistSet(TestCase):
             'Vocabulary',
         ]
         assert len([x for x in self.codelists]) == 4
-        for x in self.codelists:
-            assert x.slug in codelist_slugs
+        for codelist in self.codelists:
+            assert codelist.slug in codelist_slugs
 
     def test_codelists_shortcut(self):
         codelists = pyandi.codelists(self.codelist_path)
@@ -52,8 +52,8 @@ class TestCodelistSet(TestCase):
         ]
         codelists = [x for x in self.codelists.where(version='1.01')]
         assert len(codelists) == 3
-        for x in codelists:
-            assert x.slug in codelist_slugs
+        for codelist in codelists:
+            assert codelist.slug in codelist_slugs
 
     def test_codelists_filter_slug(self):
         sector_codelist = self.codelists.find(slug='Sector')
@@ -95,8 +95,8 @@ class TestCodelist(TestCase):
         ]
         codelist_items = [x for x in self.codelist.filter(category='151')]
         assert len(codelist_items) == 2
-        for x in codelist_items:
-            assert x.name in codelist_item_names
+        for codelist_item in codelist_items:
+            assert codelist_item.name in codelist_item_names
 
     def test_codelist_item(self):
         codelist_item = self.codelist.get('73010')

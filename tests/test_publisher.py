@@ -27,7 +27,7 @@ class TestPublishers(TestCase):
     def test_publishers_filter(self):
         bad_filtered_pubs = self.publishers.where(name='does-not-exist')
         empty_publisher_list = list(bad_filtered_pubs)
-        assert len(empty_publisher_list) == 0
+        assert empty_publisher_list == []
 
         filtered_pubs = self.publishers.where(name='fixture-org')
         publisher_list = list(filtered_pubs)

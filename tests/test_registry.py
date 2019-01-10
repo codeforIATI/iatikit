@@ -55,8 +55,8 @@ class TestRegistry(TestCase):
         registry = Registry(self.registry_path)
         datasets = registry.datasets
         assert len(datasets) == 4
-        for x in datasets:
-            assert x.name in dataset_names
+        for dataset in datasets:
+            assert dataset.name in dataset_names
 
     @freeze_time("2015-12-02")
     def test_activities(self):

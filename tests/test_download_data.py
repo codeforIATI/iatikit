@@ -51,8 +51,8 @@ class TestDownloadData(TestCase):
         dest_files = list_files(self.data_path)
 
         assert len(source_files) == len(dest_files)
-        for x in dest_files:
-            assert x in source_files
+        for dest_file in dest_files:
+            assert dest_file in source_files
 
     def tearDown(self):
         shutil.rmtree(self.data_path, ignore_errors=True)

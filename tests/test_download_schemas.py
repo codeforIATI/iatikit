@@ -22,7 +22,7 @@ XSD_TMPL = '''<?xml version="1.0" encoding="utf-8"?>
 
 
 class MockRequest():
-    def __init__(self, url, stream=False):
+    def __init__(self, url):
         filename = url.rsplit('/', 1)[-1]
         if filename == 'Version.json':
             codelist_path = join(dirname(abspath(__file__)),
@@ -31,8 +31,8 @@ class MockRequest():
         self.content = XSD_TMPL.format(filename=filename).encode()
 
     def json(self):
-        with open(self.filepath) as f:
-            return json.load(f)
+        with open(self.filepath) as handler:
+            return json.load(handler)
 
 
 class TestDownloadCodelists(TestCase):
@@ -51,8 +51,8 @@ class TestDownloadCodelists(TestCase):
             for filename in filenames:
                 filepath = join(self.schema_path, version, filename)
                 assert exists(filepath)
-                with open(filepath) as f:
-                    contents = f.read()
+                with open(filepath) as handler:
+                    contents = handler.read()
                 assert contents == XSD_TMPL.format(filename=filename)
 
     def tearDown(self):

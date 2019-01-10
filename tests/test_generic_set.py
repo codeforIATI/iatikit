@@ -51,10 +51,10 @@ class TestGenericSet(TestCase):
             'old-org-acts',
         ]
         datasets = self.registry.datasets.all()
-        assert type(datasets) is list
+        assert isinstance(datasets, list)
         assert len(datasets) == 4
-        for x in datasets:
-            assert x.name in dataset_names
+        for dataset in datasets:
+            assert dataset.name in dataset_names
 
     def test_set_filter_chaining(self):
         act_datasets = self.registry.datasets.filter(filetype='activity')

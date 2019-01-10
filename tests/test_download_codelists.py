@@ -11,7 +11,7 @@ from pyandi.utils import download
 
 
 class MockRequest():
-    def __init__(self, url, stream=False):
+    def __init__(self, url):
         codelist_path = join(dirname(abspath(__file__)),
                              'fixtures', 'codelist_downloads')
         fname = url.rsplit('/', 1)[-1]
@@ -32,12 +32,12 @@ class MockRequest():
         self.filepath = join(codelist_path, fname)
 
     def json(self):
-        with open(self.filepath) as f:
-            return json.load(f)
+        with open(self.filepath) as handler:
+            return json.load(handler)
 
     def iter_lines(self):
-        with open(self.filepath, 'rb') as f:
-            return f.readlines()
+        with open(self.filepath, 'rb') as handler:
+            return handler.readlines()
 
 
 class TestDownloadCodelists(TestCase):
@@ -53,24 +53,25 @@ class TestDownloadCodelists(TestCase):
             "SectorVocabulary": ["2.01"],
             "Vocabulary": ["1.05", "1.04", "1.03", "1.02", "1.01"],
         }
-        with open(join(self.codelist_path, 'codelists.json')) as f:
-            codelists = json.load(f)
+        with open(join(self.codelist_path, 'codelists.json')) as handler:
+            codelists = json.load(handler)
         assert codelists == codelists_expected
 
-        with open(join(self.codelist_path, 'Sector.json')) as f:
-            vocabs = json.load(f)
+        with open(join(self.codelist_path, 'Sector.json')) as handler:
+            vocabs = json.load(handler)
         assert len(vocabs['data']) == 2
         sector_name = 'Media and free flow of information'
         assert vocabs['data']['15153']['name'] == sector_name
 
-        with open(join(self.codelist_path, 'SectorVocabulary.json')) as f:
-            vocabs = json.load(f)
+        with open(join(self.codelist_path, 'SectorVocabulary.json')) \
+                as handler:
+            vocabs = json.load(handler)
         assert len(vocabs['data']) == 1
         vocab_name = 'OECD DAC CRS Purpose Codes (5 digit)'
         assert vocabs['data']['1']['name'] == vocab_name
 
-        with open(join(self.codelist_path, 'Vocabulary.json')) as f:
-            vocabs = json.load(f)
+        with open(join(self.codelist_path, 'Vocabulary.json')) as handler:
+            vocabs = json.load(handler)
         assert len(vocabs['data']) == 1
         vocab_name = 'OECD Development Assistance Committee'
         assert vocabs['data']['DAC']['name'] == vocab_name
