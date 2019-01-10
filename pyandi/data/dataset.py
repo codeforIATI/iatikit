@@ -25,6 +25,7 @@ class Dataset(object):
         self.metadata_path = metadata_path
         self._etree = None
         self._metadata = None
+        self._schema = None
 
     @property
     def name(self):
@@ -58,9 +59,12 @@ class Dataset(object):
             self.name)
         webbrowser.open_new_tab(url)
 
-    def get_schema(self):
+    @property
+    def schema(self):
         """Get the XSD Schema for this dataset."""
-        return XSDSchema(self.filetype, self.version)
+        if not self._schema:
+            self._schema = XSDSchema(self.filetype, self.version)
+        return self._schema
 
     def is_valid_xml(self):
         """Check whether the XML in this dataset can be parsed."""
@@ -76,7 +80,7 @@ class Dataset(object):
         if not self.is_valid_xml():
             return False
         try:
-            return self.get_schema().validate(self)
+            return self.schema.validate(self)
         except SchemaNotFoundError as error:
             logging.warning(error)
             return False
