@@ -85,6 +85,12 @@ class Dataset(object):
             logging.warning(error)
             return False
 
+    def is_valid_codelists(self):
+        """Validate dataset against the relevant IATI codelists."""
+        if not self.is_valid_xml():
+            return False
+        return self.schema.validate_codelists(self)
+
     @property
     def metadata(self):
         """Return a dictionary of registry metadata for this dataset."""
