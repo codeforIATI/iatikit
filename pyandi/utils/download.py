@@ -153,6 +153,10 @@ def codelists(path=None):
             json.dump(codelist, handler)
 
 
+_NEW_MAPPING_TMPL = 'http://reference.iatistandard.org/{version}/' + \
+                    'codelists/downloads/clv2/mapping.json'
+
+
 def schemas(path=None):
     if not path:
         path = join('__pyandicache__', 'standard', 'schemas')
@@ -177,5 +181,12 @@ def schemas(path=None):
             url = tmpl.format(version=version, filename=filename)
             request = requests.get(url)
             filepath = join(path, version_path, filename)
+            with open(filepath, 'wb') as handler:
+                handler.write(request.content)
+
+        if version not in ['1.01', '1.02', '1.03']:
+            mapping_url = _NEW_MAPPING_TMPL.format(version=version_path)
+            request = requests.get(mapping_url)
+            filepath = join(path, version_path, 'mapping.json')
             with open(filepath, 'wb') as handler:
                 handler.write(request.content)
