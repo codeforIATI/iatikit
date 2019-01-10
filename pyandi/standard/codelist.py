@@ -3,7 +3,6 @@ import os.path
 
 from ..utils.abstract import GenericSet
 from ..utils.exceptions import NoCodelistsError
-from ..utils import download
 
 
 class CodelistItem(object):
@@ -140,9 +139,6 @@ class CodelistSet(GenericSet):
                 continue
 
             yield Codelist(codelist_slug, self.path, version)
-
-    def download(self):
-        return download.codelists(self.path)
 
 
 def codelists(path=None):

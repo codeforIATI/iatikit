@@ -7,7 +7,6 @@ from .publisher import PublisherSet
 from .dataset import DatasetSet
 from .activity import ActivitySet
 from ..utils.exceptions import NoDataError
-from ..utils import download
 
 
 class Registry(object):
@@ -77,7 +76,3 @@ class Registry(object):
     def activities(self):
         """Return an iterator of all IATI activities on the registry."""
         return ActivitySet(self.datasets)
-
-    def download(self):
-        """Download all IATI data and registry metadata."""
-        return download.data(self.path)
