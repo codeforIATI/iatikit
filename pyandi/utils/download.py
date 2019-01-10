@@ -38,17 +38,19 @@ def data(path=None):
 
 
 _VERY_OLD_IATI_VERSIONS = ['1.01', '1.02']
-_OLD_IATI_VERSIONS = ['1.03']
 _VERY_OLD_CODELISTS_URL = 'http://codelists102.archive.iatistandard.org' + \
                          '/data/codelist.csv'
-_OLD_CODELISTS_URL = 'http://codelists103.archive.iatistandard.org' + \
-                    '/data/codelist.json'
-_NEW_CODELISTS_TMPL = 'http://reference.iatistandard.org/{version}/' + \
-                     'codelists/downloads/clv2/codelists.json'
 _VERY_OLD_CODELIST_TMPL = 'http://codelists102.archive.iatistandard.org' + \
                          '/data/codelist/{codelist_name}.csv'
+
+_OLD_IATI_VERSIONS = ['1.03']
+_OLD_CODELISTS_URL = 'http://codelists103.archive.iatistandard.org' + \
+                    '/data/codelist.json'
 _OLD_CODELIST_TMPL = 'http://codelists103.archive.iatistandard.org' + \
                     '/data/codelist/{codelist_name}.csv'
+
+_NEW_CODELISTS_TMPL = 'http://reference.iatistandard.org/{version}/' + \
+                     'codelists/downloads/clv2/codelists.json'
 _NEW_CODELIST_TMPL = 'http://reference.iatistandard.org/{version}/' + \
                     'codelists/downloads/clv2/json/en/{codelist_name}.json'
 
