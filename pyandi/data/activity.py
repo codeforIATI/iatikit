@@ -191,6 +191,9 @@ class ActivitySet(GenericSet):
 
         If no matching item is found, ``default`` is returned.
         """
+        if not fast:
+            return super(ActivitySet, self).get(item, default)
+
         if isinstance(item, self._instance_class):
             item = getattr(item, self._key)
         try:

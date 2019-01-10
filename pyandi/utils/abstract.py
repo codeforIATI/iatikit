@@ -70,11 +70,14 @@ class GenericSet(object):
         """
         return list(self)
 
-    def get(self, item, default=None):
+    def get(self, item, default=None, fast=False):
         """Return an item from the set, according to the primary key.
 
         If no matching item is found, ``default`` is returned.
         """
+        if fast:
+            msg = 'The `fast` keyword argument can\'t be used here.'
+            raise NotImplementedError(msg)
         if isinstance(item, self._instance_class):
             item = getattr(item, self._key)
         try:
