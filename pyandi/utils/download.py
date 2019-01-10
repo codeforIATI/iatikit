@@ -184,10 +184,10 @@ def schemas(path=None):
 
 
 def codelist_mappings(path=None):
-    codelists = CodelistSet()
+    all_codelists = CodelistSet()
 
     def filter_complete(mapping):
-        return codelists.get(mapping['codelist']).complete
+        return all_codelists.get(mapping['codelist']).complete
 
     if not path:
         path = join('__pyandicache__', 'standard', 'codelist_mappings')
