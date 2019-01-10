@@ -184,7 +184,7 @@ def schemas(path=None):
 
 
 def codelist_mappings(path=None):
-    all_codelists = CodelistSet()
+    all_codelists = CodelistSet(path)
 
     def filter_complete(mapping):
         return all_codelists.get(mapping['codelist']).complete
