@@ -16,16 +16,17 @@ class XSDSchema(object):
             'organisation': 'iati-organisations-schema.xsd',
         }.get(filetype)
 
+        version_path = version.replace('.', '')
         if not path:
             path = os.path.join('__pyandicache__', 'standard', 'schemas')
-        self.path = os.path.join(path, version.replace('.', ''), schema)
+        schema_path = os.path.join(path, version_path, schema)
 
-        if not os.path.exists(self.path):
+        if not os.path.exists(schema_path):
             msg = 'No {filetype} schema found for IATI version "{version}".'
             msg = msg.format(filetype=filetype, version=version)
             raise SchemaNotFoundError(msg)
 
-        self.schema = etree.XMLSchema(etree.parse(self.path))
+        self.schema = etree.XMLSchema(etree.parse(schema_path))
 
     def __repr__(self):
         return '<{} ({} {})>'.format(self.__class__.__name__,
