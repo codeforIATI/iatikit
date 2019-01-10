@@ -40,3 +40,7 @@ class InvalidSectorCodeError(Exception):
 
 class SchemaNotFoundError(Exception):
     pass
+
+
+class MappingsNotFoundError(Exception):
+    pass

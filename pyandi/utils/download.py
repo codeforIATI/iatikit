@@ -9,6 +9,8 @@ import zipfile
 import requests
 import unicodecsv as csv
 
+from ..standard.codelist import CodelistSet
+
 
 def data(path=None):
     if not path:
@@ -153,10 +155,6 @@ def codelists(path=None):
             json.dump(codelist, handler)
 
 
-_NEW_MAPPING_TMPL = 'http://reference.iatistandard.org/{version}/' + \
-                    'codelists/downloads/clv2/mapping.json'
-
-
 def schemas(path=None):
     if not path:
         path = join('__pyandicache__', 'standard', 'schemas')
@@ -184,9 +182,47 @@ def schemas(path=None):
             with open(filepath, 'wb') as handler:
                 handler.write(request.content)
 
+
+def codelist_mappings(path=None):
+    codelists = CodelistSet()
+
+    def filter_complete(mapping):
+        return codelists.get(mapping['codelist']).complete
+
+    if not path:
+        path = join('__pyandicache__', 'standard', 'codelist_mappings')
+
+    shutil.rmtree(path, ignore_errors=True)
+    makedirs(path)
+
+    versions_url = 'http://reference.iatistandard.org/codelists/' + \
+                   'downloads/clv2/json/en/Version.json'
+    versions = [d['code'] for d in requests.get(versions_url).json()['data']]
+    versions.reverse()
+
+    logging.info('Downloading IATI Standard codelist mappings...')
+
+    tmpl = 'http://reference.iatistandard.org/{version}/' + \
+           'codelists/downloads/clv2/mapping.json'
+    for version in versions:
         if version not in ['1.01', '1.02', '1.03']:
-            mapping_url = _NEW_MAPPING_TMPL.format(version=version_path)
-            request = requests.get(mapping_url)
-            filepath = join(path, version_path, 'mapping.json')
-            with open(filepath, 'wb') as handler:
-                handler.write(request.content)
+            version_path = version.replace('.', '')
+            mapping_path = join(path, version_path)
+            makedirs(mapping_path)
+
+            mapping_url = tmpl.format(version=version_path)
+            mappings = requests.get(mapping_url).json()
+
+            mappings = list(filter(filter_complete, mappings))
+
+            activity_mappings = [x for x in mappings
+                                 if not x['path'].startswith('//iati-org')]
+            filepath = join(mapping_path, 'activity-mappings.json')
+            with open(filepath, 'w') as handler:
+                json.dump(activity_mappings, handler)
+
+            organisation_mappings = [x for x in mappings
+                                     if not x['path'].startswith('//iati-act')]
+            filepath = join(mapping_path, 'organisation-mappings.json')
+            with open(filepath, 'w') as handler:
+                json.dump(organisation_mappings, handler)

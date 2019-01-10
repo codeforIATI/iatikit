@@ -7,8 +7,9 @@ import webbrowser
 from lxml import etree as ET
 
 from ..utils.abstract import GenericSet
-from ..utils.exceptions import SchemaNotFoundError
+from ..utils.exceptions import SchemaNotFoundError, MappingsNotFoundError
 from ..standard.xsd_schema import XSDSchema
+from ..standard.codelist_mappings import CodelistMappings
 from .activity import ActivitySet
 
 
@@ -89,7 +90,14 @@ class Dataset(object):
         """Validate dataset against the relevant IATI codelists."""
         if not self.is_valid_xml():
             return False
-        return self.schema.validate_codelists(self)
+        try:
+            mappings = CodelistMappings(self.filetype, self.version)
+        except MappingsNotFoundError:
+            msg = 'Can\'t perform codelist validation for ' + \
+                  'IATI version %s datasets.'
+            logging.warning(msg, self.version)
+            return True
+        return mappings.validate(self)
 
     @property
     def metadata(self):
