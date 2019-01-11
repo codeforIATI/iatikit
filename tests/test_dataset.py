@@ -48,6 +48,13 @@ class TestDataset(TestCase):
                  'old-org', 'old-org-acts.json'),
         )
 
+        self.fixture_org_acts = Dataset(
+            join(registry_path, 'data',
+                 'fixture-org', 'fixture-org-activities.xml'),
+            join(registry_path, 'metadata',
+                 'fixture-org', 'fixture-org-activities.json'),
+        )
+
         standard_path = join(dirname(abspath(__file__)),
                              'fixtures', 'standard')
         config_dict = {'paths': {'standard': standard_path}}
@@ -75,6 +82,9 @@ class TestDataset(TestCase):
         msg = ('Can\'t perform codelist validation for ' +
                'IATI version %s datasets.', '1.03')
         fake_logger_warning.assert_called_once_with(*msg)
+
+    def test_dataset_validate_codelists(self):
+        assert bool(self.fixture_org_acts.validate_codelists()) is False
 
     def test_dataset_validate_unique_ids(self):
         assert bool(self.old_org_acts.validate_unique_ids()) is True

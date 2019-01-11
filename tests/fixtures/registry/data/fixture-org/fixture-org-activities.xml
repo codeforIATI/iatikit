@@ -49,6 +49,9 @@
       <sector code="62650" vocabulary="99">
         <narrative>Fixture Costs</narrative>
       </sector>
+      <sector code="99810" vocabulary="999">
+        <narrative>Code from bad sector vocabulary</narrative>
+      </sector>
     </transaction>
   </iati-activity>
 </iati-activities>
