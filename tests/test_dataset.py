@@ -86,9 +86,13 @@ class TestDataset(TestCase):
     def test_dataset_validate_codelists(self):
         result = self.fixture_org_acts.validate_codelists()
         assert result.is_valid is False
-        assert len(result.error_log) == 1
-        err_msg = '"999" not in Sector Vocabulary codelist.'
-        assert result.error_log[0] == err_msg
+        assert len(result.error_log) == 2
+        err_msgs = [
+            '"999" not in Sector Vocabulary codelist.',
+            '"6" not in Activity Status codelist.',
+        ]
+        for err_msg in result.error_log:
+            assert err_msg in err_msgs
 
     def test_dataset_validate_unique_ids(self):
         assert bool(self.old_org_acts.validate_unique_ids()) is True
