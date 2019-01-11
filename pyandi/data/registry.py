@@ -7,26 +7,20 @@ from .publisher import PublisherSet
 from .dataset import DatasetSet
 from .activity import ActivitySet
 from ..utils.exceptions import NoDataError
+from ..utils.config import CONFIG
 
 
 class Registry(object):
     """Class representing the IATI registry."""
 
-    def __init__(self, path=None):
+    def __init__(self):
         """Construct a new Registry object.
-
-        The file system location of the data and metadata can be specified
-        with the ``path`` argument.
 
         A warning is raised if the data is more than 7 days old.
 
         A ``NoDataError`` is raised if there is no data.
         """
         self._last_updated = None
-        if path:
-            self.path = path
-        else:
-            self.path = join('__pyandicache__', 'registry')
 
         last_updated = self.last_updated
         days_ago = (datetime.now() - last_updated).days
@@ -42,7 +36,8 @@ class Registry(object):
         """Return the datetime when the local cache was last updated.
         """
         if not self._last_updated:
-            filepath = join(self.path, 'metadata.json')
+            registry_path = CONFIG['paths']['registry']
+            filepath = join(registry_path, 'metadata.json')
             if exists(filepath):
                 with open(filepath) as handler:
                     j = json.load(handler)
@@ -60,8 +55,9 @@ class Registry(object):
     @property
     def publishers(self):
         """Return an iterator of all publishers on the registry."""
-        data_path = join(self.path, 'data', '*')
-        metadata_path = join(self.path, 'metadata', '*')
+        registry_path = CONFIG['paths']['registry']
+        data_path = join(registry_path, 'data', '*')
+        metadata_path = join(registry_path, 'metadata', '*')
         return PublisherSet(data_path, metadata_path)
 
     @property

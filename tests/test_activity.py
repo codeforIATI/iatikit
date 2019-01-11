@@ -9,8 +9,8 @@ import pytest
 from pyandi.data.dataset import DatasetSet, Dataset
 from pyandi.data.activity import ActivitySet, Activity
 from pyandi.standard.activity_schema import ActivitySchema105
+from pyandi.utils.config import CONFIG
 from pyandi import Sector
-from .helpers import mod_join
 
 
 class TestActivitySet(TestCase):
@@ -23,6 +23,11 @@ class TestActivitySet(TestCase):
             join(registry_path, 'metadata', 'fixture-org', '*'),
         )
         self.fixture_org_acts = ActivitySet(org_datasets)
+
+        standard_path = join(dirname(abspath(__file__)), 'fixtures',
+                             'standard')
+        config_dict = {'paths': {'standard': standard_path}}
+        CONFIG.read_dict(config_dict)
 
     def test_activities_iter(self):
         activities = list(self.fixture_org_acts)
@@ -74,9 +79,7 @@ class TestActivitySet(TestCase):
         assert acts[0].iati_identifier == 'GB-COH-01234567-Humanitarian Aid-1'
 
     def test_activities_filter_by_sector(self):
-        path = join(dirname(abspath(__file__)), 'fixtures',
-                    'standard', 'codelists')
-        sector = Sector('15163', vocabulary='DAC', path=path)
+        sector = Sector('15163', vocabulary='DAC')
         acts = self.fixture_org_acts.where(
             sector=sector).all()
         assert len(acts) == 1
@@ -87,11 +90,9 @@ class TestActivitySet(TestCase):
         with pytest.raises(Exception, match=err_msg):
             self.fixture_org_acts.where(sector='bad-sector').all()
 
-    @patch('os.path.join', mod_join)
+    # TODO
     def test_activities_filter_by_sector_in(self):
-        path = join(dirname(abspath(__file__)), 'fixtures',
-                    'standard', 'codelists')
-        sector = Sector('151', vocabulary='2', path=path)
+        sector = Sector('151', vocabulary='2')
         acts = self.fixture_org_acts.where(
             sector__in=sector).all()
         assert len(acts) == 1
@@ -188,7 +189,7 @@ class TestActivity(TestCase):
     def test_activity_description(self):
         assert self.activity.description == []
 
-    @patch('os.path.join', mod_join)
+    # TODO
     def test_activity_sector(self):
         sector = Sector('73010', vocabulary='1')
         assert self.activity.sector[0] == sector

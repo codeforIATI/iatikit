@@ -33,6 +33,7 @@ setup(
     keywords='IATI',
     long_description=readme,
     install_requires=[
+        'configparser',
         'lxml',
         'requests',
         'unicodecsv',

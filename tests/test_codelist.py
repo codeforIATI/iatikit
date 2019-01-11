@@ -8,15 +8,18 @@ import pytest
 import pyandi
 from pyandi.standard.codelist import CodelistSet, Codelist
 from pyandi.utils.exceptions import NoCodelistsError
+from pyandi.utils.config import CONFIG
 
 
 class TestNoCodelists(TestCase):
     def setUp(self):
         self.empty_path = tempfile.mkdtemp(dir=dirname(abspath(__file__)))
+        config_dict = {'paths': {'standard': self.empty_path}}
+        CONFIG.read_dict(config_dict)
 
     def test_no_codelists(self):
         with pytest.raises(NoCodelistsError):
-            CodelistSet(path=self.empty_path)
+            CodelistSet()
 
     def tearDown(self):
         shutil.rmtree(self.empty_path, ignore_errors=True)
@@ -25,9 +28,11 @@ class TestNoCodelists(TestCase):
 class TestCodelistSet(TestCase):
     def __init__(self, *args, **kwargs):
         super(TestCodelistSet, self).__init__(*args, **kwargs)
-        self.codelist_path = join(dirname(abspath(__file__)),
-                                  'fixtures', 'standard', 'codelists')
-        self.codelists = CodelistSet(self.codelist_path)
+        standard_path = join(dirname(abspath(__file__)),
+                             'fixtures', 'standard')
+        config_dict = {'paths': {'standard': standard_path}}
+        CONFIG.read_dict(config_dict)
+        self.codelists = CodelistSet()
 
     def test_codelists_iter(self):
         codelist_slugs = [
@@ -41,7 +46,7 @@ class TestCodelistSet(TestCase):
             assert codelist.slug in codelist_slugs
 
     def test_codelists_shortcut(self):
-        codelists = pyandi.codelists(self.codelist_path)
+        codelists = pyandi.codelists()
         assert(len(codelists)) == 4
 
     def test_codelists_filter_version(self):
@@ -63,9 +68,11 @@ class TestCodelistSet(TestCase):
 class TestCodelist(TestCase):
     def __init__(self, *args, **kwargs):
         super(TestCodelist, self).__init__(*args, **kwargs)
-        codelist_path = join(dirname(abspath(__file__)),
-                             'fixtures', 'standard', 'codelists')
-        self.codelist = Codelist('Sector', codelist_path, '1.05')
+        standard_path = join(dirname(abspath(__file__)),
+                             'fixtures', 'standard')
+        config_dict = {'paths': {'standard': standard_path}}
+        CONFIG.read_dict(config_dict)
+        self.codelist = Codelist('Sector', '1.05')
 
     def test_codelist_name(self):
         assert self.codelist.name == 'DAC 5 Digit Sector'

@@ -9,6 +9,7 @@ import zipfile
 from mock import patch
 
 from pyandi.utils import download
+from pyandi.utils.config import CONFIG
 
 
 class MockRequest():
@@ -33,6 +34,8 @@ class MockRequest():
 class TestDownloadData(TestCase):
     def setUp(self):
         self.data_path = tempfile.mkdtemp(dir=dirname(abspath(__file__)))
+        config_dict = {'paths': {'registry': self.data_path}}
+        CONFIG.read_dict(config_dict)
 
     @patch('requests.get', MockRequest)
     def test_download_data(self):
@@ -43,10 +46,10 @@ class TestDownloadData(TestCase):
                     all_files.append(join(root, file)[len(path):])
             return all_files
 
+        download.data()
+
         registry_path = join(dirname(abspath(__file__)),
                              'fixtures', 'registry')
-        download.data(self.data_path)
-
         source_files = list_files(registry_path)
         dest_files = list_files(self.data_path)
 

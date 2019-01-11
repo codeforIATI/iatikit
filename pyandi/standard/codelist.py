@@ -1,8 +1,9 @@
 import json
-import os.path
+from os.path import exists, join
 
 from ..utils.abstract import GenericSet
 from ..utils.exceptions import NoCodelistsError
+from ..utils.config import CONFIG
 
 
 class CodelistItem(object):
@@ -30,11 +31,12 @@ class Codelist(GenericSet):
     _filters = ['code', 'version', 'category']
     _instance_class = CodelistItem
 
-    def __init__(self, slug, path, version, **kwargs):
+    def __init__(self, slug, version, **kwargs):
         super(Codelist, self).__init__()
         self.wheres = kwargs
         self.slug = slug
-        self.path = os.path.join(path, slug + '.json')
+        self.path = join(CONFIG['paths']['standard'],
+                         'codelists', slug + '.json')
         self.version = version
         self.__data = None
 
@@ -110,14 +112,11 @@ class CodelistSet(GenericSet):
     _filters = ['slug', 'version']
     _instance_class = Codelist
 
-    def __init__(self, path=None, **kwargs):
+    def __init__(self, **kwargs):
         super(CodelistSet, self).__init__()
         self.wheres = kwargs
-
-        if not path:
-            path = os.path.join('__pyandicache__', 'standard', 'codelists')
-        self.path = path
-        if not os.path.exists(os.path.join(self.path, 'codelists.json')):
+        self.path = join(CONFIG['paths']['standard'], 'codelists')
+        if not exists(join(self.path, 'codelists.json')):
             error_msg = 'Error: No codelists found! ' + \
                           'Download fresh codelists ' + \
                           'using:\n\n   ' + \
@@ -129,7 +128,7 @@ class CodelistSet(GenericSet):
         if version:
             version = str(version)
         slug = self.wheres.get('slug')
-        with open(os.path.join(self.path, 'codelists.json')) as handler:
+        with open(join(self.path, 'codelists.json')) as handler:
             all_codelists = json.load(handler)
         for codelist_slug, codelist_versions in all_codelists.items():
             if version is not None and version not in codelist_versions:
@@ -138,9 +137,9 @@ class CodelistSet(GenericSet):
             if slug is not None and slug != codelist_slug:
                 continue
 
-            yield Codelist(codelist_slug, self.path, version)
+            yield Codelist(codelist_slug, version)
 
 
-def codelists(path=None):
+def codelists():
     """Helper function for fetching all codelists."""
-    return CodelistSet(path)
+    return CodelistSet()

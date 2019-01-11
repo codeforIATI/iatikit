@@ -1,13 +1,14 @@
-import os.path
+from os.path import exists, join
 
 from lxml import etree
 
 from ..utils.exceptions import SchemaNotFoundError
 from ..utils.validator import Validator
+from ..utils.config import CONFIG
 
 
 class XSDSchema(object):
-    def __init__(self, filetype, version, path=None):
+    def __init__(self, filetype, version):
         self.filetype = filetype
         self.version = version
 
@@ -17,11 +18,10 @@ class XSDSchema(object):
         }.get(filetype)
 
         version_path = version.replace('.', '')
-        if not path:
-            path = os.path.join('__pyandicache__', 'standard', 'schemas')
-        schema_path = os.path.join(path, version_path, schema)
+        schema_path = join(CONFIG['paths']['standard'], 'schemas',
+                           version_path, schema)
 
-        if not os.path.exists(schema_path):
+        if not exists(schema_path):
             msg = 'No {filetype} schema found for IATI version "{version}".'
             msg = msg.format(filetype=filetype, version=version)
             raise SchemaNotFoundError(msg)

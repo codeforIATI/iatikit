@@ -10,11 +10,11 @@ import requests
 import unicodecsv as csv
 
 from ..standard.codelist import CodelistSet
+from ..utils.config import CONFIG
 
 
-def data(path=None):
-    if not path:
-        path = join('__pyandicache__', 'registry')
+def data():
+    path = CONFIG['paths']['registry']
     # downloads from https://andylolz.github.io/iati-data-dump/
     data_url = 'https://www.dropbox.com/s/kkm80yjihyalwes/' + \
                'iati_dump.zip?dl=1'
@@ -57,7 +57,7 @@ _NEW_CODELIST_TMPL = 'http://reference.iatistandard.org/{version}/' + \
                     'codelists/downloads/clv2/json/en/{codelist_name}.json'
 
 
-def codelists(path=None):
+def codelists():
     def get_iati_versions():
         versions_url = 'http://reference.iatistandard.org/codelists/' + \
                        'downloads/clv2/json/en/Version.json'
@@ -102,9 +102,7 @@ def codelists(path=None):
             version_codelist = requests.get(codelist_url).json()
         return version_codelist
 
-    if not path:
-        path = join('__pyandicache__', 'standard', 'codelists')
-
+    path = join(CONFIG['paths']['standard'], 'codelists')
     shutil.rmtree(path, ignore_errors=True)
     makedirs(path)
 
@@ -155,10 +153,8 @@ def codelists(path=None):
             json.dump(codelist, handler)
 
 
-def schemas(path=None):
-    if not path:
-        path = join('__pyandicache__', 'standard', 'schemas')
-
+def schemas():
+    path = join(CONFIG['paths']['standard'], 'schemas')
     shutil.rmtree(path, ignore_errors=True)
     makedirs(path)
 
@@ -183,15 +179,13 @@ def schemas(path=None):
                 handler.write(request.content)
 
 
-def codelist_mappings(path=None):
-    all_codelists = CodelistSet(path)
+def codelist_mappings():
+    all_codelists = CodelistSet()
 
     def filter_complete(mapping):
         return all_codelists.get(mapping['codelist']).complete
 
-    if not path:
-        path = join('__pyandicache__', 'standard', 'codelist_mappings')
-
+    path = join(CONFIG['paths']['standard'], 'codelist_mappings')
     shutil.rmtree(path, ignore_errors=True)
     makedirs(path)
 

@@ -7,6 +7,7 @@ from unittest import TestCase
 from mock import patch
 
 from pyandi.utils import download
+from pyandi.utils.config import CONFIG
 
 
 XSD_TMPL = '''<?xml version="1.0" encoding="utf-8"?>
@@ -35,13 +36,15 @@ class MockRequest():
             return json.load(handler)
 
 
-class TestDownloadCodelists(TestCase):
+class TestDownloadSchemas(TestCase):
     def setUp(self):
-        self.schema_path = tempfile.mkdtemp(dir=dirname(abspath(__file__)))
+        self.standard_path = tempfile.mkdtemp(dir=dirname(abspath(__file__)))
+        config_dict = {'paths': {'standard': self.standard_path}}
+        CONFIG.read_dict(config_dict)
 
     @patch('requests.get', MockRequest)
-    def test_download_data(self):
-        download.schemas(self.schema_path)
+    def test_download_schemas(self):
+        download.schemas()
 
         filenames = [
             'iati-activities-schema.xsd', 'iati-organisations-schema.xsd',
@@ -49,11 +52,12 @@ class TestDownloadCodelists(TestCase):
         ]
         for version in ['201', '105', '104', '103', '102', '101']:
             for filename in filenames:
-                filepath = join(self.schema_path, version, filename)
+                filepath = join(self.standard_path, 'schemas',
+                                version, filename)
                 assert exists(filepath)
                 with open(filepath) as handler:
                     contents = handler.read()
                 assert contents == XSD_TMPL.format(filename=filename)
 
     def tearDown(self):
-        shutil.rmtree(self.schema_path, ignore_errors=True)
+        shutil.rmtree(self.standard_path, ignore_errors=True)

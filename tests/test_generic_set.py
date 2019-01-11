@@ -6,17 +6,20 @@ import pytest
 
 from pyandi.data.registry import Registry
 from pyandi.utils.exceptions import FilterError
+from pyandi.utils.config import CONFIG
 
 
 class TestGenericSet(TestCase):
     def __init__(self, *args, **kwargs):
         super(TestGenericSet, self).__init__(*args, **kwargs)
-        self.registry_path = join(dirname(abspath(__file__)),
-                                  'fixtures', 'registry')
+        registry_path = join(dirname(abspath(__file__)),
+                             'fixtures', 'registry')
+        config_dict = {'paths': {'registry': registry_path}}
+        CONFIG.read_dict(config_dict)
 
     @freeze_time("2015-12-02")
     def setUp(self):
-        self.registry = Registry(self.registry_path)
+        self.registry = Registry()
 
     def test_set_get(self):
         org_dataset = self.registry.datasets.get('fixture-org-org')

@@ -8,6 +8,7 @@ from unittest import TestCase
 from mock import patch
 
 from pyandi.utils import download
+from pyandi.utils.config import CONFIG
 
 
 class MockRequest():
@@ -42,35 +43,41 @@ class MockRequest():
 
 class TestDownloadCodelists(TestCase):
     def setUp(self):
-        self.codelist_path = tempfile.mkdtemp(dir=dirname(abspath(__file__)))
+        self.standard_path = tempfile.mkdtemp(dir=dirname(abspath(__file__)))
+        config_dict = {'paths': {'standard': self.standard_path}}
+        CONFIG.read_dict(config_dict)
 
     @patch('requests.get', MockRequest)
     def test_download_data(self):
-        download.codelists(self.codelist_path)
+        download.codelists()
 
         codelists_expected = {
             "Sector": ["2.01", "1.05", "1.04", "1.03", "1.02", "1.01"],
             "SectorVocabulary": ["2.01"],
             "Vocabulary": ["1.05", "1.04", "1.03", "1.02", "1.01"],
         }
-        with open(join(self.codelist_path, 'codelists.json')) as handler:
+
+        path = join(self.standard_path, 'codelists', 'codelists.json')
+        with open(path) as handler:
             codelists = json.load(handler)
         assert codelists == codelists_expected
 
-        with open(join(self.codelist_path, 'Sector.json')) as handler:
+        path = join(self.standard_path, 'codelists', 'Sector.json')
+        with open(path) as handler:
             vocabs = json.load(handler)
         assert len(vocabs['data']) == 2
         sector_name = 'Media and free flow of information'
         assert vocabs['data']['15153']['name'] == sector_name
 
-        with open(join(self.codelist_path, 'SectorVocabulary.json')) \
-                as handler:
+        path = join(self.standard_path, 'codelists', 'SectorVocabulary.json')
+        with open(path) as handler:
             vocabs = json.load(handler)
         assert len(vocabs['data']) == 1
         vocab_name = 'OECD DAC CRS Purpose Codes (5 digit)'
         assert vocabs['data']['1']['name'] == vocab_name
 
-        with open(join(self.codelist_path, 'Vocabulary.json')) as handler:
+        path = join(self.standard_path, 'codelists', 'Vocabulary.json')
+        with open(path) as handler:
             vocabs = json.load(handler)
         assert len(vocabs['data']) == 1
         vocab_name = 'OECD Development Assistance Committee'
@@ -79,4 +86,4 @@ class TestDownloadCodelists(TestCase):
         assert vocabs['data']['DAC']['until'] == '1.05'
 
     def tearDown(self):
-        shutil.rmtree(self.codelist_path, ignore_errors=True)
+        shutil.rmtree(self.standard_path, ignore_errors=True)

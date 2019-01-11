@@ -4,8 +4,8 @@ from ..utils.exceptions import UnknownSectorVocabError, \
 
 
 class Sector(object):
-    def __init__(self, code, vocabulary=None, percentage=None, path=None):
-        codelists = CodelistSet(path)
+    def __init__(self, code, vocabulary=None, percentage=None):
+        codelists = CodelistSet()
         vocab_lookup = {
             '1': 'Sector',
             '2': 'SectorCategory',

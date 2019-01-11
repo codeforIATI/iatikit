@@ -1,5 +1,5 @@
 import json
-import os.path
+from os.path import exists, join
 
 from ..utils.exceptions import MappingsNotFoundError
 from ..utils.validator import Validator
@@ -13,12 +13,12 @@ class CodelistMappings(object):
 
         version_path = version.replace('.', '')
         if not path:
-            path = os.path.join('__pyandicache__', 'standard',
-                                'codelist_mappings')
-        self.mappings_path = os.path.join(path, version_path,
-                                          '{}-mappings.json'.format(filetype))
+            path = join('__pyandicache__', 'standard',
+                        'codelist_mappings')
+        self.mappings_path = join(path, version_path,
+                                  '{}-mappings.json'.format(filetype))
 
-        if not os.path.exists(self.mappings_path):
+        if not exists(self.mappings_path):
             msg = 'No codelist mappings found for IATI version "{version}".'
             msg = msg.format(version=version)
             raise MappingsNotFoundError(msg)

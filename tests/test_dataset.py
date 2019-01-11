@@ -4,7 +4,7 @@ from unittest import TestCase
 from mock import patch
 
 from pyandi.data.dataset import DatasetSet, Dataset
-from .helpers import mod_join
+from pyandi.utils.config import CONFIG
 
 
 class TestDatasets(TestCase):
@@ -46,6 +46,11 @@ class TestDataset(TestCase):
                  'old-org', 'old-org-acts.json'),
         )
 
+        standard_path = join(dirname(abspath(__file__)),
+                             'fixtures', 'standard')
+        config_dict = {'paths': {'standard': standard_path}}
+        CONFIG.read_dict(config_dict)
+
     def test_dataset_name(self):
         assert self.activity_dataset.name == 'old-org-acts'
 
@@ -56,7 +61,6 @@ class TestDataset(TestCase):
     def test_dataset_is_valid_xml(self):
         assert bool(self.activity_dataset.validate_xml()) is True
 
-    @patch('os.path.join', mod_join)
     def test_dataset_is_valid_iati(self):
         assert bool(self.activity_dataset.validate_iati()) is True
 
