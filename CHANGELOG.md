@@ -4,6 +4,30 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Added
+- Add an IATI schema downloader
+- Add IATI schema validation
+- Add a fast find activity search ([#3](https://github.com/pwyf/pyandi/issues/3))
+- Add `CodelistItem` and `Sector` comparison methods
+- Add a `dataset.schema` method
+- Make `download.codelists()` download codelist mappings, too
+- Add a `CodelistMappings` class; Add codelist validation
+- Add a `Validator` class, for storing the results of validation
+- Remove `path` args from lots of constructors; use pyandi.ini instead ([#31](https://github.com/pwyf/pyandi/issues/31))
+
+### Fixed
+- Lots of pylint-related fixes
+- Add missing _instance_class to `PublisherSet`
+- Don’t patch `os.path.join` in tests ([#32](https://github.com/pwyf/pyandi/issues/32))
+
+### Changed
+- Don’t instantiate schemas – use static classes instead
+
+### Removed
+- Remove download helpers (they’re not really useful)
+
 ## [1.5.6] – 2019-01-08
 
 ### Added
