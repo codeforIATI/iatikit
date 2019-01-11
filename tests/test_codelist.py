@@ -36,18 +36,19 @@ class TestCodelistSet(TestCase):
 
     def test_codelists_iter(self):
         codelist_slugs = [
+            'ActivityStatus',
             'Sector',
             'SectorCategory',
             'SectorVocabulary',
             'Vocabulary',
         ]
-        assert len([x for x in self.codelists]) == 4
+        assert len([x for x in self.codelists]) == 5
         for codelist in self.codelists:
             assert codelist.slug in codelist_slugs
 
     def test_codelists_shortcut(self):
         codelists = pyandi.codelists()
-        assert(len(codelists)) == 4
+        assert(len(codelists)) == 5
 
     def test_codelists_filter_version(self):
         codelist_slugs = [
