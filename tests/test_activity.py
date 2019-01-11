@@ -133,15 +133,10 @@ class TestActivitySet(TestCase):
         assert acts[0].iati_identifier == 'GB-COH-01234567-Humanitarian Aid-1'
 
     def test_activities_filter_by_xpath(self):
-        implmentation_ids = [
-            'GB-COH-01234567-1',
-            'GB-COH-01234567-Humanitarian Aid-0',
-        ]
         acts = self.fixture_org_acts.where(
             xpath='activity-status/@code="2"').all()
-        assert len(acts) == 2
-        for act in acts:
-            assert act.iati_identifier in implmentation_ids
+        assert len(acts) == 1
+        assert acts[0].iati_identifier == 'GB-COH-01234567-Humanitarian Aid-0'
 
 
 class TestActivity(TestCase):

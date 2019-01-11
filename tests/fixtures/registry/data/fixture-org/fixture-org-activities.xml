@@ -20,7 +20,7 @@
     <participating-org role="3" ref="GB-COH-01234567" type="21">
       <narrative>Fixture Organisation</narrative>
     </participating-org>
-    <activity-status code="2"/>
+    <activity-status code="6"/>
     <activity-date type="1" iso-date="2011-11-01"/>
     <activity-date type="2" iso-date="2011-10-01"/>
     <activity-date type="3" iso-date="2019-09-30"/>
