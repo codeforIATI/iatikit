@@ -84,7 +84,11 @@ class TestDataset(TestCase):
         fake_logger_warning.assert_called_once_with(*msg)
 
     def test_dataset_validate_codelists(self):
-        assert bool(self.fixture_org_acts.validate_codelists()) is False
+        result = self.fixture_org_acts.validate_codelists()
+        assert result.is_valid is False
+        assert len(result.error_log) == 1
+        err_msg = '"999" not in Sector Vocabulary codelist.'
+        assert result.error_log[0] == err_msg
 
     def test_dataset_validate_unique_ids(self):
         assert bool(self.old_org_acts.validate_unique_ids()) is True
