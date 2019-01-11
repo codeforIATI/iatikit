@@ -2,8 +2,10 @@ from os.path import abspath, dirname, join
 from unittest import TestCase
 
 from mock import patch
+import pytest
 
 from pyandi.data.dataset import DatasetSet, Dataset
+from pyandi.utils.exceptions import MappingsNotFoundError
 from pyandi.utils.config import CONFIG
 
 
@@ -54,15 +56,28 @@ class TestDataset(TestCase):
     def test_dataset_name(self):
         assert self.activity_dataset.name == 'old-org-acts'
 
+    def test_dataset_version(self):
+        assert self.activity_dataset.version == '1.03'
+
     def test_dataset_repr(self):
         dataset_repr = '<Dataset (old-org-acts)>'
         assert str(self.activity_dataset) == dataset_repr
 
-    def test_dataset_is_valid_xml(self):
+    def test_dataset_validate_xml(self):
         assert bool(self.activity_dataset.validate_xml()) is True
 
-    def test_dataset_is_valid_iati(self):
+    def test_dataset_validate_iati(self):
         assert bool(self.activity_dataset.validate_iati()) is True
+
+    @patch('logging.Logger.warning')
+    def test_dataset_validate_codelists_old(self, fake_logger_warning):
+        assert bool(self.activity_dataset.validate_codelists()) is True
+        msg = ('Can\'t perform codelist validation for ' +
+               'IATI version %s datasets.', '1.03')
+        fake_logger_warning.assert_called_once_with(*msg)
+
+    def test_dataset_validate_unique_ids(self):
+        assert bool(self.activity_dataset.validate_unique_ids()) is True
 
     def test_dataset_root(self):
         assert self.activity_dataset.root == 'iati-activities'
