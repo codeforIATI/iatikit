@@ -27,7 +27,7 @@ class CodelistMappings(object):
                                      self.filetype, self.version)
 
     def validate(self, dataset):
-        codelists = CodelistSet()
+        codelists = CodelistSet(version=dataset.version)
 
         def parse_mapping(mapping):
             condition = mapping.get('condition')
