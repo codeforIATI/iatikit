@@ -85,3 +85,6 @@ class Sector(object):
         if self.percentage != value.percentage:
             return False
         return True
+
+    def __ne__(self, value):
+        return not self.__eq__(value)

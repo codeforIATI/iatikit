@@ -25,6 +25,9 @@ class CodelistItem(object):
         return self.code == value.code and \
                self.codelist.slug == value.codelist.slug
 
+    def __ne__(self, value):
+        return not self.__eq__(value)
+
 
 class Codelist(GenericSet):
     _key = 'code'
