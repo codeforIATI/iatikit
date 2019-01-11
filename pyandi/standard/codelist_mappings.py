@@ -3,19 +3,18 @@ from os.path import exists, join
 
 from ..utils.exceptions import MappingsNotFoundError
 from ..utils.validator import Validator
+from ..utils.config import CONFIG
 from .codelist import CodelistSet
 
 
 class CodelistMappings(object):
-    def __init__(self, filetype, version, path=None):
+    def __init__(self, filetype, version):
         self.filetype = filetype
         self.version = version
 
         version_path = version.replace('.', '')
-        if not path:
-            path = join('__pyandicache__', 'standard',
-                        'codelist_mappings')
-        self.mappings_path = join(path, version_path,
+        self.mappings_path = join(CONFIG['paths']['standard'],
+                                  'codelist_mappings', version_path,
                                   '{}-mappings.json'.format(filetype))
 
         if not exists(self.mappings_path):
