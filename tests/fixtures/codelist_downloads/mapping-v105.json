@@ -1,0 +1,1 @@
+[{"path": "//iati-activity/activity-status/@code", "codelist": "ActivityStatus"}, {"path": "//iati-activity/policy-marker/@vocabulary", "codelist": "Vocabulary"}, {"path": "//iati-activity/sector/@code", "codelist": "Sector", "condition": "@vocabulary = 'DAC' or not(@vocabulary)"}, {"path": "//iati-activity/sector/@vocabulary", "codelist": "Vocabulary"}]

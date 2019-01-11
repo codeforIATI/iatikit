@@ -102,6 +102,48 @@ def codelists():
             version_codelist = requests.get(codelist_url).json()
         return version_codelist
 
+    def get_codelist_mappings(versions):
+        all_codelists = CodelistSet()
+
+        def filter_complete(mapping):
+            try:
+                return all_codelists.get(mapping['codelist']).complete
+            except:
+                raise Exception(mapping['codelist'])
+
+        path = join(CONFIG['paths']['standard'], 'codelist_mappings')
+        shutil.rmtree(path, ignore_errors=True)
+        makedirs(path)
+
+        logging.info('Downloading IATI Standard codelist mappings...')
+
+        tmpl = 'http://reference.iatistandard.org/{version}/' + \
+               'codelists/downloads/clv2/mapping.json'
+        for version in versions:
+            if version not in ['1.01', '1.02', '1.03']:
+                version_path = version.replace('.', '')
+                mapping_path = join(path, version_path)
+                makedirs(mapping_path)
+
+                mapping_url = tmpl.format(version=version_path)
+                mappings = requests.get(mapping_url).json()
+
+                mappings = list(filter(filter_complete, mappings))
+
+                activity_mappings = [
+                    x for x in mappings
+                    if not x['path'].startswith('//iati-org')]
+                filepath = join(mapping_path, 'activity-mappings.json')
+                with open(filepath, 'w') as handler:
+                    json.dump(activity_mappings, handler)
+
+                organisation_mappings = [
+                    x for x in mappings
+                    if not x['path'].startswith('//iati-act')]
+                filepath = join(mapping_path, 'organisation-mappings.json')
+                with open(filepath, 'w') as handler:
+                    json.dump(organisation_mappings, handler)
+
     path = join(CONFIG['paths']['standard'], 'codelists')
     shutil.rmtree(path, ignore_errors=True)
     makedirs(path)
@@ -109,7 +151,8 @@ def codelists():
     logging.info('Downloading IATI Standard codelists...')
 
     codelist_versions_by_name = defaultdict(list)
-    for version in get_iati_versions():
+    all_versions = get_iati_versions()
+    for version in all_versions:
         list_of_codelists = get_list_of_codelists(version)
 
         for codelist_name in list_of_codelists:
@@ -152,13 +195,15 @@ def codelists():
         with open(join(path, codelist_name + '.json'), 'w') as handler:
             json.dump(codelist, handler)
 
+    get_codelist_mappings(all_versions)
+
 
 def schemas():
     path = join(CONFIG['paths']['standard'], 'schemas')
     shutil.rmtree(path, ignore_errors=True)
     makedirs(path)
 
-    versions_url = 'http://reference.iatistandard.org/codelists/' + \
+    versions_url = 'http://reference.iatistandard.org/201/codelists/' + \
                    'downloads/clv2/json/en/Version.json'
     versions = [d['code'] for d in requests.get(versions_url).json()['data']]
     versions.reverse()
@@ -177,46 +222,3 @@ def schemas():
             filepath = join(path, version_path, filename)
             with open(filepath, 'wb') as handler:
                 handler.write(request.content)
-
-
-def codelist_mappings():
-    all_codelists = CodelistSet()
-
-    def filter_complete(mapping):
-        return all_codelists.get(mapping['codelist']).complete
-
-    path = join(CONFIG['paths']['standard'], 'codelist_mappings')
-    shutil.rmtree(path, ignore_errors=True)
-    makedirs(path)
-
-    versions_url = 'http://reference.iatistandard.org/codelists/' + \
-                   'downloads/clv2/json/en/Version.json'
-    versions = [d['code'] for d in requests.get(versions_url).json()['data']]
-    versions.reverse()
-
-    logging.info('Downloading IATI Standard codelist mappings...')
-
-    tmpl = 'http://reference.iatistandard.org/{version}/' + \
-           'codelists/downloads/clv2/mapping.json'
-    for version in versions:
-        if version not in ['1.01', '1.02', '1.03']:
-            version_path = version.replace('.', '')
-            mapping_path = join(path, version_path)
-            makedirs(mapping_path)
-
-            mapping_url = tmpl.format(version=version_path)
-            mappings = requests.get(mapping_url).json()
-
-            mappings = list(filter(filter_complete, mappings))
-
-            activity_mappings = [x for x in mappings
-                                 if not x['path'].startswith('//iati-org')]
-            filepath = join(mapping_path, 'activity-mappings.json')
-            with open(filepath, 'w') as handler:
-                json.dump(activity_mappings, handler)
-
-            organisation_mappings = [x for x in mappings
-                                     if not x['path'].startswith('//iati-act')]
-            filepath = join(mapping_path, 'organisation-mappings.json')
-            with open(filepath, 'w') as handler:
-                json.dump(organisation_mappings, handler)
