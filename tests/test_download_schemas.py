@@ -26,9 +26,9 @@ class MockRequest():
     def __init__(self, url):
         filename = url.rsplit('/', 1)[-1]
         if filename == 'Version.json':
-            codelist_path = join(dirname(abspath(__file__)),
-                                 'fixtures', 'codelist_downloads')
-            self.filepath = join(codelist_path, filename)
+            self.filepath = join(dirname(abspath(__file__)),
+                                 'fixtures', 'codelist_downloads',
+                                 'Version-v201.json')
         self.content = XSD_TMPL.format(filename=filename).encode()
 
     def json(self):

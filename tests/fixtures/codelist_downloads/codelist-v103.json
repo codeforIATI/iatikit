@@ -1,0 +1,1 @@
+{ "codelist" : [{ "name" : "ActivityStatus", "description" : "", "count" : "5", "fields" : "code,name,language" }, { "name" : "Sector", "description" : null, "count" : "2", "fields" : "code,name,description,category,category-name,category-description" }, { "name" : "Vocabulary", "description" : null, "count" : "1", "fields" : "code,name" } ] }
