@@ -95,7 +95,9 @@ class TestDataset(TestCase):
             assert err_msg in err_msgs
 
     def test_dataset_validate_unique_ids(self):
-        assert bool(self.old_org_acts.validate_unique_ids()) is True
+        result = self.old_org_acts.validate_unique_ids()
+        assert bool(result) is True
+        assert str(result) == '<Validator (True)>'
 
     def test_dataset_root(self):
         assert self.old_org_acts.root == 'iati-activities'
