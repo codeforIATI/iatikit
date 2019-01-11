@@ -77,7 +77,7 @@ class TestDownloadCodelists(TestCase):
 
         with open(join(path, '105', 'organisation-mappings.json')) as handler:
             mappings = json.load(handler)
-        assert len(mappings) == 0
+        assert mappings == []
 
     def tearDown(self):
         shutil.rmtree(self.standard_path, ignore_errors=True)

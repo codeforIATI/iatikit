@@ -2,10 +2,8 @@ from os.path import abspath, dirname, join
 from unittest import TestCase
 
 from mock import patch
-import pytest
 
 from pyandi.data.dataset import DatasetSet, Dataset
-from pyandi.utils.exceptions import MappingsNotFoundError
 from pyandi.utils.config import CONFIG
 
 
