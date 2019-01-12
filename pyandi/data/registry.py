@@ -21,6 +21,7 @@ class Registry(object):
         A ``NoDataError`` is raised if there is no data.
         """
         self._last_updated = None
+        self.path = CONFIG['paths']['registry']
 
         last_updated = self.last_updated
         days_ago = (datetime.now() - last_updated).days
@@ -36,8 +37,7 @@ class Registry(object):
         """Return the datetime when the local cache was last updated.
         """
         if not self._last_updated:
-            registry_path = CONFIG['paths']['registry']
-            filepath = join(registry_path, 'metadata.json')
+            filepath = join(self.path, 'metadata.json')
             if exists(filepath):
                 with open(filepath) as handler:
                     j = json.load(handler)
@@ -55,9 +55,8 @@ class Registry(object):
     @property
     def publishers(self):
         """Return an iterator of all publishers on the registry."""
-        registry_path = CONFIG['paths']['registry']
-        data_path = join(registry_path, 'data', '*')
-        metadata_path = join(registry_path, 'metadata', '*')
+        data_path = join(self.path, 'data', '*')
+        metadata_path = join(self.path, 'metadata', '*')
         return PublisherSet(data_path, metadata_path)
 
     @property
