@@ -18,8 +18,9 @@ class CodelistMappings(object):
                                   '{}-mappings.json'.format(filetype))
 
         if not exists(self.mappings_path):
-            msg = 'No codelist mappings found for IATI version "{version}".'
-            msg = msg.format(version=version)
+            tmpl = 'No codelist mappings found for IATI version ' + \
+                   '"{version} ({filetype})".'
+            msg = tmpl.format(version=version, filetype=filetype)
             raise MappingsNotFoundError(msg)
 
     def __repr__(self):
