@@ -81,7 +81,9 @@ class Dataset(object):
         """Validate dataset against the relevant IATI schema."""
         xml_valid = self.validate_xml()
         if not xml_valid:
-            return xml_valid
+            msg = 'Can\'t perform IATI schema validation for ' + \
+                  'invalid XML.'
+            return Validator(False, [msg])
         try:
             return self.schema.validate(self)
         except SchemaNotFoundError as error:
@@ -92,7 +94,9 @@ class Dataset(object):
         """Validate dataset against the relevant IATI codelists."""
         xml_valid = self.validate_xml()
         if not xml_valid:
-            return xml_valid
+            msg = 'Can\'t perform codelist validation for ' + \
+                  'invalid XML.'
+            return Validator(False, [msg])
         try:
             mappings = CodelistMappings(self.filetype, self.version)
         except MappingsNotFoundError:
