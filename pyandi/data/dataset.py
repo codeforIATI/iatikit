@@ -106,23 +106,6 @@ class Dataset(object):
             return Validator(True)
         return mappings.validate(self)
 
-    def validate_unique_ids(self):
-        seen = {}
-        dupes = defaultdict(lambda: 1)
-        for activity in self.activities:
-            id_ = activity.iati_identifier
-            if id_ is None:
-                continue
-            if id_ not in seen:
-                seen[id_] = None
-            else:
-                dupes[id_] += 1
-        if dict(dupes) == {}:
-            return Validator(True)
-        msg = 'Activity "{}" repeated {} times'
-        error_log = [msg.format(*tup) for tup in dupes.items()]
-        return Validator(False, error_log)
-
     @property
     def metadata(self):
         """Return a dictionary of registry metadata for this dataset."""
