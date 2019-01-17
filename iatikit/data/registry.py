@@ -29,7 +29,7 @@ class Registry(object):
             warning_msg = 'Warning: Data was last updated {} days ' + \
                           'ago. Consider downloading a fresh ' + \
                           'data dump, using:\n\n   ' + \
-                          '>>> pyandi.download.data()\n'
+                          '>>> iatikit.download.data()\n'
             warnings.warn(warning_msg.format(days_ago))
 
     @property
@@ -48,7 +48,7 @@ class Registry(object):
                 error_msg = 'Error: No data found! ' + \
                             'Download a fresh data dump ' + \
                             'using:\n\n   ' + \
-                            '>>> pyandi.download.data()\n'
+                            '>>> iatikit.download.data()\n'
                 raise NoDataError(error_msg)
         return self._last_updated
 

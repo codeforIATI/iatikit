@@ -1,10 +1,10 @@
 Reference
 =========
 
-pyandi
-------
+iatikit
+-------
 
-.. automodule:: pyandi
+.. automodule:: iatikit
     :members:
     :inherited-members:
 
@@ -13,14 +13,14 @@ pyandi
 Registry
 --------
 
-.. autoclass:: pyandi.data.registry.Registry
+.. autoclass:: iatikit.data.registry.Registry
     :members:
     :inherited-members:
 
 PublisherSet
 ------------
 
-.. autoclass:: pyandi.data.publisher.PublisherSet
+.. autoclass:: iatikit.data.publisher.PublisherSet
     :members:
     :inherited-members:
 
@@ -29,14 +29,14 @@ PublisherSet
 Publisher
 ---------
 
-.. autoclass:: pyandi.data.publisher.Publisher
+.. autoclass:: iatikit.data.publisher.Publisher
     :members:
     :inherited-members:
 
 DatasetSet
 ----------
 
-.. autoclass:: pyandi.data.dataset.DatasetSet
+.. autoclass:: iatikit.data.dataset.DatasetSet
     :members:
     :inherited-members:
 
@@ -45,14 +45,14 @@ DatasetSet
 Dataset
 -------
 
-.. autoclass:: pyandi.data.dataset.Dataset
+.. autoclass:: iatikit.data.dataset.Dataset
     :members:
     :inherited-members:
 
 ActivitySet
 -----------
 
-.. autoclass:: pyandi.data.activity.ActivitySet
+.. autoclass:: iatikit.data.activity.ActivitySet
     :members:
     :inherited-members:
 
@@ -61,7 +61,7 @@ ActivitySet
 Activity
 --------
 
-.. autoclass:: pyandi.data.activity.Activity
+.. autoclass:: iatikit.data.activity.Activity
     :members:
     :inherited-members:
 

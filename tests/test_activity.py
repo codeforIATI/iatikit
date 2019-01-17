@@ -6,11 +6,11 @@ from mock import patch
 from lxml import etree as ET
 import pytest
 
-from pyandi.data.dataset import DatasetSet, Dataset
-from pyandi.data.activity import ActivitySet, Activity
-from pyandi.standard.activity_schema import ActivitySchema105
-from pyandi.utils.config import CONFIG
-from pyandi import Sector
+from iatikit.data.dataset import DatasetSet, Dataset
+from iatikit.data.activity import ActivitySet, Activity
+from iatikit.standard.activity_schema import ActivitySchema105
+from iatikit.utils.config import CONFIG
+from iatikit import Sector
 
 
 class TestActivitySet(TestCase):

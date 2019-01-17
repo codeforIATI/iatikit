@@ -7,7 +7,7 @@ with open(join(path, 'README.rst')) as f:
     readme = f.read()
 
 data = {}
-with open(join(path, 'pyandi', '__version__.py')) as f:
+with open(join(path, 'iatikit', '__version__.py')) as f:
     exec(f.read(), data)
 
 test_deps = [
@@ -22,9 +22,9 @@ test_deps = [
 extras = {'test': test_deps}
 
 setup(
-    name='pyandi',
+    name='iatikit',
     description='A toolkit for using IATI data.',
-    url='https://pyandi.readthedocs.io',
+    url='https://iatikit.readthedocs.io',
     author='Andy Lulham',
     author_email='a.lulham@gmail.com',
     version=data.get('__version__'),

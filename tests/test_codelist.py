@@ -5,10 +5,10 @@ from unittest import TestCase
 
 import pytest
 
-import pyandi
-from pyandi.standard.codelist import CodelistSet, Codelist
-from pyandi.utils.exceptions import NoCodelistsError
-from pyandi.utils.config import CONFIG
+import iatikit
+from iatikit.standard.codelist import CodelistSet, Codelist
+from iatikit.utils.exceptions import NoCodelistsError
+from iatikit.utils.config import CONFIG
 
 
 class TestNoCodelists(TestCase):
@@ -47,7 +47,7 @@ class TestCodelistSet(TestCase):
             assert codelist.slug in codelist_slugs
 
     def test_codelists_shortcut(self):
-        codelists = pyandi.codelists()
+        codelists = iatikit.codelists()
         assert(len(codelists)) == 5
 
     def test_codelists_filter_version(self):

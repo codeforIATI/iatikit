@@ -1,55 +1,55 @@
-pyandi
-======
+iatikit
+=======
 
-.. image:: https://img.shields.io/pypi/v/pyandi.svg
+.. image:: https://img.shields.io/pypi/v/iatikit.svg
     :alt: PyPI Package latest release
-    :target: https://pypi.org/project/pyandi/
+    :target: https://pypi.org/project/iatikit/
 
-.. image:: https://img.shields.io/pypi/l/pyandi.svg
+.. image:: https://img.shields.io/pypi/l/iatikit.svg
     :alt: License
-    :target: https://pypi.org/project/pyandi/
+    :target: https://pypi.org/project/iatikit/
 
-.. image:: https://img.shields.io/pypi/pyversions/pyandi.svg
+.. image:: https://img.shields.io/pypi/pyversions/iatikit.svg
     :alt: Supported versions
-    :target: https://pypi.org/project/pyandi/
+    :target: https://pypi.org/project/iatikit/
 
-.. image:: https://img.shields.io/travis/pwyf/pyandi/master.svg
+.. image:: https://img.shields.io/travis/pwyf/iatikit/master.svg
     :alt: Travis-CI Build Status
-    :target: https://travis-ci.org/pwyf/pyandi
+    :target: https://travis-ci.org/pwyf/iatikit
 
-.. image:: https://img.shields.io/coveralls/github/pwyf/pyandi/master.svg
+.. image:: https://img.shields.io/coveralls/github/pwyf/iatikit/master.svg
     :alt: Test coverage
-    :target: https://coveralls.io/github/pwyf/pyandi?branch=master
+    :target: https://coveralls.io/github/pwyf/iatikit?branch=master
 
-pyandi is a toolkit for using `IATI data <https://iatistandard.org/>`__. It includes a `query
+iatikit is a toolkit for using `IATI data <https://iatistandard.org/>`__. It includes a `query
 language <https://erikbern.com/2018/08/30/i-dont-want-to-learn-your-garbage-query-language.html>`__
 wrapper around `XPath <https://en.wikipedia.org/wiki/XPath>`__,
 to make dealing with disparate IATI versions easier.
 
-The name is a homage to its predecessor,
-`pyIATI <https://github.com/IATI/pyIATI>`__.
+The name was inspired by `Open Contracting <https://www.open-contracting.org/>`__’s
+`ocdskit <https://pypi.org/project/ocdskit/>`__.
 
 Installation
 ------------
 
-pyandi is tested for pythons 2.7, 3.5 and 3.6.
+iatikit is tested for pythons 2.7, 3.5 and 3.6.
 
 You can install it using ``pip``:
 
 .. code:: shell
 
-    pip install pyandi
+    pip install iatikit
 
 Documentation
 -------------
 
-Check out `Read the Docs <https://pyandi.readthedocs.io>`__!
+Check out `Read the Docs <https://iatikit.readthedocs.io>`__!
 
 Roadmap
 -------
 
 The `github issue
-tracker <https://github.com/pwyf/pyandi/issues>`__ will hopefully provide
+tracker <https://github.com/pwyf/iatikit/issues>`__ will hopefully provide
 some idea.
 
 Development
@@ -70,9 +70,9 @@ You can run tests with:
 Deployment
 ----------
 
-pyandi is `deployed to pypi <https://pypi.org/project/pyandi/>`__ automatically `by Travis <https://travis-ci.org/pwyf/pyandi>`__, whenever a new `tag is pushed to github <https://github.com/pwyf/pyandi/tags>`__.
+iatikit is `deployed to pypi <https://pypi.org/project/iatikit/>`__ automatically `by Travis <https://travis-ci.org/pwyf/iatikit>`__, whenever a new `tag is pushed to github <https://github.com/pwyf/iatikit/tags>`__.
 
 License
 -------
 
-This work is `MIT licensed <https://github.com/pwyf/pyandi/blob/master/LICENSE.md>`__.
+This work is `MIT licensed <https://github.com/pwyf/iatikit/blob/master/LICENSE.md>`__.

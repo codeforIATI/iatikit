@@ -3,8 +3,8 @@ from unittest import TestCase
 
 from mock import patch
 
-from pyandi.data.dataset import DatasetSet, Dataset
-from pyandi.utils.config import CONFIG
+from iatikit.data.dataset import DatasetSet, Dataset
+from iatikit.utils.config import CONFIG
 
 
 class TestDatasets(TestCase):

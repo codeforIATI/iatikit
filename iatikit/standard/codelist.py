@@ -123,7 +123,7 @@ class CodelistSet(GenericSet):
             error_msg = 'Error: No codelists found! ' + \
                           'Download fresh codelists ' + \
                           'using:\n\n   ' + \
-                          '>>> pyandi.download.codelists()\n'
+                          '>>> iatikit.download.codelists()\n'
             raise NoCodelistsError(error_msg)
 
     def __iter__(self):

@@ -4,8 +4,8 @@ from unittest import TestCase
 from mock import patch
 import pytest
 
-from pyandi.data.publisher import PublisherSet, Publisher
-from pyandi.utils.exceptions import FilterError
+from iatikit.data.publisher import PublisherSet, Publisher
+from iatikit.utils.exceptions import FilterError
 
 
 class TestPublishers(TestCase):

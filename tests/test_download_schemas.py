@@ -6,8 +6,8 @@ from unittest import TestCase
 
 from mock import patch
 
-from pyandi.utils import download
-from pyandi.utils.config import CONFIG
+from iatikit.utils import download
+from iatikit.utils.config import CONFIG
 
 
 XSD_TMPL = '''<?xml version="1.0" encoding="utf-8"?>

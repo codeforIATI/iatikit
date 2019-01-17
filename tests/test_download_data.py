@@ -8,8 +8,8 @@ import zipfile
 
 from mock import patch
 
-from pyandi.utils import download
-from pyandi.utils.config import CONFIG
+from iatikit.utils import download
+from iatikit.utils.config import CONFIG
 
 
 class MockRequest():

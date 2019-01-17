@@ -6,13 +6,13 @@ from configparser import ConfigParser
 def _load_config():
     defaults = {
         'paths': {
-            'registry': join('__pyandicache__', 'registry'),
-            'standard': join('__pyandicache__', 'standard'),
+            'registry': join('__iatikitcache__', 'registry'),
+            'standard': join('__iatikitcache__', 'standard'),
         }
     }
     config = ConfigParser()
     config.read_dict(defaults)
-    config.read('pyandi.ini')
+    config.read('iatikit.ini')
     return config
 
 

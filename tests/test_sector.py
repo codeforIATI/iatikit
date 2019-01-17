@@ -3,12 +3,12 @@ from unittest import TestCase
 
 import pytest
 
-from pyandi import Sector
-from pyandi.standard.codelist import Codelist
-from pyandi.utils.exceptions import UnknownSectorVocabError, \
+from iatikit import Sector
+from iatikit.standard.codelist import Codelist
+from iatikit.utils.exceptions import UnknownSectorVocabError, \
                                     UnknownSectorCodeError, \
                                     InvalidSectorCodeError
-from pyandi.utils.config import CONFIG
+from iatikit.utils.config import CONFIG
 
 
 class TestSector(TestCase):

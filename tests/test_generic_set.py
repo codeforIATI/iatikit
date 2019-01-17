@@ -4,9 +4,9 @@ from unittest import TestCase
 from freezegun import freeze_time
 import pytest
 
-from pyandi.data.registry import Registry
-from pyandi.utils.exceptions import FilterError
-from pyandi.utils.config import CONFIG
+from iatikit.data.registry import Registry
+from iatikit.utils.exceptions import FilterError
+from iatikit.utils.config import CONFIG
 
 
 class TestGenericSet(TestCase):

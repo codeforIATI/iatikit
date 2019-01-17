@@ -4,7 +4,7 @@ from .exceptions import FilterError
 
 
 class GenericSet(object):
-    """Class representing a generic grouping of pyandi objects.
+    """Class representing a generic grouping of iatikit objects.
 
     Objects in this grouping can be filtered and iterated over.
     Queries are only constructed and run when needed, so they

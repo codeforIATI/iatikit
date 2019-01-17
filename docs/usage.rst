@@ -4,7 +4,7 @@ Usage
 Data structure
 --------------
 
-pyandi uses a model that reflects IATI architecture.
+iatikit uses a model that reflects IATI architecture.
 
 .. graphviz::
 
@@ -34,7 +34,7 @@ pyandi uses a model that reflects IATI architecture.
    }
 
 The solid arrows show the main links between data types. The dotted arrows
-show additional links that pyandi provides.
+show additional links that iatikit provides.
 
 The :ref:`registry <registry>` contains a list of :ref:`publishers <publisher>`.
 Each :ref:`publisher <publisher>` has zero or more :ref:`datasets <dataset>`.
@@ -48,9 +48,9 @@ To construct a new :ref:`Registry <registry>` object, use:
 
 .. code:: python
 
-    import pyandi
+    import iatikit
 
-    registry = pyandi.data()
+    registry = iatikit.data()
 
 If no data can be found, a ``NoDataError`` is raised. If data is found to be
 “stale” (i.e. more than 7 days old) a warning is shown.

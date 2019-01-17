@@ -4,13 +4,13 @@ Getting started
 Installation
 ------------
 
-pyandi is tested for pythons 2.7, 3.5 and 3.6.
+iatikit is tested for pythons 2.7, 3.5 and 3.6.
 
 You can install it using ``pip``:
 
 .. code:: shell
 
-    pip install pyandi
+    pip install iatikit
 
 Setup
 -----
@@ -20,10 +20,10 @@ from `the registry <https://iatiregistry.org/>`__, as well as `the latest codeli
 
 .. code:: python
 
-    import pyandi
+    import iatikit
 
     # download all XML in the registry
-    pyandi.download.data()
+    iatikit.download.data()
 
     # download all the codelists
-    pyandi.download.codelists()
+    iatikit.download.codelists()

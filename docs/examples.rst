@@ -6,9 +6,9 @@ Count datasets and publishers on the registry
 
 .. code:: python
 
-    import pyandi
+    import iatikit
 
-    registry = pyandi.data()
+    registry = iatikit.data()
 
     publishers = registry.publishers
     total_publishers = len(publishers)
@@ -23,9 +23,9 @@ Count datasets for a publisher
 
 .. code:: python
 
-    import pyandi
+    import iatikit
 
-    registry = pyandi.data()
+    registry = iatikit.data()
 
     usaid = registry.publishers.find(name='usaid')
     print('USAID has {:,} datasets.'.format(len(usaid.datasets)))
@@ -37,9 +37,9 @@ Find an activity by its identifier
 
 .. code:: python
 
-    import pyandi
+    import iatikit
 
-    registry = pyandi.data()
+    registry = iatikit.data()
     iati_identifier = 'GB-1-201724-151'
 
     dfid = registry.publishers.find(name='dfid')
@@ -56,9 +56,9 @@ Find activities that include an element
 
 .. code:: python
 
-    import pyandi
+    import iatikit
 
-    registry = pyandi.data()
+    registry = iatikit.data()
 
     mcc = registry.publishers.find(name='millenniumchallenge')
     total_with_locations = len(mcc.activities.where(location__exists=True))
@@ -74,9 +74,9 @@ List all publishers by date of first publication
 .. code:: python
 
     from datetime import datetime
-    import pyandi
+    import iatikit
 
-    registry = pyandi.data()
+    registry = iatikit.data()
 
     publishers = sorted(
         [(min([d.metadata.get('metadata_created')
@@ -101,12 +101,12 @@ More complicated activity filters
 
 .. code:: python
 
-    import pyandi
+    import iatikit
 
-    registry = pyandi.data()
+    registry = iatikit.data()
 
     dfid = registry.publishers.find(name='dfid')
-    sector_category = pyandi.sector(311, 2)  # Agriculture
+    sector_category = iatikit.sector(311, 2)  # Agriculture
 
     ag_acts = dfid.activities.where(
         actual_start__lte='2017-12-31',  # started before 2018

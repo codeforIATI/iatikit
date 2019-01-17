@@ -7,10 +7,10 @@ from unittest import TestCase
 from freezegun import freeze_time
 import pytest
 
-from pyandi.data.registry import Registry
-from pyandi.utils.exceptions import NoDataError
-from pyandi.utils.config import CONFIG
-import pyandi.data
+from iatikit.data.registry import Registry
+from iatikit.utils.exceptions import NoDataError
+from iatikit.utils.config import CONFIG
+import iatikit.data
 
 
 class TestNoData(TestCase):
@@ -78,5 +78,5 @@ class TestRegistry(TestCase):
 
     @freeze_time("2015-12-02")
     def test_shortcut(self):
-        registry = pyandi.data()
+        registry = iatikit.data()
         assert(len(registry.datasets)) == 4
