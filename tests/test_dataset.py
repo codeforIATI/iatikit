@@ -84,13 +84,13 @@ class TestDataset(TestCase):
     def test_dataset_validate_codelists(self):
         result = self.fixture_org_acts.validate_codelists()
         assert result.is_valid is False
-        assert len(result.error_log) == 2
+        assert len(result.errors) == 2
         err_msgs = [
-            '"999" not in Sector Vocabulary codelist.',
-            '"6" not in Activity Status codelist.',
+            'The value "999" is not in the Sector Vocabulary codelist.',
+            'The value "6" is not in the Activity Status codelist.',
         ]
-        for err_msg in result.error_log:
-            assert err_msg in err_msgs
+        for error in result.errors:
+            assert str(error) in err_msgs
 
     def test_dataset_root(self):
         assert self.old_org_acts.root == 'iati-activities'

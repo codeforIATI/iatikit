@@ -2,9 +2,31 @@ import json
 from os.path import exists, join
 
 from ..utils.exceptions import MappingsNotFoundError
-from ..utils.validator import Validator
+from ..utils.validator import Validator, ValidationError
 from ..utils.config import CONFIG
 from .codelist import CodelistSet
+
+
+class CodelistValidationError(ValidationError):
+    def __init__(self, msg, codelist_name, codelist_slug, version):
+        super(CodelistValidationError, self).__init__(msg)
+
+        details = 'Only values from the {codelist_name} ' + \
+                  'codelist are permitted.'
+        self.details = details.format(codelist_name=codelist_name)
+        self.codelist_slug = codelist_slug
+        self.version = version
+
+    @property
+    def url(self):
+        if self.version in ['1.01', '1.02', '1.03']:
+            slug = self.codelist_slug.lower().replace(' ', '_')
+        else:
+            slug = self.codelist_slug
+
+        version_str = self.version.replace('.', '')
+        tmpl = 'http://reference.iatistandard.org/{version}/codelists/{slug}/'
+        return tmpl.format(version=version_str, slug=slug)
 
 
 class CodelistMappings(object):
@@ -53,8 +75,10 @@ class CodelistMappings(object):
             values = dataset.etree.xpath(xpath_query)
             for value in set(values):
                 if not codelist.get(value):
-                    error = '"{}" not in {} codelist.'.format(
+                    msg = 'The value "{}" is not in the {} codelist.'.format(
                         value, codelist.name)
-                    error_log.append(error)
+                    codelist_error = CodelistValidationError(
+                        msg, codelist.name, codelist.slug, self.version)
+                    error_log.append(codelist_error)
                     success = False
         return Validator(success, error_log)

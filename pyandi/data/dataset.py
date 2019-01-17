@@ -1,4 +1,3 @@
-from collections import defaultdict
 from os.path import basename, exists, splitext
 from glob import glob
 import json
@@ -9,7 +8,7 @@ from lxml import etree as ET
 
 from ..utils.abstract import GenericSet
 from ..utils.exceptions import SchemaNotFoundError, MappingsNotFoundError
-from ..utils.validator import Validator
+from ..utils.validator import Validator, ValidationError
 from ..standard.xsd_schema import XSDSchema
 from ..standard.codelist_mappings import CodelistMappings
 from .activity import ActivitySet
@@ -74,7 +73,7 @@ class Dataset(object):
             try:
                 self._etree = ET.parse(self.data_path)
             except ET.XMLSyntaxError as error:
-                return Validator(False, [str(error)])
+                return Validator(False, [ValidationError(str(error))])
         return Validator(True)
 
     def validate_iati(self):
@@ -83,12 +82,12 @@ class Dataset(object):
         if not xml_valid:
             msg = 'Can\'t perform IATI schema validation for ' + \
                   'invalid XML.'
-            return Validator(False, [msg])
+            return Validator(False, [ValidationError(msg)])
         try:
             return self.schema.validate(self)
         except SchemaNotFoundError as error:
             logging.warning(error)
-            return Validator(False, [str(error)])
+            return Validator(False, [ValidationError(str(error))])
 
     def validate_codelists(self):
         """Validate dataset against the relevant IATI codelists."""
@@ -96,7 +95,7 @@ class Dataset(object):
         if not xml_valid:
             msg = 'Can\'t perform codelist validation for ' + \
                   'invalid XML.'
-            return Validator(False, [msg])
+            return Validator(False, [ValidationError(msg)])
         try:
             mappings = CodelistMappings(self.filetype, self.version)
         except MappingsNotFoundError:
