@@ -4,23 +4,37 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Added
+- Much better XSD and codelist validation messages
+
+### Fixed
+- Add checks to ensure filetype metadata from the registry is okay
+
+### Changed
+- Rename the project! "pyandi" -> "iatikit"
+
+### Removed
+- Drop `validate_unique_ids`. This should be part of ruleset validation
+
 ## [1.5.7] – 2019-01-15
 
 ### Added
 - Add an IATI schema downloader
 - Add IATI schema validation
-- Add a fast find activity search ([#3](https://github.com/pwyf/pyandi/issues/3))
+- Add a fast find activity search ([#3](https://github.com/pwyf/iatikit/issues/3))
 - Add `CodelistItem` and `Sector` comparison methods
 - Add a `dataset.schema` method
 - Make `download.codelists()` download codelist mappings, too
-- Add a `CodelistMappings` class; Add codelist validation
+- Add a `CodelistMappings` class; Add codelist validation ([#31](https://github.com/pwyf/iatikit/issues/31))
 - Add a `Validator` class, for storing the results of validation
-- Remove `path` args from lots of constructors; use pyandi.ini instead ([#31](https://github.com/pwyf/pyandi/issues/31))
+- Remove `path` args from lots of constructors; use pyandi.ini instead ([#31](https://github.com/pwyf/iatikit/issues/31))
 
 ### Fixed
 - Lots of pylint-related fixes
 - Add missing _instance_class to `PublisherSet`
-- Don’t patch `os.path.join` in tests ([#32](https://github.com/pwyf/pyandi/issues/32))
+- Don’t patch `os.path.join` in tests ([#32](https://github.com/pwyf/iatikit/issues/32))
 
 ### Changed
 - Don’t instantiate schemas – use static classes instead
@@ -87,7 +101,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.5.2] – 2018-12-28
 
 ### Added
-- Deploy to pypi from travis ([#26](https://github.com/pwyf/pyandi/issues/26))
+- Deploy to pypi from travis ([#26](https://github.com/pwyf/iatikit/issues/26))
 
 ### Changed
 - Move repo from andylolz to pwyf
@@ -96,7 +110,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 - Log a warning when dataset XML is invalid
-- Add some documentation in docs/ as well as some docstrings ([#16](https://github.com/pwyf/pyandi/issues/16))
+- Add some documentation in docs/ as well as some docstrings ([#16](https://github.com/pwyf/iatikit/issues/16))
 - Be more specific about exception handling (i.e. don’t use `except:`)
 - Add python 2.7 support
 - Start adding tests; Setup travis and coveralls
@@ -109,7 +123,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.5.0] – 2018-12-27
 
 ### Added
-- Add a publisher metadata property ([#17](https://github.com/pwyf/pyandi/issues/17))
+- Add a publisher metadata property ([#17](https://github.com/pwyf/iatikit/issues/17))
 - Add `filter` as a synonym for `where`
 - Add show() function to Publisher, Dataset and Activity models
 - Add an `xpath` activity filter
@@ -126,12 +140,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Codelist support for all versions (i.e. v1.01+)
 - Add `start` and `end` properties to activities
-- Error when there’s no data ([#12](https://github.com/pwyf/pyandi/issues/12))
+- Error when there’s no data ([#12](https://github.com/pwyf/iatikit/issues/12))
 - Error when there are no codelists
-- Improved sector support ([#22](https://github.com/pwyf/pyandi/pull/22))
+- Improved sector support ([#22](https://github.com/pwyf/iatikit/pull/22))
 
 ### Changed
-- Change internal representation of codelists ([#20](https://github.com/pwyf/pyandi/issues/20))
+- Change internal representation of codelists ([#20](https://github.com/pwyf/iatikit/issues/20))
 - Return python `date` objects for dates
 - Always strip IATI identifiers
 
@@ -187,7 +201,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `raw_xml` function added to dataset and activity
 - Expand key-value extras in dataset metadata
 - Add a filetype dataset filter
-- Add a warning about stale data ([#8](https://github.com/pwyf/pyandi/issues/8))
+- Add a warning about stale data ([#8](https://github.com/pwyf/iatikit/issues/8))
 - Add location, sector, title and description schema fields
 
 ### Changed
