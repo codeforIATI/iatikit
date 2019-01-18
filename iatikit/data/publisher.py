@@ -32,9 +32,13 @@ class Publisher(object):
         """Open a new browser tab to the iatiregistry.org page
         for this publisher.
         """
-        url = 'https://iatiregistry.org/publisher/{}'.format(
-            self.name)
-        webbrowser.open_new_tab(url)
+        name = self.metadata.get('name')
+        if name:
+            url = 'https://iatiregistry.org/publisher/{}'.format(name)
+            webbrowser.open_new_tab(url)
+            return True
+        logging.warning('Can\'t show publisher - metadata missing.')
+        return False
 
     @property
     def datasets(self):

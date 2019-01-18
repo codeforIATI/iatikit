@@ -88,8 +88,8 @@ class TestPublisher(TestCase):
 
     @patch('webbrowser.open_new_tab')
     def test_publisher_show(self, fake_open_new_tab):
-        url = 'https://iatiregistry.org/publisher/fixture-org'
-        self.fixture_org.show()
+        url = 'https://iatiregistry.org/publisher/old-org'
+        self.old_org.show()
         fake_open_new_tab.assert_called_once_with(url)
 
     def test_datasets(self):

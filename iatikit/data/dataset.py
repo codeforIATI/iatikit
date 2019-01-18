@@ -56,9 +56,13 @@ class Dataset(object):
         """Open a new browser tab to the iatiregistry.org page
         for this dataset.
         """
-        url = 'https://iatiregistry.org/dataset/{}'.format(
-            self.name)
-        webbrowser.open_new_tab(url)
+        name = self.metadata.get('name')
+        if name:
+            url = 'https://iatiregistry.org/dataset/{}'.format(name)
+            webbrowser.open_new_tab(url)
+            return True
+        logging.warning('Can\'t show dataset - metadata missing.')
+        return False
 
     @property
     def schema(self):
