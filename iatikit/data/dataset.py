@@ -64,12 +64,19 @@ class Dataset(object):
         logging.warning('Can\'t show dataset - metadata missing.')
         return False
 
-    @property
-    def schema(self):
-        """Get the XSD Schema for this dataset."""
+    def _get_schema(self):
+        """Get the XSD Schema for this dataset. Raise exception on error."""
         if not self._schema:
             self._schema = XSDSchema(self.filetype, self.version)
         return self._schema
+
+    @property
+    def schema(self):
+        """Get the XSD Schema for this dataset."""
+        try:
+            return self._get_schema()
+        except SchemaNotFoundError as error:
+            logging.warning(str(error))
 
     def validate_xml(self):
         """Check whether the XML in this dataset can be parsed."""
@@ -88,9 +95,9 @@ class Dataset(object):
                   'invalid XML.'
             return Validator(False, [ValidationError(msg)])
         try:
-            return self.schema.validate(self)
+            return self._get_schema().validate(self)
         except SchemaNotFoundError as error:
-            logging.warning(error)
+            logging.warning(str(error))
             return Validator(False, [ValidationError(str(error))])
 
     def validate_codelists(self):
