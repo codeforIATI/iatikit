@@ -141,7 +141,7 @@ class Dataset(object):
         If it can't be found in the metadata, revert to using
         the XML root node.
 
-        Returns '[Invalid filetype]' if the filetype can't be determined.
+        Returns None if the filetype can't be determined.
         """
         try:
             filetype = self.metadata['extras']['filetype']
@@ -157,8 +157,6 @@ class Dataset(object):
             }[self.root]
         except KeyError:
             pass
-
-        return '[Invalid filetype]'
 
     @property
     def root(self):
