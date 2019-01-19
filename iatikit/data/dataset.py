@@ -47,7 +47,7 @@ class Dataset(object):
     @property
     def xml(self):
         """Return the raw XML of this dataset, as a byte-string."""
-        return bytes(ET.tostring(self.etree))
+        return bytes(ET.tostring(self.etree, pretty_print=True))
 
     def __repr__(self):
         return '<{} ({})>'.format(self.__class__.__name__, self.name)
@@ -82,7 +82,8 @@ class Dataset(object):
         """Check whether the XML in this dataset can be parsed."""
         if not self._etree:
             try:
-                self._etree = ET.parse(self.data_path)
+                parser = ET.XMLParser(remove_blank_text=True)
+                self._etree = ET.parse(self.data_path, parser)
             except ET.XMLSyntaxError as error:
                 return Validator(False, [ValidationError(str(error))])
         return Validator(True)
