@@ -8,8 +8,8 @@ from .codelist import CodelistSet
 
 
 class CodelistValidationError(ValidationError):
-    def __init__(self, msg, codelist_name, codelist_slug, version):
-        super(CodelistValidationError, self).__init__(msg)
+    def __init__(self, msg, line, codelist_name, codelist_slug, version):
+        super(CodelistValidationError, self).__init__(msg, line, None)
 
         details = 'Only values from the {codelist_name} ' + \
                   'codelist are permitted.'
@@ -73,12 +73,16 @@ class CodelistMappings(object):
         for mapping in mappings:
             xpath_query, codelist = parse_mapping(mapping)
             values = dataset.etree.xpath(xpath_query)
-            for value in set(values):
-                if not codelist.get(value):
-                    msg = 'The value "{}" is not in the {} codelist.'.format(
-                        value, codelist.name)
-                    codelist_error = CodelistValidationError(
-                        msg, codelist.name, codelist.slug, self.version)
-                    error_log.append(codelist_error)
-                    success = False
+            bad_values = [value for value in set(values)
+                          if not codelist.get(value)]
+            for value in bad_values:
+                line = value.getparent().sourceline
+                # path = ''
+                msg = 'The value "{}" is not in the {} codelist.'.format(
+                    value, codelist.name)
+                codelist_error = CodelistValidationError(
+                    msg, line,
+                    codelist.name, codelist.slug, self.version)
+                error_log.append(codelist_error)
+                success = False
         return Validator(success, error_log)
