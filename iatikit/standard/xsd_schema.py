@@ -386,15 +386,23 @@ class XSDSchema(object):
             'organisation': 'iati-organisations-schema.xsd',
         }.get(filetype)
 
-        if schema is None or version is None:
-            msg = 'No IATI schema found for filetype "{filetype}" ' + \
-                  'and version "{version}".'
-            msg = msg.format(filetype=filetype, version=version)
+        if filetype is None:
+            msg = 'Couldn\'t discern the filetype (activity or ' + \
+                  'organisation) for this dataset, so couldn\'t ' + \
+                  'construct a schema.'
+            raise SchemaNotFoundError(msg)
+        elif schema is None:
+            msg = 'Invalid filetype "{filetype}" was provided, ' + \
+                  'so couldn\'t construct a schema.'
+            msg = msg.format(filetype=filetype)
+            raise SchemaNotFoundError(msg)
+        elif version is None:
+            msg = 'No version was provided, ' + \
+                  'so couldn\'t construct a schema.'
             raise SchemaNotFoundError(msg)
 
-        version_path = version.replace('.', '')
         self.schema_path = join(CONFIG['paths']['standard'], 'schemas',
-                                version_path, schema)
+                                version.replace('.', ''), schema)
 
         if not exists(self.schema_path):
             msg = 'No {filetype} schema found for IATI version "{version}".'
