@@ -401,6 +401,6 @@ class XSDSchema(object):
 
     def validate(self, dataset):
         schema = ET.XMLSchema(ET.parse(self.schema_path))
-        is_valid = schema.validate(dataset.etree)
+        is_valid = schema.validate(ET.fromstring(dataset.xml))
         return XSDValidator(is_valid, schema.error_log,
                             self.filetype, self.version)
