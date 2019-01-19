@@ -1,7 +1,7 @@
 from os.path import exists, join
 import re
 
-from lxml import etree
+from lxml import etree as ET
 
 from ..utils.exceptions import SchemaNotFoundError
 from ..utils.validator import Validator, ValidationError
@@ -400,7 +400,7 @@ class XSDSchema(object):
                                      self.filetype, self.version)
 
     def validate(self, dataset):
-        schema = etree.XMLSchema(etree.parse(self.schema_path))
+        schema = ET.XMLSchema(ET.parse(self.schema_path))
         is_valid = schema.validate(dataset.etree)
         return XSDValidator(is_valid, schema.error_log,
                             self.filetype, self.version)
