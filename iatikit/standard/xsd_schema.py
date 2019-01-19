@@ -386,6 +386,12 @@ class XSDSchema(object):
             'organisation': 'iati-organisations-schema.xsd',
         }.get(filetype)
 
+        if schema is None or version is None:
+            msg = 'No IATI schema found for filetype "{filetype}" ' + \
+                  'and version "{version}".'
+            msg = msg.format(filetype=filetype, version=version)
+            raise SchemaNotFoundError(msg)
+
         version_path = version.replace('.', '')
         self.schema_path = join(CONFIG['paths']['standard'], 'schemas',
                                 version_path, schema)
