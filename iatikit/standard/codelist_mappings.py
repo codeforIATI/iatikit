@@ -8,13 +8,13 @@ from .codelist import CodelistSet
 
 
 class CodelistValidationError(ValidationError):
-    def __init__(self, msg, line, codelist_name, codelist_slug, version):
-        super(CodelistValidationError, self).__init__(msg, line, None)
+    def __init__(self, msg, line, path, codelist, version):
+        super(CodelistValidationError, self).__init__(msg, line, None, path)
 
         details = 'Only values from the {codelist_name} ' + \
                   'codelist are permitted.'
-        self.details = details.format(codelist_name=codelist_name)
-        self.codelist_slug = codelist_slug
+        self.details = details.format(codelist_name=codelist.name)
+        self.codelist_slug = codelist.slug
         self.version = version
 
     @property
@@ -68,21 +68,37 @@ class CodelistMappings(object):
         with open(self.mappings_path) as handler:
             mappings = json.load(handler)
 
+        def get_path(value):
+            if value.is_text:
+                output = ['text()']
+            elif value.is_attribute:
+                attr_name = value.attrname
+                output = ['@' + attr_name]
+            else:
+                raise Exception('Weird')
+            while True:
+                value = value.getparent()
+                if value is None:
+                    break
+                tag = value.tag
+                idx = len(list(value.itersiblings(tag, preceding=True))) + 1
+                output.append('{tag}[{idx}]'.format(tag=tag, idx=idx))
+            return '//{}'.format('/'.join(output[::-1]))
+
         success = True
         error_log = []
         for mapping in mappings:
             xpath_query, codelist = parse_mapping(mapping)
             values = dataset.etree.xpath(xpath_query)
-            bad_values = [value for value in set(values)
-                          if not codelist.get(value)]
-            for value in bad_values:
+            for value in set(values):
+                if codelist.get(value):
+                    continue
                 line = value.getparent().sourceline
-                # path = ''
+                path = get_path(value)
                 msg = 'The value "{}" is not in the {} codelist.'.format(
                     value, codelist.name)
                 codelist_error = CodelistValidationError(
-                    msg, line,
-                    codelist.name, codelist.slug, self.version)
+                    msg, line, path, codelist, self.version)
                 error_log.append(codelist_error)
                 success = False
         return Validator(success, error_log)
