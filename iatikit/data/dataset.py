@@ -78,6 +78,9 @@ class Dataset(object):
         except SchemaNotFoundError as error:
             logging.warning(str(error))
 
+    def unminify_xml(self):
+        self._etree = ET.ElementTree(ET.fromstring(self.xml))
+
     def validate_xml(self):
         """Check whether the XML in this dataset can be parsed."""
         if not self._etree:
