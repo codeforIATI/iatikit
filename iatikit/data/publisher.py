@@ -1,6 +1,6 @@
 import json
 import logging
-from os.path import basename, exists, join
+from os.path import exists, join, split
 from glob import glob
 import webbrowser
 
@@ -23,7 +23,7 @@ class Publisher(object):
         """Return the "registry name" or "shortname" of this publisher,
         derived from the filepath.
         """
-        return basename(self.data_path)
+        return split(split(self.data_path)[0])[1]
 
     def __repr__(self):
         return '<{} ({})>'.format(self.__class__.__name__, self.name)
@@ -85,15 +85,14 @@ class PublisherSet(GenericSet):
         self.metadata_path = metadata_path
 
     def __iter__(self):
-        data_paths = sorted(glob(self.data_path))
+        data_paths = sorted(glob(join(self.data_path, '')))
         metadata_paths = sorted(glob(join(self.metadata_path, '')))
         metadata_filepaths = sorted(glob(join(self.metadata_path + '.json')))
         paths = zip(data_paths, metadata_paths, metadata_filepaths)
 
         name = self.wheres.get('name')
         if name is not None:
-            paths = filter(lambda x: basename(x[0]) == name,
-                           paths)
+            paths = filter(lambda x: split(split(x[0])[0])[1] == name, paths)
 
         for data_path, metadata_path, metadata_filepath in paths:
             yield Publisher(data_path, metadata_path, metadata_filepath)
