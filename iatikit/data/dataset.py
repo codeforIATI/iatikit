@@ -38,7 +38,8 @@ class Dataset(object):
     def etree(self):
         """Return the XML of this dataset, as an lxml element tree."""
         try:
-            self.validate_xml()
+            parser = ET.XMLParser(remove_blank_text=True)
+            self._etree = ET.parse(self.data_path, parser)
         except ET.XMLSyntaxError:
             logging.warning('Dataset "%s" XML is invalid', self.name)
             raise
@@ -83,12 +84,10 @@ class Dataset(object):
 
     def validate_xml(self):
         """Check whether the XML in this dataset can be parsed."""
-        if not self._etree:
-            try:
-                parser = ET.XMLParser(remove_blank_text=True)
-                self._etree = ET.parse(self.data_path, parser)
-            except ET.XMLSyntaxError as error:
-                return Validator(False, [ValidationError(str(error))])
+        try:
+            self.etree
+        except ET.XMLSyntaxError as error:
+            return Validator(False, [ValidationError(str(error))])
         return Validator(True)
 
     def validate_iati(self):
@@ -172,12 +171,9 @@ class Dataset(object):
 
         Return "1.01" if the version can't be determined.
         """
-        try:
-            version = self.etree.getroot().get('version')
-            if version is not None:
-                return version
-        except ET.XMLSyntaxError:
-            pass
+        version = self.etree.getroot().get('version')
+        if version is not None:
+            return version
 
         logging.warning('@version attribute is not declared. Assuming "1.01".')
         # default version
