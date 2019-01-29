@@ -234,11 +234,12 @@ class XSDMissingAttributeError(XSDValidationError):
                                       attr_name=self._get_attribute())
 
 
-class XSDElementOrderError(XSDValidationError):
+class XSDUnexpectedElementError(XSDValidationError):
     def __init__(self, error, filetype, version):
-        super(XSDElementOrderError, self).__init__(error, filetype, version)
+        super(XSDUnexpectedElementError, self).__init__(
+            error, filetype, version)
 
-        self.summary = 'Elements are incorrectly ordered.'
+        self.summary = 'An unexpected element was found.'
         expected = self._get_expecteds()
         if expected == []:
             expected_str = 'a different element'
@@ -250,12 +251,17 @@ class XSDElementOrderError(XSDValidationError):
             expected_str = 'one of "{}" or "{}"'.format(
                 '", "'.join(expected[:-1]), expected[-1])
 
-        details = 'In IATI 2.0x, the order of elements is ' + \
-                  'important. It looks like that might be ' + \
-                  'the problem here. Specifically, ' + \
-                  '"{el_name}" is present, but ' + \
-                  '{expected} is expected.'
-        self.details = details.format(expected=expected_str,
+        if version.startswith('2'):
+            details = 'In IATI v{version}, the order of elements ' + \
+                      'is important. It looks like that might be ' + \
+                      'the problem here. Specifically, ' + \
+                      '"{el_name}" is present, but ' + \
+                      '{expected} is expected.'
+        else:
+            details = 'The element "{el_name}" is present, but ' + \
+                      '{expected} is expected.'
+        self.details = details.format(version=version,
+                                      expected=expected_str,
                                       el_name=self._get_element())
 
 
@@ -326,7 +332,7 @@ class XSDValidator(Validator):
         if not err_class:
             if ref == 1871:
                 if 'This element is not expected.' in message:
-                    err_class = XSDElementOrderError
+                    err_class = XSDUnexpectedElementError
                 elif 'Missing child element(s)' in message:
                     err_class = XSDMissingElementError
             elif ref == 1824:
