@@ -7,6 +7,7 @@ except ImportError:
 from lxml import etree as ET
 
 from ..standard.schema import get_schema
+from ..standard.xsd_schema import XSDSchema
 from ..utils.abstract import GenericSet
 from ..utils.exceptions import SchemaError
 from ..utils.querybuilder import XPathQueryBuilder
@@ -56,6 +57,13 @@ class Activity(object):
         if id_:
             return id_[0].strip()
         return None
+
+    def validate_iati(self):
+        wrapper = '<iati-activities version="{}" />'.format(self.version)
+        etree = ET.fromstring(wrapper)
+        etree.insert(0, self.etree)
+        xsd_schema = XSDSchema('activity', self.version)
+        return xsd_schema.validate(etree)
 
     @property
     def id(self):  # pylint: disable=invalid-name

@@ -419,8 +419,8 @@ class XSDSchema(object):
         return '<{} ({} {})>'.format(self.__class__.__name__,
                                      self.filetype, self.version)
 
-    def validate(self, dataset):
+    def validate(self, etree):
         schema = ET.XMLSchema(ET.parse(self.schema_path))
-        is_valid = schema.validate(dataset.etree)
+        is_valid = schema.validate(etree)
         return XSDValidator(is_valid, schema.error_log,
                             self.filetype, self.version)

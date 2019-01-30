@@ -98,7 +98,7 @@ class Dataset(object):
                   'invalid XML.'
             return Validator(False, [ValidationError(msg)])
         try:
-            return self._get_schema().validate(self)
+            return self._get_schema().validate(self.etree)
         except SchemaNotFoundError as error:
             logging.warning(str(error))
             return Validator(False, [ValidationError(str(error))])
