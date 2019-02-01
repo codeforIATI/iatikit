@@ -31,7 +31,7 @@ class CodelistItem(object):
 
 class Codelist(GenericSet):
     _key = 'code'
-    _filters = ['code', 'version', 'category']
+    _filters = ['code', 'name', 'version', 'category']
     _instance_class = CodelistItem
 
     def __init__(self, slug, version, **kwargs):
@@ -64,6 +64,7 @@ class Codelist(GenericSet):
 
     def __iter__(self):
         code = self.wheres.get('code')
+        name = self.wheres.get('name')
         category = self.wheres.get('category')
         version = self.wheres.get('version', self.version)
         if version is not None:
@@ -74,6 +75,8 @@ class Codelist(GenericSet):
             category = str(category)
         for data in self.data.values():
             if code is not None and data['code'] != code:
+                continue
+            if name is not None and data['name'] != name:
                 continue
             if category is not None and data['category'] != category:
                 continue
