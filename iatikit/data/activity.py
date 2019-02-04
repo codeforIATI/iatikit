@@ -59,9 +59,9 @@ class Activity(object):
         return None
 
     def validate_iati(self):
-        wrapper = '<iati-activities version="{}" />'.format(self.version)
-        etree = ET.fromstring(wrapper)
-        etree.insert(0, self.etree)
+        etree = ET.Element('iati-activities')
+        etree.set('version', self.version)
+        etree.append(self.etree)
         xsd_schema = XSDSchema('activity', self.version)
         return xsd_schema.validate(etree)
 
