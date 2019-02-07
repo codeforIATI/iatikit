@@ -37,12 +37,13 @@ class Dataset(object):
     @property
     def etree(self):
         """Return the XML of this dataset, as an lxml element tree."""
-        try:
-            parser = ET.XMLParser(remove_blank_text=True)
-            self._etree = ET.parse(self.data_path, parser)
-        except ET.XMLSyntaxError:
-            logging.warning('Dataset "%s" XML is invalid', self.name)
-            raise
+        if not self._etree:
+            try:
+                parser = ET.XMLParser(remove_blank_text=True)
+                self._etree = ET.parse(self.data_path, parser)
+            except ET.XMLSyntaxError:
+                logging.warning('Dataset "%s" XML is invalid', self.name)
+                raise
         return self._etree
 
     @property
