@@ -32,7 +32,10 @@ class Dataset(object):
     @property
     def name(self):
         """Return the name of this dataset, derived from the filename."""
-        return splitext(basename(self.data_path))[0]
+        try:
+            return splitext(basename(self.data_path))[0]
+        except TypeError:
+            return 'dataset'
 
     @property
     def etree(self):
