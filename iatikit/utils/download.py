@@ -166,8 +166,8 @@ def codelists():
 
             if codelist is None:
                 codelist = {
-                    'attributes': version_codelist.get('attributes'),
-                    'metadata': version_codelist.get('metadata'),
+                    'attributes': version_codelist.get('attributes', {}),
+                    'metadata': version_codelist.get('metadata', {}),
                     'data': OrderedDict(),
                 }
 

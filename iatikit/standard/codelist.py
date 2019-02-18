@@ -98,19 +98,19 @@ class Codelist(GenericSet):
 
     @property
     def url(self):
-        return self.metadata['url']
+        return self.metadata.get('url')
 
     @property
     def name(self):
-        return self.metadata['name']
+        return self.metadata.get('name')
 
     @property
     def description(self):
-        return self.metadata['description']
+        return self.metadata.get('description')
 
     @property
     def complete(self):
-        return self.attributes['complete'] == '1'
+        return self.attributes.get('complete') == '1'
 
 
 class CodelistSet(GenericSet):
