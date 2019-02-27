@@ -130,9 +130,6 @@ class Dataset(object):
             if self.metadata_path is not None and exists(self.metadata_path):
                 with open(self.metadata_path) as handler:
                     self._metadata = json.load(handler)
-                extras = self.metadata.get('extras')
-                self._metadata['extras'] = {x['key']: x['value']
-                                            for x in extras}
             else:
                 msg = 'No metadata was found for dataset "%s"'
                 logging.warning(msg, self.name)
@@ -150,10 +147,13 @@ class Dataset(object):
         Returns None if the filetype can't be determined.
         """
         try:
-            filetype = self.metadata['extras']['filetype']
+            filetype = [x['value'] for x in self.metadata['extras']
+                        if x['key'] == 'filetype'][0]
             if filetype in ['activity', 'organisation']:
                 return filetype
         except KeyError:
+            pass
+        except IndexError:
             pass
 
         try:

@@ -108,5 +108,4 @@ class TestDataset(TestCase):
 
     def test_metadata(self):
         dataset_metadata = self.old_org_acts.metadata
-        assert dataset_metadata.get('extras') \
-            .get('publisher_organization_type') == '21'
+        assert dataset_metadata.get('license_id') == 'cc-by'

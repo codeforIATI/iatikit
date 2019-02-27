@@ -224,8 +224,10 @@ class ActivitySet(GenericSet):
             if dataset.filetype != self._filetype:
                 continue
             if fast_search:
-                org_id = dataset.metadata.get('extras', {}). \
-                         get('publisher_iati_id')
+                extras = dataset.metadata.get('extras', [])
+                org_id = [x['value'] for x in extras
+                          if x['key'] == 'publisher_iati_id']
+                org_id = org_id[0] if org_id != [] else None
                 if org_id and not identifier.startswith(org_id + '-'):
                     continue
             if not dataset.validate_xml():
