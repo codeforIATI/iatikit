@@ -4,6 +4,28 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Added
+- Add a dataset `schema` getter, and caching
+- Add line number and path to codelist validation errors
+- Add `dataset.unminify_xml()`, to ensure validation line numbers are meaningful
+- Add activity-level schema validation
+- Allow codelists to be filtered by name
+
+### Changed
+- `show()` uses dataset metadata
+- Pretty print XML
+- Rejig validation; make `dataset.version` fail on XML error
+- Make `dataset.filetype` return None on failure
+
+### Fixed
+- Make XSD Schema constructor a bit more robust, and improve error handling
+- Fix bug related to file and folder sort order
+- Fix incorrect XSD error message regarding element ordering
+- Allow datasets to be loaded from a StringIO
+- Handle missing metadata in old codelists
+
 ## [2.0.0] – 2019-01-17
 
 ### Added
