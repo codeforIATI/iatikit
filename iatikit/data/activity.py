@@ -160,7 +160,7 @@ class ActivitySet(GenericSet):
     ]
     _instance_class = Activity
     _filetype = 'activity'
-    _element = 'iati-activity'
+    _element = '/iati-activities/iati-activity'
 
     def __init__(self, datasets, **kwargs):
         super(ActivitySet, self).__init__()
@@ -178,7 +178,7 @@ class ActivitySet(GenericSet):
                 schema = get_schema(dataset.filetype, dataset.version)
             except SchemaError:
                 continue
-            prefix = '//' + self._element
+            prefix = self._element
             query = XPathQueryBuilder(
                 schema,
                 prefix=prefix,
