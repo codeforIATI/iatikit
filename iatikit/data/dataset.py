@@ -216,15 +216,15 @@ class DatasetSet(GenericSet):
                       for x in glob(self.data_path)}
         metadata_paths = {splitext(basename(x))[0]: x
                           for x in glob(self.metadata_path)}
-        paths = [(data_paths.get(x),
-                  metadata_paths.get(x))
-                 for x in sorted(set(list(data_paths.keys()) +
-                                     list(metadata_paths.keys())))]
+        paths = {x: (data_paths.get(x), metadata_paths.get(x))
+                 for x in set(list(data_paths.keys()) +
+                              list(metadata_paths.keys()))}
 
         name = self.wheres.get('name')
         if name is not None:
-            paths = filter(
-                lambda x: splitext(basename(x[0]))[0] == name, paths)
+            paths = [paths[name]] if name in paths else []
+        else:
+            paths = sorted(list(paths.values()))
 
         where_filetype = self.wheres.get('filetype')
 
