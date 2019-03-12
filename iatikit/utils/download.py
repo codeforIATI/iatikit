@@ -1,6 +1,6 @@
 from collections import OrderedDict, defaultdict
 import json
-from os.path import join
+from os.path import exists, join
 from os import makedirs, unlink as _unlink
 import shutil
 import logging
@@ -38,6 +38,38 @@ def data():
     zip_metadata = requests.get(meta)
     with open(meta_filepath, 'wb') as handler:
         handler.write(zip_metadata.content)
+
+
+def metadata():
+    logging.info('Downloading metadata from the IATI registry...')
+    path = join(CONFIG['paths']['registry'], 'metadoota')
+    shutil.rmtree(path, ignore_errors=True)
+    makedirs(path)
+
+    url_tmpl = 'https://iatiregistry.org/api/3/action/package_search' + \
+               '?start={start}&rows=1000'
+    org_url_tmpl = 'https://iatiregistry.org/api/3/action/group_show' + \
+                   '?id={org_slug}'
+    start = 0
+    while True:
+        j = requests.get(url_tmpl.format(start=start)).json()
+        if len(j['result']['results']) == 0:
+            break
+        for res in j['result']['results']:
+            org = res['organization']
+            if not org:
+                continue
+            org_name = org['name']
+            if not exists(join(path, org_name + '.json')):
+                j = requests.get(org_url_tmpl.format(org_slug=org_name)).json()
+                with open(join(path, org_name + '.json'), 'w') as f:
+                    json.dump(j['result'], f)
+            dataset_name = res['name']
+            orgpath = join(path, org_name)
+            makedirs(orgpath, exist_ok=True)
+            with open(join(orgpath, dataset_name + '.json'), 'w') as f:
+                json.dump(res, f)
+        start += 1000
 
 
 _VERY_OLD_IATI_VERSIONS = ['1.01', '1.02']
