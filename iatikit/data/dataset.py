@@ -212,10 +212,15 @@ class DatasetSet(GenericSet):
         self.metadata_path = metadata_path
 
     def __iter__(self):
-        data_paths = {splitext(basename(x))[0]: x
-                      for x in glob(self.data_path)}
-        metadata_paths = {splitext(basename(x))[0]: x
-                          for x in glob(self.metadata_path)}
+        data_paths = {
+            splitext(basename(x))[0]: x
+            for x in glob(self.data_path)
+        } if self.data_path else {}
+        metadata_paths = {
+            splitext(basename(x))[0]: x
+            for x in glob(self.metadata_path)
+        } if self.metadata_path else {}
+
         paths = {x: (data_paths.get(x), metadata_paths.get(x))
                  for x in set(list(data_paths.keys()) +
                               list(metadata_paths.keys()))}

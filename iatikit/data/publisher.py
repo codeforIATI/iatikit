@@ -50,8 +50,10 @@ class Publisher(object):
     @property
     def datasets(self):
         """Return an iterator of all datasets for this publisher."""
-        data_path = join(self.data_path, '*')
-        metadata_path = join(self.metadata_path, '*')
+        data_path = join(self.data_path, '*') \
+            if self.data_path else None
+        metadata_path = join(self.metadata_path, '*') \
+            if self.metadata_path else None
         return DatasetSet(data_path, metadata_path)
 
     @property
