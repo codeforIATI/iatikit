@@ -69,13 +69,13 @@ class TestPublisher(TestCase):
 
     def setUp(self):
         self.fixture_org = Publisher(
-            join(self.registry_path, 'data', 'fixture-org', ''),
-            join(self.registry_path, 'metadata', 'fixture-org', ''),
+            join(self.registry_path, 'data', 'fixture-org'),
+            join(self.registry_path, 'metadata', 'fixture-org'),
             join(self.registry_path, 'metadata', 'no-metadata.json'),
         )
         self.old_org = Publisher(
-            join(self.registry_path, 'data', 'old-org', ''),
-            join(self.registry_path, 'metadata', 'old-org', ''),
+            join(self.registry_path, 'data', 'old-org'),
+            join(self.registry_path, 'metadata', 'old-org'),
             join(self.registry_path, 'metadata', 'old-org.json'),
         )
 

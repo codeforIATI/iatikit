@@ -4,6 +4,7 @@ import json
 import logging
 import webbrowser
 
+from past.builtins import basestring
 from lxml import etree as ET
 
 from ..utils.abstract import GenericSet
@@ -32,9 +33,11 @@ class Dataset(object):
     @property
     def name(self):
         """Return the name of this dataset, derived from the filename."""
-        try:
+        if isinstance(self.data_path, basestring):
             return splitext(basename(self.data_path))[0]
-        except TypeError:
+        elif isinstance(self.metadata_path, basestring):
+            return splitext(basename(self.metadata_path))[0]
+        else:
             return 'dataset'
 
     @property
@@ -209,9 +212,14 @@ class DatasetSet(GenericSet):
         self.metadata_path = metadata_path
 
     def __iter__(self):
-        data_paths = sorted(glob(self.data_path))
-        metadata_paths = sorted(glob(self.metadata_path))
-        paths = zip(data_paths, metadata_paths)
+        data_paths = {splitext(basename(x))[0]: x
+                      for x in glob(self.data_path)}
+        metadata_paths = {splitext(basename(x))[0]: x
+                          for x in glob(self.metadata_path)}
+        paths = [(data_paths.get(x),
+                  metadata_paths.get(x))
+                 for x in sorted(set(list(data_paths.keys()) +
+                                     list(metadata_paths.keys())))]
 
         name = self.wheres.get('name')
         if name is not None:

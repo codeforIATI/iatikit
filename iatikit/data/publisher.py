@@ -1,8 +1,10 @@
 import json
 import logging
-from os.path import exists, join, split
+from os.path import basename, exists, join, split, splitext
 from glob import glob
 import webbrowser
+
+from past.builtins import basestring
 
 from ..utils.abstract import GenericSet
 from .dataset import DatasetSet
@@ -23,7 +25,12 @@ class Publisher(object):
         """Return the "registry name" or "shortname" of this publisher,
         derived from the filepath.
         """
-        return split(split(self.data_path)[0])[1]
+        if isinstance(self.data_path, basestring):
+            return split(self.data_path)[1]
+        elif isinstance(self.metadata_path, basestring):
+            return split(self.metadata_path)[1]
+        else:
+            return 'publisher'
 
     def __repr__(self):
         return '<{} ({})>'.format(self.__class__.__name__, self.name)
@@ -85,14 +92,26 @@ class PublisherSet(GenericSet):
         self.metadata_path = metadata_path
 
     def __iter__(self):
-        data_paths = sorted(glob(join(self.data_path, '')))
-        metadata_paths = sorted(glob(join(self.metadata_path, '')))
-        metadata_filepaths = sorted(glob(join(self.metadata_path + '.json')))
-        paths = zip(data_paths, metadata_paths, metadata_filepaths)
+        data_paths = {basename(x): x
+                      for x in glob(self.data_path)
+                      if not x.endswith('.json')}
+        metadata_paths = {basename(x): x
+                          for x in glob(self.metadata_path)
+                          if not x.endswith('.json')}
+        metadata_filepaths = {splitext(basename(x))[0]: x
+                              for x in glob(self.metadata_path + '.json')}
+        paths = {x: (data_paths.get(x),
+                     metadata_paths.get(x),
+                     metadata_filepaths.get(x))
+                 for x in set(list(data_paths.keys()) +
+                              list(metadata_paths.keys()) +
+                              list(metadata_filepaths.keys()))}
 
         name = self.wheres.get('name')
         if name is not None:
-            paths = filter(lambda x: split(split(x[0])[0])[1] == name, paths)
+            paths = [paths[name]] if name in paths else []
+        else:
+            paths = sorted(list(paths.values()))
 
         for data_path, metadata_path, metadata_filepath in paths:
             yield Publisher(data_path, metadata_path, metadata_filepath)

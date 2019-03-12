@@ -63,8 +63,8 @@ class Registry(object):
     def datasets(self):
         """Return an iterator of all IATI datasets on the registry."""
         publisher_set = self.publishers
-        data_path = join(publisher_set.data_path, '', '*')
-        metadata_path = join(publisher_set.metadata_path, '', '*')
+        data_path = join(publisher_set.data_path, '*')
+        metadata_path = join(publisher_set.metadata_path, '*')
         return DatasetSet(data_path, metadata_path)
 
     @property
