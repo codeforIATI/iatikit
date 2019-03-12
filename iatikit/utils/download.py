@@ -42,7 +42,7 @@ def data():
 
 def metadata():
     logging.info('Downloading metadata from the IATI registry...')
-    path = join(CONFIG['paths']['registry'], 'metadoota')
+    path = join(CONFIG['paths']['registry'], 'metadata')
     shutil.rmtree(path, ignore_errors=True)
     makedirs(path)
 
