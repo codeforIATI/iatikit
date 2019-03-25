@@ -6,11 +6,21 @@ Installation
 
 iatikit is tested for pythons 2.7, 3.5 and 3.6.
 
-You can install it using ``pip``:
+You can install iatikit using ``pip``:
 
 .. code:: shell
 
     pip install iatikit
+
+If you’re on Windows, we recommend using [Jupyter Notebook](https://jupyter.org/), which you can get by [installing Anaconda](https://www.anaconda.com/distribution/#download-section).
+
+Once installed, you can run the following inside a Jupyter Notebook to install iatikit:
+
+.. code:: python
+
+    import sys
+
+    !{sys.executable} -m pip install iatikit
 
 Setup
 -----
