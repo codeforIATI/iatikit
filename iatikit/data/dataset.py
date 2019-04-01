@@ -45,7 +45,7 @@ class Dataset(object):
         """Return the XML of this dataset, as an lxml element tree."""
         if not self._etree:
             try:
-                parser = ET.XMLParser(remove_blank_text=True)
+                parser = ET.XMLParser(remove_blank_text=True, huge_tree=True)
                 self._etree = ET.parse(self.data_path, parser)
             except ET.XMLSyntaxError:
                 logging.warning('Dataset "%s" XML is invalid', self.name)
