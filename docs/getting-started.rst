@@ -12,7 +12,7 @@ You can install iatikit using ``pip``:
 
     pip install iatikit
 
-If you’re on Windows, we recommend using [Jupyter Notebook](https://jupyter.org/), which you can get by [installing Anaconda](https://www.anaconda.com/distribution/#download-section).
+If you’re on Windows, we recommend using `Jupyter Notebook <https://jupyter.org/>`__, which you can get by `installing Anaconda <https://www.anaconda.com/distribution/#download-section>`__.
 
 Once installed, you can run the following inside a Jupyter Notebook to install iatikit:
 
