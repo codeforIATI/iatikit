@@ -6,8 +6,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- Add some Windows installation instructions (tl;dr: use Jupyter)
+
 ### Fixed
 - Deal with null paths
+- Use `huge_tree` when parsing XML (to ensure big files still parse)
 
 ## [2.0.5] – 2019-03-12
 
