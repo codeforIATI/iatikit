@@ -188,10 +188,9 @@ class ActivitySet(GenericSet):
         return total
 
     def _query(self, schema):
-        prefix = '//' + self._element
         return XPathQueryBuilder(
             schema,
-            prefix=prefix,
+            prefix=self._element,
         ).where(**self.wheres)
 
     def get(self, item, default=None, fast=False):
