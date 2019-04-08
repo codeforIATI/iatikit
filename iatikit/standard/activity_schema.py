@@ -1,5 +1,6 @@
 from ..utils.exceptions import SchemaError
-from ..utils.types import StringType, DateType, SectorType, XPathType
+from ..utils.types import StringType, DateType, SectorType, XPathType, \
+                          BooleanType
 from ..utils.abstract import GenericType
 
 
@@ -56,6 +57,10 @@ class ActivitySchema101(object):
     def actual_end(cls):
         return DateType('activity-date[@type="end-actual"]/@iso-date')
 
+    @classmethod
+    def humanitarian(cls):
+        return BooleanType('false')
+
 
 class ActivitySchema102(ActivitySchema101):
     version = '1.02'
@@ -110,6 +115,10 @@ class ActivitySchema201(ActivitySchema105):
 
 class ActivitySchema202(ActivitySchema201):
     version = '2.02'
+
+    @classmethod
+    def humanitarian(cls):
+        return BooleanType('@humanitarian')
 
 
 class ActivitySchema203(ActivitySchema202):

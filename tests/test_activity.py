@@ -138,6 +138,17 @@ class TestActivitySet(TestCase):
         assert len(acts) == 1
         assert acts[0].iati_identifier == 'GB-COH-01234567-Humanitarian Aid-0'
 
+    def test_activities_filter_by_humanitarian(self):
+        acts = self.fixture_org_acts.where(
+            humanitarian=True).all()
+        assert len(acts) == 1
+        assert acts[0].iati_identifier == 'GB-COH-01234567-1'
+
+    def test_activities_filter_by_not_humanitarian(self):
+        acts = self.fixture_org_acts.where(
+            humanitarian=False).all()
+        assert len(acts) == 3
+
 
 class TestActivity(TestCase):
     def __init__(self, *args, **kwargs):

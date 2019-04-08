@@ -111,3 +111,22 @@ class SectorType(GenericType):
 class XPathType(GenericType):
     def where(self, operation, value):
         return value
+
+
+class BooleanType(GenericType):
+    def run(self, etree):
+        return etree.xpath('{expr} = "true" or {expr} = "1"'.format(
+            expr=self.get(),
+        ))
+
+    def where(self, operation, value):
+        if value is not bool(value):
+            raise Exception('{} is not a boolean'.format(value))
+        if value:
+            return '{expr} = "true" or {expr} = "1"'.format(
+                expr=self.get(),
+            )
+        else:
+            return 'not({expr}) or {expr} = "false" or {expr} = "0"'.format(
+                expr=self.get(),
+            )

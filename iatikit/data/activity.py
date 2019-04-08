@@ -91,6 +91,11 @@ class Activity(object):
         return self.schema.sector().run(self.etree)
 
     @property
+    def humanitarian(self):
+        """Return a list of sectors for this activity."""
+        return self.schema.humanitarian().run(self.etree)
+
+    @property
     def planned_start(self):
         """Return the planned start date for this activity,
         as a python ``date``.
@@ -156,7 +161,7 @@ class ActivitySet(GenericSet):
         'id', 'iati_identifier', 'title', 'description',
         'location', 'sector', 'planned_start',
         'actual_start', 'planned_end', 'actual_end',
-        'xpath', 'fast',
+        'xpath', 'fast', 'humanitarian',
     ]
     _instance_class = Activity
     _filetype = 'activity'
