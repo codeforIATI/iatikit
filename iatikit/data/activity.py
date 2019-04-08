@@ -187,7 +187,9 @@ class ActivitySet(GenericSet):
             total += int(dataset.etree.xpath(query))
         return total
 
-    def _query(self, schema):
+    def _query(self, schema=None):
+        if schema is None:
+            schema = get_schema(self._filetype, '2.03')
         return XPathQueryBuilder(
             schema,
             prefix=self._element,
