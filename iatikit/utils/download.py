@@ -246,3 +246,8 @@ def schemas():
             filepath = join(path, version_path, filename)
             with open(filepath, 'wb') as handler:
                 handler.write(request.content)
+
+
+def standard():
+    schemas()
+    codelists()
