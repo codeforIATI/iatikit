@@ -9,6 +9,7 @@ from past.builtins import basestring
 from ..utils.abstract import GenericSet
 from .dataset import DatasetSet
 from .activity import ActivitySet
+from .organisation import OrganisationSet
 
 
 class Publisher(object):
@@ -60,6 +61,11 @@ class Publisher(object):
     def activities(self):
         """Return an iterator of all activities for this publisher."""
         return ActivitySet(self.datasets)
+
+    @property
+    def organisations(self):
+        """Return an iterator of all organisations for this publisher."""
+        return OrganisationSet(self.datasets)
 
     @property
     def metadata(self):

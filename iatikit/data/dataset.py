@@ -13,6 +13,7 @@ from ..utils.validator import Validator, ValidationError
 from ..standard.xsd_schema import XSDSchema
 from ..standard.codelist_mappings import CodelistMappings
 from .activity import ActivitySet
+from .organisation import OrganisationSet
 
 
 class Dataset(object):
@@ -190,6 +191,11 @@ class Dataset(object):
     def activities(self):
         """Return an iterator of all activities in this dataset."""
         return ActivitySet([self])
+
+    @property
+    def organisations(self):
+        """Return an iterator of all organisations in this dataset."""
+        return OrganisationSet([self])
 
 
 class DatasetSet(GenericSet):
