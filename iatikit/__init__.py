@@ -9,6 +9,6 @@ from .utils.config import CONFIG  # noqa: F401
 from .__version__ import __version__  # noqa: F401
 
 
-def data():
+def data(path=None):
     """Helper function for constructing a Registry object."""
-    return Registry()
+    return Registry(path)

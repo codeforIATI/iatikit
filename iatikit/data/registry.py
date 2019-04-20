@@ -13,7 +13,7 @@ from ..utils.config import CONFIG
 class Registry(object):
     """Class representing the IATI registry."""
 
-    def __init__(self):
+    def __init__(self, path=None):
         """Construct a new Registry object.
 
         A warning is raised if the data is more than 7 days old.
@@ -21,7 +21,7 @@ class Registry(object):
         A ``NoDataError`` is raised if there is no data.
         """
         self._last_updated = None
-        self.path = CONFIG['paths']['registry']
+        self.path = path if path else CONFIG['paths']['registry']
 
         last_updated = self.last_updated
         days_ago = (datetime.now() - last_updated).days

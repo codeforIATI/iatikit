@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - First pass at a `humanitarian` activity filter
 - Add a `iatikit.download.standard()` command
+- Add an optional `path` argument to `iatikit.data()`
 
 ## [2.0.6] – 2019-04-04
 
