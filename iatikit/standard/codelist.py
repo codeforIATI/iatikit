@@ -22,8 +22,11 @@ class CodelistItem(object):
             self.code)
 
     def __eq__(self, value):
-        return self.code == value.code and \
-               self.codelist.slug == value.codelist.slug
+        if isinstance(value, CodelistItem):
+            return self.code == value.code and \
+                   self.codelist.slug == value.codelist.slug
+        else:
+            return self.code == str(value)
 
     def __ne__(self, value):
         return not self.__eq__(value)
