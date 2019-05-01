@@ -12,12 +12,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [2.1.0] – 2019-04-21
 
 ### Changed
-- Relax codelist item comparison
+- Relax codelist item comparison ([#41](https://github.com/pwyf/iatikit/issues/41))
 
 ## [2.0.8] – 2019-04-20
 
 ### Added
-- First pass at modelling IATI organisations
+- First pass at modelling IATI organisations ([#18](https://github.com/pwyf/iatikit/issues/18))
 
 ## [2.0.7] – 2019-04-20
 
