@@ -218,13 +218,13 @@ class ActivitySet(GenericSet):
     def __iter__(self):
         fast_search = self.wheres.get('fast')
         if fast_search is not None:
+            del self.wheres['fast']
             if fast_search:
                 identifier = self.wheres.get('iati_identifier')
                 if identifier is None:
                     identifier = self.wheres.get('id')
                     if identifier is None:
                         fast_search = False
-            del self.wheres['fast']
 
         for dataset in self.datasets:
             if dataset.filetype != self._filetype:
