@@ -207,7 +207,7 @@ class DatasetSet(GenericSet):
     """
 
     _key = 'name'
-    _filters = ['name', 'filetype']
+    _filters = ['name', 'filetype', 'xpath']
     _instance_class = Dataset
 
     def __init__(self, data_path, metadata_path, **kwargs):
@@ -238,10 +238,16 @@ class DatasetSet(GenericSet):
             paths = sorted(list(paths.values()))
 
         where_filetype = self.wheres.get('filetype')
+        where_xpath = self.wheres.get('xpath')
 
         for data_path, metadata_path in paths:
             dataset = Dataset(data_path, metadata_path)
             if where_filetype is not None and \
                     dataset.filetype != where_filetype:
                 continue
+            if where_xpath is not None:
+                if not dataset.validate_xml():
+                    continue
+                if dataset.etree.xpath(where_xpath) == []:
+                    continue
             yield dataset
