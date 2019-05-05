@@ -9,6 +9,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Added a dataset xpath filter
 
+### Removed
+- Remove (experimental) fast identifier search
+
 ## [2.1.0] – 2019-04-21
 
 ### Changed

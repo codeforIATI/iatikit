@@ -48,11 +48,6 @@ class TestActivitySet(TestCase):
         assert len(acts) == 1
         assert acts[0].iati_identifier == iati_id
 
-    def test_activities_fast_get(self):
-        iati_id = 'GB-COH-01234567-Humanitarian Aid-1'
-        act = self.fixture_org_acts.get(iati_id, fast=True)
-        assert act.iati_identifier == iati_id
-
     def test_activities_filter_by_title_v1(self):
         title = 'Humanitarian Aid - Implementer 2'
         acts = self.fixture_org_acts.where(title=title).all()

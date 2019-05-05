@@ -161,7 +161,7 @@ class ActivitySet(GenericSet):
         'id', 'iati_identifier', 'title', 'description',
         'location', 'sector', 'planned_start',
         'actual_start', 'planned_end', 'actual_end',
-        'xpath', 'fast', 'humanitarian',
+        'xpath', 'humanitarian',
     ]
     _instance_class = Activity
     _filetype = 'activity'
@@ -200,40 +200,10 @@ class ActivitySet(GenericSet):
             prefix=self._element,
         ).where(**self.wheres)
 
-    def get(self, item, default=None, fast=False):
-        """Return an item from the set, according to the primary key.
-
-        If no matching item is found, ``default`` is returned.
-        """
-        if not fast:
-            return super(ActivitySet, self).get(item, default)
-
-        if isinstance(item, self._instance_class):
-            item = getattr(item, self._key)
-        try:
-            return self.find(**{self._key: item, 'fast': fast})
-        except IndexError:
-            return default
-
     def __iter__(self):
-        fast_search = self.wheres.get('fast')
-        if fast_search is not None:
-            del self.wheres['fast']
-            if fast_search:
-                identifier = self.wheres.get('iati_identifier')
-                if identifier is None:
-                    identifier = self.wheres.get('id')
-                    if identifier is None:
-                        fast_search = False
-
         for dataset in self.datasets:
             if dataset.filetype != self._filetype:
                 continue
-            if fast_search:
-                org_id = dataset.metadata.get('extras', {}). \
-                         get('publisher_iati_id')
-                if org_id and not identifier.startswith(org_id + '-'):
-                    continue
             if not dataset.validate_xml():
                 continue
             try:
