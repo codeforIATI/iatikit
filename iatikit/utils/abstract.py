@@ -1,4 +1,4 @@
-from copy import copy
+from copy import deepcopy
 from itertools import islice
 from .exceptions import FilterError
 
@@ -13,20 +13,29 @@ class GenericSet(object):
 
     _key = None
     _filters = []
+    _multi_filters = []
     _instance_class = None
 
-    def __init__(self):
+    def __init__(self, **kwargs):
         self.wheres = {}
+        self.where(**kwargs)
 
     def where(self, **kwargs):
         """Return a new set, with the filters provided in ``**kwargs``.
         """
-        for k in kwargs:
-            if k.split('__')[0] not in self._filters:
+        out = deepcopy(self)
+        for k, v in kwargs.items():
+            if k.split('__')[0] not in (self._filters + self._multi_filters):
                 raise FilterError('Unknown filter: {}'.format(k))
-        clone = copy(self)
-        clone.wheres = dict(clone.wheres, **kwargs)
-        return clone
+            if k.split('__')[0] in self._filters:
+                if k in out.wheres:
+                    raise FilterError('Too many {} filters provided'.format(k))
+                out.wheres[k] = v
+            else:
+                if k not in out.wheres:
+                    out.wheres[k] = []
+                out.wheres[k].append(v)
+        return out
 
     def filter(self, **kwargs):
         """Return a new set, with the filters provided in ``**kwargs``.
@@ -87,8 +96,6 @@ class GenericSet(object):
         filters provided in ``kwargs``.
 
         If no matching item is found, an ``IndexError`` is raised.
-
-        ``find(**kwargs)`` is equivalent to ``where(**kwargs).first()``.
         """
         return self.where(**kwargs).first()
 

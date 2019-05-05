@@ -77,7 +77,7 @@ class OrganisationSet(GenericSet):
     """
 
     _key = 'org_identifier'
-    _filters = [
+    _multi_filters = [
         'id', 'org_identifier', 'xpath',
     ]
     _instance_class = Organisation

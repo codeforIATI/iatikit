@@ -157,7 +157,7 @@ class ActivitySet(GenericSet):
     """
 
     _key = 'iati_identifier'
-    _filters = [
+    _multi_filters = [
         'id', 'iati_identifier', 'title', 'description',
         'location', 'sector', 'planned_start',
         'actual_start', 'planned_end', 'actual_end',

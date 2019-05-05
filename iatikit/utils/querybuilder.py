@@ -8,13 +8,14 @@ class XPathQueryBuilder(object):
         query_str = self._prefix
 
         exprs = []
-        for shortcut, value in kwargs.items():
-            if '__' in shortcut:
-                shortcut, operator = shortcut.split('__')
-            else:
-                operator = 'eq'
-            expr = self.filter(shortcut, operator, value)
-            exprs.append(expr)
+        for shortcut, values in kwargs.items():
+            for value in values:
+                if '__' in shortcut:
+                    shortcut, operator = shortcut.split('__')
+                else:
+                    operator = 'eq'
+                expr = self.filter(shortcut, operator, value)
+                exprs.append(expr)
         query_str += ''.join(['[{}]'.format(x) for x in exprs])
         if self._count:
             query_str = 'count({})'.format(query_str)

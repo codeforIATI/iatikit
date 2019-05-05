@@ -94,8 +94,7 @@ class PublisherSet(GenericSet):
     _instance_class = Publisher
 
     def __init__(self, data_path, metadata_path, **kwargs):
-        super(PublisherSet, self).__init__()
-        self.wheres = kwargs
+        super(PublisherSet, self).__init__(**kwargs)
         self.data_path = data_path
         self.metadata_path = metadata_path
 
@@ -115,9 +114,9 @@ class PublisherSet(GenericSet):
                               list(metadata_paths.keys()) +
                               list(metadata_filepaths.keys()))}
 
-        name = self.wheres.get('name')
-        if name is not None:
-            paths = [paths[name]] if name in paths else []
+        where_name = self.wheres.get('name')
+        if where_name is not None:
+            paths = [paths[where_name]] if where_name in paths else []
         else:
             paths = sorted(list(paths.values()))
 

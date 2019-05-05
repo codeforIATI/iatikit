@@ -9,6 +9,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Added a dataset xpath filter
 
+### Fixed
+- Allow multiple filters of the same type to be specified ([#45](https://github.com/pwyf/iatikit/issues/45))
+
 ### Removed
 - Remove (experimental) fast identifier search
 
