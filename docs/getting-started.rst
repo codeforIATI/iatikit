@@ -20,7 +20,7 @@ Once installed, you can run the following inside a Jupyter Notebook to install i
 
     import sys
 
-    !{sys.executable} -m pip install iatikit
+    !{sys.executable} -m pip install --upgrade iatikit
 
 Setup
 -----
