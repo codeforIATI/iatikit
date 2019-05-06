@@ -9,11 +9,11 @@ class XPathQueryBuilder(object):
 
         exprs = []
         for shortcut, values in kwargs.items():
+            if '__' in shortcut:
+                shortcut, operator = shortcut.split('__')
+            else:
+                operator = 'eq'
             for value in values:
-                if '__' in shortcut:
-                    shortcut, operator = shortcut.split('__')
-                else:
-                    operator = 'eq'
                 expr = self.filter(shortcut, operator, value)
                 exprs.append(expr)
         query_str += ''.join(['[{}]'.format(x) for x in exprs])
