@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 - Allow multiple filters of the same type to be specified ([#45](https://github.com/pwyf/iatikit/issues/45))
+- Prevent looping twice when calling `all()` ([#44](https://github.com/pwyf/iatikit/issues/44))
 
 ### Removed
 - Remove (experimental) fast identifier search

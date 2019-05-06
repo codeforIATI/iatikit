@@ -74,10 +74,8 @@ class GenericSet(object):
 
     def all(self):
         """Return a list of all items in this set.
-
-        Equivalent to ``list(self)``.
         """
-        return list(self)
+        return list(x for x in self)
 
     def get(self, item, default=None):
         """Return an item from the set, according to the primary key.
