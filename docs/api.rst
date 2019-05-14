@@ -65,9 +65,19 @@ Activity
     :members:
     :inherited-members:
 
+
+OrganisationSet
+---------------
+
+.. autoclass:: iatikit.data.organisation.OrganisationSet
+    :members:
+    :inherited-members:
+
 .. _organisation:
 
 Organisation
 ------------
 
-# TODO
+.. autoclass:: iatikit.data.organisation.Organisation
+    :members:
+    :inherited-members:
