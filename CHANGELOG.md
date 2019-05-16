@@ -6,6 +6,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- API documentation for Organisation and OrganisationSet
+
 ### Fixed
 - Make `dataset.root` return None if XML is invalid
 
