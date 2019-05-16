@@ -171,7 +171,10 @@ class Dataset(object):
     @property
     def root(self):
         """Return the name of the XML root node."""
-        return self.etree.getroot().tag
+        try:
+            return self.etree.getroot().tag
+        except ET.XMLSyntaxError:
+            pass
 
     @property
     def version(self):
