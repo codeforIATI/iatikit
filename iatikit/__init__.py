@@ -1,3 +1,5 @@
+import logging
+
 from .standard.codelist import codelists  # noqa: F401
 from .data.registry import Registry
 from .data.publisher import Publisher  # noqa: F401
@@ -12,3 +14,6 @@ from .__version__ import __version__  # noqa: F401
 def data(path=None):
     """Helper function for constructing a Registry object."""
     return Registry(path)
+
+
+logging.getLogger(__name__).addHandler(logging.NullHandler())

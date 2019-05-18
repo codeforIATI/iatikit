@@ -49,7 +49,8 @@ class Dataset(object):
                 parser = ET.XMLParser(remove_blank_text=True, huge_tree=True)
                 self._etree = ET.parse(self.data_path, parser)
             except ET.XMLSyntaxError:
-                logging.warning('Dataset "%s" XML is invalid', self.name)
+                logging.getLogger(__name__).warning(
+                    'Dataset "%s" XML is invalid', self.name)
                 raise
         return self._etree
 
@@ -70,7 +71,8 @@ class Dataset(object):
             url = 'https://iatiregistry.org/dataset/{}'.format(name)
             webbrowser.open_new_tab(url)
             return True
-        logging.warning('Can\'t show dataset - metadata missing.')
+        logging.getLogger(__name__).warning(
+            'Can\'t show dataset - metadata missing.')
         return False
 
     def _get_schema(self):
@@ -85,7 +87,7 @@ class Dataset(object):
         try:
             return self._get_schema()
         except SchemaNotFoundError as error:
-            logging.warning(str(error))
+            logging.getLogger(__name__).warning(str(error))
 
     def unminify_xml(self):
         self._etree = ET.ElementTree(ET.fromstring(self.xml))
@@ -108,7 +110,7 @@ class Dataset(object):
         try:
             return self._get_schema().validate(self.etree)
         except SchemaNotFoundError as error:
-            logging.warning(str(error))
+            logging.getLogger(__name__).warning(str(error))
             return Validator(False, [ValidationError(str(error))])
 
     def validate_codelists(self):
@@ -123,7 +125,7 @@ class Dataset(object):
         except MappingsNotFoundError:
             msg = 'Can\'t perform codelist validation for ' + \
                   'IATI version %s datasets.'
-            logging.warning(msg, self.version)
+            logging.getLogger(__name__).warning(msg, self.version)
             return Validator(True)
         return mappings.validate(self)
 
@@ -139,7 +141,7 @@ class Dataset(object):
                                             for x in extras}
             else:
                 msg = 'No metadata was found for dataset "%s"'
-                logging.warning(msg, self.name)
+                logging.getLogger(__name__).warning(msg, self.name)
                 self._metadata = {}
         return self._metadata
 
@@ -186,7 +188,8 @@ class Dataset(object):
         if version is not None:
             return version
 
-        logging.warning('@version attribute is not declared. Assuming "1.01".')
+        logging.getLogger(__name__).warning(
+            '@version attribute is not declared. Assuming "1.01".')
         # default version
         return '1.01'
 

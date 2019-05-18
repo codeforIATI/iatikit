@@ -23,16 +23,16 @@ def data():
     makedirs(path)
     zip_filepath = join(path, 'iati_dump.zip')
 
-    logging.info('Downloading all IATI registry data...')
+    logging.getLogger(__name__).info('Downloading all IATI registry data...')
     request = requests.get(data_url, stream=True)
     with open(zip_filepath, 'wb') as handler:
         shutil.copyfileobj(request.raw, handler)
-    logging.info('Unzipping data...')
+    logging.getLogger(__name__).info('Unzipping data...')
     with zipfile.ZipFile(zip_filepath, 'r') as zip_ref:
         zip_ref.extractall(path)
-    logging.info('Cleaning up...')
+    logging.getLogger(__name__).info('Cleaning up...')
     _unlink(zip_filepath)
-    logging.info('Downloading zipfile metadata...')
+    logging.getLogger(__name__).info('Downloading zipfile metadata...')
     meta_filepath = join(path, 'metadata.json')
     meta = 'https://www.dropbox.com/s/6a3wggckhbb9nla/metadata.json?dl=1'
     zip_metadata = requests.get(meta)
@@ -41,7 +41,8 @@ def data():
 
 
 def metadata():
-    logging.info('Downloading metadata from the IATI registry...')
+    logging.getLogger(__name__).info(
+        'Downloading metadata from the IATI registry...')
     path = join(CONFIG['paths']['registry'], 'metadata')
     shutil.rmtree(path, ignore_errors=True)
     makedirs(path)
@@ -103,7 +104,8 @@ def _get_codelist_mappings(versions):
     shutil.rmtree(path, ignore_errors=True)
     makedirs(path)
 
-    logging.info('Downloading IATI Standard codelist mappings...')
+    logging.getLogger(__name__).info(
+        'Downloading IATI Standard codelist mappings...')
 
     tmpl = 'http://reference.iatistandard.org/{version}/' + \
            'codelists/downloads/clv2/mapping.json'
@@ -174,7 +176,8 @@ def codelists():
     shutil.rmtree(path, ignore_errors=True)
     makedirs(path)
 
-    logging.info('Downloading IATI Standard codelists...')
+    logging.getLogger(__name__).info(
+        'Downloading IATI Standard codelists...')
 
     codelist_versions_by_name = defaultdict(list)
     all_versions = helpers.get_iati_versions()
@@ -232,7 +235,7 @@ def schemas():
     versions = [d['code'] for d in requests.get(versions_url).json()['data']]
     versions.reverse()
 
-    logging.info('Downloading IATI Standard schemas...')
+    logging.getLogger(__name__).info('Downloading IATI Standard schemas...')
     filenames = ['iati-activities-schema.xsd', 'iati-organisations-schema.xsd',
                  'iati-common.xsd', 'xml.xsd']
     tmpl = 'https://raw.githubusercontent.com/IATI/IATI-Schemas/' + \

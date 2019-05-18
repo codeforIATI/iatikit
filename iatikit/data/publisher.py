@@ -45,7 +45,8 @@ class Publisher(object):
             url = 'https://iatiregistry.org/publisher/{}'.format(name)
             webbrowser.open_new_tab(url)
             return True
-        logging.warning('Can\'t show publisher - metadata missing.')
+        logging.getLogger(__name__).warning(
+            'Can\'t show publisher - metadata missing.')
         return False
 
     @property
@@ -76,7 +77,7 @@ class Publisher(object):
                     self._metadata = json.load(handler)
             else:
                 msg = 'No metadata was found for publisher "%s"'
-                logging.warning(msg, self.name)
+                logging.getLogger(__name__).warning(msg, self.name)
                 self._metadata = {}
         return self._metadata
 
