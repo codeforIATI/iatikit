@@ -32,8 +32,8 @@ from `the registry <https://iatiregistry.org/>`__, as well as `the latest codeli
 
     import iatikit
 
+    # download all schemas and codelists
+    iatikit.download.standard()
+
     # download all XML in the registry
     iatikit.download.data()
-
-    # download all the codelists
-    iatikit.download.codelists()
