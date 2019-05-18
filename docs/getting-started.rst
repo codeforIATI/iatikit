@@ -26,7 +26,7 @@ Setup
 -----
 
 Once installed, you’ll need to fetch a recent version of all IATI data
-from `the registry <https://iatiregistry.org/>`__, as well as `the latest codelists <http://reference.iatistandard.org/codelists/>`__.
+from `the registry <https://iatiregistry.org/>`__, as well as `the latest codelists <http://reference.iatistandard.org/codelists/>`__ and `schemas <http://reference.iatistandard.org/schema/>`__.
 
 .. code:: python
 
