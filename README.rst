@@ -21,10 +21,10 @@ iatikit
     :alt: Test coverage
     :target: https://coveralls.io/github/pwyf/iatikit?branch=master
 
-iatikit is a toolkit for using `IATI data <https://iatistandard.org/>`__. It includes a `query
-language <https://erikbern.com/2018/08/30/i-dont-want-to-learn-your-garbage-query-language.html>`__
-wrapper around `XPath <https://en.wikipedia.org/wiki/XPath>`__,
-to make dealing with disparate IATI versions easier.
+iatikit is a toolkit for using `IATI data <https://iatistandard.org/>`__.
+It includes a query language wrapper around
+`XPath <https://en.wikipedia.org/wiki/XPath>`__, to make dealing with disparate
+IATI versions easier.
 
 The name was inspired by `Open Contracting <https://www.open-contracting.org/>`__’s
 `ocdskit <https://pypi.org/project/ocdskit/>`__.
