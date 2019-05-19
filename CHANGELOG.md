@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 - Added some Organisation tests
+- Add support for python 3.4 and python 3.7
 
 ## [2.2.3] – 2019-05-18
 
