@@ -65,7 +65,7 @@ You can run tests with:
 
 .. code:: shell
 
-    tox
+    pytest
 
 Deployment
 ----------

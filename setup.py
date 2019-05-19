@@ -11,7 +11,6 @@ with open(join(path, 'iatikit', '__version__.py')) as f:
     exec(f.read(), data)
 
 test_deps = [
-    'tox',
     'mock',
     'pytest',
     'pytest-cov',
