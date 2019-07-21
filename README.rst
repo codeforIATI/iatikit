@@ -13,13 +13,13 @@ iatikit
     :alt: Supported versions
     :target: https://pypi.org/project/iatikit/
 
-.. image:: https://img.shields.io/travis/pwyf/iatikit/master.svg
+.. image:: https://img.shields.io/travis/codeforIATI/iatikit/master.svg
     :alt: Travis-CI Build Status
-    :target: https://travis-ci.org/pwyf/iatikit
+    :target: https://travis-ci.org/codeforIATI/iatikit
 
-.. image:: https://img.shields.io/coveralls/github/pwyf/iatikit/master.svg
+.. image:: https://img.shields.io/coveralls/github/codeforIATI/iatikit/master.svg
     :alt: Test coverage
-    :target: https://coveralls.io/github/pwyf/iatikit?branch=master
+    :target: https://coveralls.io/github/codeforIATI/iatikit?branch=master
 
 iatikit is a toolkit for using `IATI data <https://iatistandard.org/>`__.
 It includes a query language wrapper around
@@ -49,7 +49,7 @@ Roadmap
 -------
 
 The `github issue
-tracker <https://github.com/pwyf/iatikit/issues>`__ will hopefully provide
+tracker <https://github.com/codeforIATI/iatikit/issues>`__ will hopefully provide
 some idea.
 
 Development
@@ -70,9 +70,9 @@ You can run tests with:
 Deployment
 ----------
 
-iatikit is `deployed to pypi <https://pypi.org/project/iatikit/>`__ automatically `by Travis <https://travis-ci.org/pwyf/iatikit>`__, whenever a new `tag is pushed to github <https://github.com/pwyf/iatikit/tags>`__.
+iatikit is `deployed to pypi <https://pypi.org/project/iatikit/>`__ automatically `by Travis <https://travis-ci.org/codeforIATI/iatikit>`__, whenever a new `tag is pushed to github <https://github.com/codeforIATI/iatikit/tags>`__.
 
 License
 -------
 
-This work is `MIT licensed <https://github.com/pwyf/iatikit/blob/master/LICENSE.md>`__.
+This work is `MIT licensed <https://github.com/codeforIATI/iatikit/blob/master/LICENSE.md>`__.

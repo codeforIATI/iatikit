@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Changed
+- Change ownership of repo again
+
 ## [2.2.4] – 2019-05-19
 
 ### Added
@@ -13,7 +18,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [2.2.3] – 2019-05-18
 
 ### Fixed
-- Don’t use the root logger. Instead, use iatikit’s own logger, and default to NullHandler. ([#46](https://github.com/pwyf/iatikit/issues/46))
+- Don’t use the root logger. Instead, use iatikit’s own logger, and default to NullHandler. ([#46](https://github.com/codeforIATI/iatikit/issues/46))
 
 ## [2.2.2] – 2019-05-16
 
@@ -26,7 +31,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [2.2.1] – 2019-05-06
 
 ### Fixed
-- Make multiple modifiers work ([#47](https://github.com/pwyf/iatikit/issues/47))
+- Make multiple modifiers work ([#47](https://github.com/codeforIATI/iatikit/issues/47))
 
 ## [2.2.0] – 2019-05-06
 
@@ -34,8 +39,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added a dataset xpath filter
 
 ### Fixed
-- Allow multiple filters of the same type to be specified ([#45](https://github.com/pwyf/iatikit/issues/45))
-- Prevent looping twice when calling `all()` ([#44](https://github.com/pwyf/iatikit/issues/44))
+- Allow multiple filters of the same type to be specified ([#45](https://github.com/codeforIATI/iatikit/issues/45))
+- Prevent looping twice when calling `all()` ([#44](https://github.com/codeforIATI/iatikit/issues/44))
 
 ### Removed
 - Remove (experimental) fast identifier search
@@ -43,12 +48,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [2.1.0] – 2019-04-21
 
 ### Changed
-- Relax codelist item comparison ([#41](https://github.com/pwyf/iatikit/issues/41))
+- Relax codelist item comparison ([#41](https://github.com/codeforIATI/iatikit/issues/41))
 
 ## [2.0.8] – 2019-04-20
 
 ### Added
-- First pass at modelling IATI organisations ([#18](https://github.com/pwyf/iatikit/issues/18))
+- First pass at modelling IATI organisations ([#18](https://github.com/codeforIATI/iatikit/issues/18))
 
 ## [2.0.7] – 2019-04-20
 
@@ -128,18 +133,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Add an IATI schema downloader
 - Add IATI schema validation
-- Add a fast find activity search ([#3](https://github.com/pwyf/iatikit/issues/3))
+- Add a fast find activity search ([#3](https://github.com/codeforIATI/iatikit/issues/3))
 - Add `CodelistItem` and `Sector` comparison methods
 - Add a `dataset.schema` method
 - Make `download.codelists()` download codelist mappings, too
-- Add a `CodelistMappings` class; Add codelist validation ([#31](https://github.com/pwyf/iatikit/issues/31))
+- Add a `CodelistMappings` class; Add codelist validation ([#31](https://github.com/codeforIATI/iatikit/issues/31))
 - Add a `Validator` class, for storing the results of validation
-- Remove `path` args from lots of constructors; use pyandi.ini instead ([#31](https://github.com/pwyf/iatikit/issues/31))
+- Remove `path` args from lots of constructors; use pyandi.ini instead ([#31](https://github.com/codeforIATI/iatikit/issues/31))
 
 ### Fixed
 - Lots of pylint-related fixes
 - Add missing _instance_class to `PublisherSet`
-- Don’t patch `os.path.join` in tests ([#32](https://github.com/pwyf/iatikit/issues/32))
+- Don’t patch `os.path.join` in tests ([#32](https://github.com/codeforIATI/iatikit/issues/32))
 
 ### Changed
 - Don’t instantiate schemas – use static classes instead
@@ -206,7 +211,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.5.2] – 2018-12-28
 
 ### Added
-- Deploy to pypi from travis ([#26](https://github.com/pwyf/iatikit/issues/26))
+- Deploy to pypi from travis ([#26](https://github.com/codeforIATI/iatikit/issues/26))
 
 ### Changed
 - Move repo from andylolz to pwyf
@@ -215,7 +220,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 - Log a warning when dataset XML is invalid
-- Add some documentation in docs/ as well as some docstrings ([#16](https://github.com/pwyf/iatikit/issues/16))
+- Add some documentation in docs/ as well as some docstrings ([#16](https://github.com/codeforIATI/iatikit/issues/16))
 - Be more specific about exception handling (i.e. don’t use `except:`)
 - Add python 2.7 support
 - Start adding tests; Setup travis and coveralls
@@ -228,7 +233,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.5.0] – 2018-12-27
 
 ### Added
-- Add a publisher metadata property ([#17](https://github.com/pwyf/iatikit/issues/17))
+- Add a publisher metadata property ([#17](https://github.com/codeforIATI/iatikit/issues/17))
 - Add `filter` as a synonym for `where`
 - Add show() function to Publisher, Dataset and Activity models
 - Add an `xpath` activity filter
@@ -245,12 +250,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Codelist support for all versions (i.e. v1.01+)
 - Add `start` and `end` properties to activities
-- Error when there’s no data ([#12](https://github.com/pwyf/iatikit/issues/12))
+- Error when there’s no data ([#12](https://github.com/codeforIATI/iatikit/issues/12))
 - Error when there are no codelists
-- Improved sector support ([#22](https://github.com/pwyf/iatikit/pull/22))
+- Improved sector support ([#22](https://github.com/codeforIATI/iatikit/pull/22))
 
 ### Changed
-- Change internal representation of codelists ([#20](https://github.com/pwyf/iatikit/issues/20))
+- Change internal representation of codelists ([#20](https://github.com/codeforIATI/iatikit/issues/20))
 - Return python `date` objects for dates
 - Always strip IATI identifiers
 
@@ -306,7 +311,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `raw_xml` function added to dataset and activity
 - Expand key-value extras in dataset metadata
 - Add a filetype dataset filter
-- Add a warning about stale data ([#8](https://github.com/pwyf/iatikit/issues/8))
+- Add a warning about stale data ([#8](https://github.com/codeforIATI/iatikit/issues/8))
 - Add location, sector, title and description schema fields
 
 ### Changed
