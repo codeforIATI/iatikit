@@ -39,10 +39,10 @@ Contents:
     :alt: Supported versions
     :target: https://pypi.org/project/iatikit/
 
-.. image:: https://img.shields.io/travis/pwyf/iatikit/master.svg
+.. image:: https://img.shields.io/travis/codeforIATI/iatikit/master.svg
     :alt: Travis-CI Build Status
     :target: https://travis-ci.com/codeforIATI/iatikit
 
-.. image:: https://img.shields.io/coveralls/github/pwyf/iatikit/master.svg
+.. image:: https://img.shields.io/coveralls/github/codeforIATI/iatikit/master.svg
     :alt: Test coverage
-    :target: https://coveralls.io/github/pwyf/iatikit?branch=master
+    :target: https://coveralls.io/github/codeforIATI/iatikit?branch=master
