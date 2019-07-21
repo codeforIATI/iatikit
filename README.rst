@@ -15,7 +15,7 @@ iatikit
 
 .. image:: https://img.shields.io/travis/codeforIATI/iatikit/master.svg
     :alt: Travis-CI Build Status
-    :target: https://travis-ci.org/codeforIATI/iatikit
+    :target: https://travis-ci.com/codeforIATI/iatikit
 
 .. image:: https://img.shields.io/coveralls/github/codeforIATI/iatikit/master.svg
     :alt: Test coverage
@@ -70,7 +70,7 @@ You can run tests with:
 Deployment
 ----------
 
-iatikit is `deployed to pypi <https://pypi.org/project/iatikit/>`__ automatically `by Travis <https://travis-ci.org/codeforIATI/iatikit>`__, whenever a new `tag is pushed to github <https://github.com/codeforIATI/iatikit/tags>`__.
+iatikit is `deployed to pypi <https://pypi.org/project/iatikit/>`__ automatically `by Travis <https://travis-ci.com/codeforIATI/iatikit>`__, whenever a new `tag is pushed to github <https://github.com/codeforIATI/iatikit/tags>`__.
 
 License
 -------

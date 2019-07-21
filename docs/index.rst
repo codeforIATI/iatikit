@@ -41,7 +41,7 @@ Contents:
 
 .. image:: https://img.shields.io/travis/pwyf/iatikit/master.svg
     :alt: Travis-CI Build Status
-    :target: https://travis-ci.org/pwyf/iatikit
+    :target: https://travis-ci.com/codeforIATI/iatikit
 
 .. image:: https://img.shields.io/coveralls/github/pwyf/iatikit/master.svg
     :alt: Test coverage
