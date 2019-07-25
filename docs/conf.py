@@ -21,8 +21,8 @@
 # -- Project information -----------------------------------------------------
 
 project = 'iatikit'
-copyright = '2018, Publish What You Fund'
-author = 'Publish What You Fund'
+copyright = '2019, Andy Lulham'
+author = 'Andy Lulham'
 
 # The short X.Y version
 version = ''
