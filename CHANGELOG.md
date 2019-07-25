@@ -6,17 +6,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [2.2.7] – 2019-07-25
 
-### Fixed
-- Fix travis deployment for dot com
-
-## [2.2.6] – 2019-07-25
-
 ### Added
 - Add a code of conduct
 
-## [2.2.5] – 2019-07-21
-
 ### Fixed
+- Fix travis deployment for dot com
 - Improve wording in installation docs
 
 ### Changed
