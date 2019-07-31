@@ -6,6 +6,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+- Pin lxml, to maintain support for python 3.4
+
 ### Changed
 - Update URL for IATI data dump metadata
 
