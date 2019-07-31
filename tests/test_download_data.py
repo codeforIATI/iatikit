@@ -25,7 +25,7 @@ class MockRequest():
                             fullpath = join(root, file)
                             ziph.write(fullpath, fullpath[len(registry_path):])
             self.raw.seek(0)
-        elif url.endswith('metadata.json?dl=1'):
+        elif url.endswith('metadata.json'):
             metadata_path = join(registry_path, 'metadata.json')
             with open(metadata_path, 'rb') as source:
                 self.content = source.read()
