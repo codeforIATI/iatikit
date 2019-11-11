@@ -16,19 +16,13 @@ class MockRequest():
     def __init__(self, url, stream=False):
         registry_path = join(dirname(abspath(__file__)),
                              'fixtures', 'registry')
-        if url.endswith('iati_dump.zip?dl=1'):
-            self.raw = BytesIO()
-            with zipfile.ZipFile(self.raw, 'w') as ziph:
-                for path in ['data', 'metadata']:
-                    for root, _, files in os.walk(join(registry_path, path)):
-                        for file in files:
-                            fullpath = join(root, file)
-                            ziph.write(fullpath, fullpath[len(registry_path):])
-            self.raw.seek(0)
-        elif url.endswith('metadata.json'):
-            metadata_path = join(registry_path, 'metadata.json')
-            with open(metadata_path, 'rb') as source:
-                self.content = source.read()
+        self.raw = BytesIO()
+        with zipfile.ZipFile(self.raw, 'w') as ziph:
+            for root, _, files in os.walk(registry_path):
+                for file in files:
+                    fullpath = join(root, file)
+                    ziph.write(fullpath, fullpath[len(registry_path):])
+        self.raw.seek(0)
 
 
 class TestDownloadData(TestCase):
