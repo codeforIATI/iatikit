@@ -32,13 +32,6 @@ def data():
         zip_ref.extractall(path)
     logging.getLogger(__name__).info('Cleaning up...')
     _unlink(zip_filepath)
-    logging.getLogger(__name__).info('Downloading zipfile metadata...')
-    meta_filepath = join(path, 'metadata.json')
-    meta = 'https://gist.githubusercontent.com/' + \
-           'codeforIATIbot/efd190029713c6775c43962444dcb8df/raw/metadata.json'
-    zip_metadata = requests.get(meta)
-    with open(meta_filepath, 'wb') as handler:
-        handler.write(zip_metadata.content)
 
 
 def metadata():
