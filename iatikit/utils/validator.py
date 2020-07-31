@@ -9,6 +9,9 @@ class Validator(object):
     def __repr__(self):
         return '<{} ({})>'.format(self.__class__.__name__, self.is_valid)
 
+    def __nonzero__(self):
+        return self.__bool__()
+
     def __bool__(self):
         return self.is_valid
 

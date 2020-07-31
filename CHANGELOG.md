@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+ ## [Unreleased]
+
+### Fixed
+- Fix a longstanding python2.7 validator bug
+- Fix a python 2.7 bug introduced in v2.2.10
+
 ## [2.2.10] – 2020-07-31
 
 ### Fixed

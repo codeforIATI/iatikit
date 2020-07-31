@@ -46,7 +46,7 @@ class Dataset(object):
         """Return the XML of this dataset, as an lxml element tree."""
         if not self._etree:
             if not self.data_path:
-                raise OSError
+                raise IOError('XML file not found')
             try:
                 parser = ET.XMLParser(remove_blank_text=True, huge_tree=True)
                 self._etree = ET.parse(self.data_path, parser)
@@ -98,7 +98,7 @@ class Dataset(object):
         """Check whether the XML in this dataset can be parsed."""
         try:
             self.etree
-        except (OSError, ET.XMLSyntaxError) as error:
+        except (IOError, ET.XMLSyntaxError) as error:
             return Validator(False, [ValidationError(str(error))])
         return Validator(True)
 
