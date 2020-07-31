@@ -6,6 +6,7 @@ import warnings
 from .publisher import PublisherSet
 from .dataset import DatasetSet
 from .activity import ActivitySet
+from .transaction import TransactionSet
 from .organisation import OrganisationSet
 from ..utils.exceptions import NoDataError
 from ..utils.config import CONFIG
@@ -72,6 +73,11 @@ class Registry(object):
     def activities(self):
         """Return an iterator of all IATI activities on the registry."""
         return ActivitySet(self.datasets)
+
+    @property
+    def transactions(self):
+        """Return an iterator of all transactions on the registry."""
+        return TransactionSet(self.datasets)
 
     @property
     def organisations(self):

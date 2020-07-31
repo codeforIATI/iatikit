@@ -10,6 +10,7 @@ from ..utils.abstract import GenericSet
 from .dataset import DatasetSet
 from .activity import ActivitySet
 from .organisation import OrganisationSet
+from .transaction import TransactionSet
 
 
 class Publisher(object):
@@ -62,6 +63,11 @@ class Publisher(object):
     def activities(self):
         """Return an iterator of all activities for this publisher."""
         return ActivitySet(self.datasets)
+
+    @property
+    def transactions(self):
+        """Return an iterator of all transactions for this publisher."""
+        return TransactionSet(self.datasets)
 
     @property
     def organisations(self):

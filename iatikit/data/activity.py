@@ -11,6 +11,7 @@ from ..standard.xsd_schema import XSDSchema
 from ..utils.abstract import GenericSet
 from ..utils.exceptions import SchemaError
 from ..utils.querybuilder import XPathQueryBuilder
+from .transaction import TransactionSet
 
 
 class Activity(object):
@@ -146,6 +147,11 @@ class Activity(object):
         if end:
             return end
         return self.planned_end
+
+    @property
+    def transactions(self):
+        """Return an iterator of all transactions in this activity."""
+        return TransactionSet([self])
 
 
 class ActivitySet(GenericSet):

@@ -14,6 +14,7 @@ from ..standard.xsd_schema import XSDSchema
 from ..standard.codelist_mappings import CodelistMappings
 from .activity import ActivitySet
 from .organisation import OrganisationSet
+from .transaction import TransactionSet
 
 
 class Dataset(object):
@@ -202,6 +203,11 @@ class Dataset(object):
     def organisations(self):
         """Return an iterator of all organisations in this dataset."""
         return OrganisationSet([self])
+
+    @property
+    def transactions(self):
+        """Return an iterator of all transactions in this dataset."""
+        return TransactionSet([self])
 
 
 class DatasetSet(GenericSet):
