@@ -6,6 +6,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+- Deal with missing XML files gracefully. ([#52](https://github.com/codeforIATI/iatikit/issues/52))
+
 ### Changed
 - Don’t download metadata from gist (it’s now included in the IATI Data Dump zip file)
 
