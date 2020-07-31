@@ -56,7 +56,7 @@ class TestPublishers(TestCase):
 
         old_org = self.publishers.get('old-org')
         assert old_org.name == 'old-org'
-        assert old_org.datasets.count() == 1
+        assert old_org.datasets.count() == 2
         assert old_org.metadata.get(
             'publisher_iati_id') == 'NL-CHC-98765'
 
@@ -94,8 +94,11 @@ class TestPublisher(TestCase):
 
     def test_datasets(self):
         old_org_datasets = self.old_org.datasets.all()
-        assert len(old_org_datasets) == 1
-        assert old_org_datasets[0].name == 'old-org-acts'
+        assert len(old_org_datasets) == 2
+        for dataset in old_org_datasets:
+            assert dataset.name in [
+                'old-org-acts',
+                'old-org-missing-acts']
 
     def test_activities(self):
         assert self.old_org.activities.count() == 2

@@ -45,6 +45,8 @@ class Dataset(object):
     def etree(self):
         """Return the XML of this dataset, as an lxml element tree."""
         if not self._etree:
+            if not self.data_path:
+                raise OSError
             try:
                 parser = ET.XMLParser(remove_blank_text=True, huge_tree=True)
                 self._etree = ET.parse(self.data_path, parser)
@@ -96,7 +98,7 @@ class Dataset(object):
         """Check whether the XML in this dataset can be parsed."""
         try:
             self.etree
-        except ET.XMLSyntaxError as error:
+        except (OSError, ET.XMLSyntaxError) as error:
             return Validator(False, [ValidationError(str(error))])
         return Validator(True)
 
@@ -240,7 +242,7 @@ class DatasetSet(GenericSet):
         if where_name is not None:
             paths = [paths[where_name]] if where_name in paths else []
         else:
-            paths = sorted(list(paths.values()))
+            paths = sorted(list(paths.values()), key=lambda x: x[1])
 
         where_filetype = self.wheres.get('filetype')
         where_xpaths = self.wheres.get('xpath', [])

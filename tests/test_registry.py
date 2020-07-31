@@ -56,10 +56,11 @@ class TestRegistry(TestCase):
             'fixture-org-activities2',
             'fixture-org-org',
             'old-org-acts',
+            'old-org-missing-acts',
         ]
         registry = Registry()
         datasets = registry.datasets
-        assert len(datasets) == 4
+        assert len(datasets) == 5
         for dataset in datasets:
             assert dataset.name in dataset_names
 
@@ -69,6 +70,7 @@ class TestRegistry(TestCase):
             'fixture-org-activities',
             'fixture-org-activities2',
             'old-org-acts',
+            'old-org-missing-acts',
         ]
         registry = Registry()
         activities = registry.activities
@@ -79,4 +81,4 @@ class TestRegistry(TestCase):
     @freeze_time("2015-12-02")
     def test_shortcut(self):
         registry = iatikit.data()
-        assert(len(registry.datasets)) == 4
+        assert(len(registry.datasets)) == 5
