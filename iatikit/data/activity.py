@@ -92,7 +92,7 @@ class Activity(object):
 
     @property
     def humanitarian(self):
-        """Return a list of sectors for this activity."""
+        """Return True if the humanitarian flag is set for this activity."""
         return self.schema.humanitarian().run(self.etree)
 
     @property
