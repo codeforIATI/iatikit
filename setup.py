@@ -10,16 +10,6 @@ data = {}
 with open(join(path, 'iatikit', '__version__.py')) as f:
     exec(f.read(), data)
 
-test_deps = [
-    'mock',
-    'pytest',
-    'pytest-cov',
-    'coveralls',
-    'freezegun',
-    'pylint',
-]
-extras = {'test': test_deps}
-
 setup(
     name='iatikit',
     description='A toolkit for using IATI data.',
@@ -55,6 +45,4 @@ setup(
         'Programming Language :: Python :: 3.8',
     ],
     setup_requires=['pytest-runner'],
-    tests_require=test_deps,
-    extras_require=extras,
 )

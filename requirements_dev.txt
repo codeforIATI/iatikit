@@ -1,6 +1,10 @@
 -r requirements.txt
 
+coveralls
+freezegun
+mock
+pylint
+pytest<6.1.0, >4.1.0
+pytest-cov
 sphinx
 sphinx_rtd_theme
-
--e .[test]
