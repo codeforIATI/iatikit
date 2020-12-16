@@ -33,7 +33,7 @@ setup(
     long_description=readme,
     install_requires=[
         'configparser',
-        'lxml<4.4.0',
+        'lxml',
         'requests',
         'unicodecsv',
         'future',
