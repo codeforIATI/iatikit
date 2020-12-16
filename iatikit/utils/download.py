@@ -79,10 +79,12 @@ _OLD_CODELISTS_URL = 'http://codelists103.archive.iatistandard.org' + \
 _OLD_CODELIST_TMPL = 'http://codelists103.archive.iatistandard.org' + \
                     '/data/codelist/{codelist_name}.csv'
 
-_NEW_CODELISTS_TMPL = 'http://reference.iatistandard.org/{version}/' + \
-                     'codelists/downloads/clv2/codelists.json'
-_NEW_CODELIST_TMPL = 'http://reference.iatistandard.org/{version}/' + \
-                    'codelists/downloads/clv2/json/en/{codelist_name}.json'
+_NEW_CODELISTS_TMPL = 'https://iatistandard.org/' + \
+                      'reference_downloads/{version}/' + \
+                      'codelists/downloads/clv2/codelists.json'
+_NEW_CODELIST_TMPL = 'https://iatistandard.org/' + \
+                     'reference_downloads/{version}/' + \
+                     'codelists/downloads/clv2/json/en/{codelist_name}.json'
 
 
 def _get_codelist_mappings(versions):
@@ -101,8 +103,8 @@ def _get_codelist_mappings(versions):
     logging.getLogger(__name__).info(
         'Downloading IATI Standard codelist mappings...')
 
-    tmpl = 'http://reference.iatistandard.org/{version}/' + \
-           'codelists/downloads/clv2/mapping.json'
+    tmpl = 'https://iatistandard.org/reference_downloads/' + \
+           '{version}/codelists/downloads/clv2/mapping.json'
     for version in versions:
         if version not in ['1.01', '1.02', '1.03']:
             version_path = version.replace('.', '')
@@ -224,8 +226,9 @@ def schemas():
     shutil.rmtree(path, ignore_errors=True)
     makedirs(path)
 
-    versions_url = 'http://reference.iatistandard.org/201/codelists/' + \
-                   'downloads/clv2/json/en/Version.json'
+    versions_url = 'https://iatistandard.org/reference_downloads/' + \
+                   '201/codelists/downloads/clv2/json/en/' + \
+                   'Version.json'
     versions = [d['code'] for d in requests.get(versions_url).json()['data']]
     versions.reverse()
 
