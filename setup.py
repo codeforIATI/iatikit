@@ -16,7 +16,7 @@ test_deps = [
     'pytest-cov',
     'coveralls',
     'freezegun',
-    'pylint<2.0.0',
+    'pylint',
 ]
 extras = {'test': test_deps}
 
@@ -49,7 +49,6 @@ setup(
         'Programming Language :: Python :: 2',
         'Programming Language :: Python :: 2.7',
         'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.4',
         'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',
         'Programming Language :: Python :: 3.7',
