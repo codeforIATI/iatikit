@@ -39,9 +39,9 @@ Contents:
     :alt: Supported versions
     :target: https://pypi.org/project/iatikit/
 
-.. image:: https://img.shields.io/travis/codeforIATI/iatikit/master.svg
-    :alt: Travis-CI Build Status
-    :target: https://travis-ci.com/codeforIATI/iatikit
+.. image:: https://github.com/codeforIATI/iati-datastore/workflows/CI/badge.svg?branch=master
+    :alt: Build Status
+    :target: https://github.com/codeforIATI/iati-datastore/actions?query=workflow%3ACI
 
 .. image:: https://img.shields.io/coveralls/github/codeforIATI/iatikit/master.svg
     :alt: Test coverage
