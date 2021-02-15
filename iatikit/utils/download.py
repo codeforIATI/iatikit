@@ -1,8 +1,11 @@
 from collections import OrderedDict, defaultdict
+from io import BytesIO
 import json
 from os.path import exists, join
 from os import makedirs, unlink as _unlink
 import shutil
+import sys
+from time import perf_counter
 import logging
 import zipfile
 
@@ -24,9 +27,23 @@ def data():
     zip_filepath = join(path, 'iati_dump.zip')
 
     logging.getLogger(__name__).info('Downloading all IATI registry data...')
-    request = requests.get(data_url, stream=True)
-    with open(zip_filepath, 'wb') as handler:
-        shutil.copyfileobj(request.raw, handler)
+
+    with BytesIO() as f:
+        start = perf_counter()
+        r = requests.get(data_url, stream=True)
+        total_length = r.headers.get('content-length')
+        dl = 0
+        for chunk in r.iter_content(1024):
+            dl += len(chunk)
+            f.write(chunk)
+            done = int(30 * dl / int(total_length))
+            sys.stdout.write(
+                '\r[{}{}] {} Mbps'.format(
+                    '=' * done,
+                    ' ' * (30 - done),
+                    dl//(perf_counter() - start) / 100000))
+    print('{:.2f} seconds'.format(perf_counter() - start))
+
     logging.getLogger(__name__).info('Unzipping data...')
     with zipfile.ZipFile(zip_filepath, 'r') as zip_ref:
         zip_ref.extractall(path)
