@@ -119,7 +119,7 @@ class PublisherSet(GenericSet):
         if where_name is not None:
             paths = [paths[where_name]] if where_name in paths else []
         else:
-            paths = sorted(list(paths.values()))
+            paths = sorted(list(paths.values()), key=lambda x: x[1])
 
         for data_path, metadata_path, metadata_filepath in paths:
             yield Publisher(data_path, metadata_path, metadata_filepath)
