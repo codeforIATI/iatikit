@@ -13,13 +13,13 @@ iatikit
     :alt: Supported versions
     :target: https://pypi.org/project/iatikit/
 
-.. image:: https://github.com/codeforIATI/iati-datastore/workflows/CI/badge.svg?branch=master
+.. image:: https://github.com/codeforIATI/iati-datastore/workflows/CI/badge.svg?branch=main
     :alt: Build Status
     :target: https://github.com/codeforIATI/iati-datastore/actions?query=workflow%3ACI
 
-.. image:: https://img.shields.io/coveralls/github/codeforIATI/iatikit/master.svg
+.. image:: https://img.shields.io/coveralls/github/codeforIATI/iatikit/main.svg
     :alt: Test coverage
-    :target: https://coveralls.io/github/codeforIATI/iatikit?branch=master
+    :target: https://coveralls.io/github/codeforIATI/iatikit?branch=main
 
 iatikit is a toolkit for using `IATI data <https://iatistandard.org/>`__.
 It includes a query language wrapper around
@@ -75,4 +75,4 @@ iatikit is `deployed to pypi <https://pypi.org/project/iatikit/>`__ automaticall
 License
 -------
 
-This work is `MIT licensed <https://github.com/codeforIATI/iatikit/blob/master/LICENSE.md>`__.
+This work is `MIT licensed <https://github.com/codeforIATI/iatikit/blob/main/LICENSE.md>`__.

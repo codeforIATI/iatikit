@@ -15,7 +15,7 @@ If you are not comfortable working with GitHub, but would still like to contribu
 ### How we use branches in this repository
 
 * `dev` represents our main development branch
-* `master` is the branch we are currently using for our deployed instance of the code
+* `main` is the branch we are currently using for our deployed instance of the code
 * Other branches represent development work or bug fixes.
 
 ### Submitting changes
