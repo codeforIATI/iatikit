@@ -9,6 +9,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 - Fix bug so that PublisherSet deals with missing XML files. ([#52](https://github.com/codeforIATI/iatikit/issues/52))
 
+### Changed
+- Drop support for python 2.7
+
 ## [2.3.0] – 2020-12-16
 
 ### Changed

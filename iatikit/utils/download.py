@@ -1,3 +1,4 @@
+import csv
 from collections import OrderedDict, defaultdict
 import json
 from os.path import exists, join
@@ -7,7 +8,6 @@ import logging
 import zipfile
 
 import requests
-import unicodecsv as csv
 
 from ..standard.codelist import CodelistSet
 from .config import CONFIG
@@ -135,8 +135,9 @@ def codelists():
     def get_list_of_codelists(version):
         if version in _VERY_OLD_IATI_VERSIONS:
             request = requests.get(_VERY_OLD_CODELISTS_URL)
+            # import pdb; pdb.set_trace()
             list_of_codelists = [x['name'] for x in csv.DictReader(
-                [x for x in request.iter_lines()])]
+                [x.decode() for x in request.iter_lines()])]
         elif version in _OLD_IATI_VERSIONS:
             j = requests.get(_OLD_CODELISTS_URL).json()
             list_of_codelists = [x['name'] for x in j['codelist']]
@@ -152,14 +153,14 @@ def codelists():
                 codelist_name=codelist_name)
             request = requests.get(codelist_url)
             codes = list(csv.DictReader(
-                [x for x in request.iter_lines()]))
+                [x.decode() for x in request.iter_lines()]))
             version_codelist = {'data': codes}
         elif version in _OLD_IATI_VERSIONS:
             codelist_url = _OLD_CODELIST_TMPL.format(
                 codelist_name=codelist_name)
             request = requests.get(codelist_url)
             codes = list(csv.DictReader(
-                [x for x in request.iter_lines()]))
+                [x.decode() for x in request.iter_lines()]))
             version_codelist = {'data': codes}
         else:
             codelist_url = _NEW_CODELIST_TMPL.format(

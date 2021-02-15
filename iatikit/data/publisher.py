@@ -4,8 +4,6 @@ from os.path import basename, exists, join, split, splitext
 from glob import glob
 import webbrowser
 
-from past.builtins import basestring
-
 from ..utils.abstract import GenericSet
 from .dataset import DatasetSet
 from .activity import ActivitySet
@@ -26,9 +24,9 @@ class Publisher(object):
         """Return the "registry name" or "shortname" of this publisher,
         derived from the filepath.
         """
-        if isinstance(self.data_path, basestring):
+        if isinstance(self.data_path, str):
             return split(self.data_path)[1]
-        elif isinstance(self.metadata_path, basestring):
+        elif isinstance(self.metadata_path, str):
             return split(self.metadata_path)[1]
         else:
             return 'publisher'
