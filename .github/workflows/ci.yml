@@ -28,7 +28,7 @@ jobs:
       run: python setup.py test
     - name: Coveralls
       if: matrix.python-version == '3.8'
-      run: coveralls
+      run: coveralls --service=github
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   deploy:
