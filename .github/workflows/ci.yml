@@ -32,6 +32,7 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   deploy:
+    needs: [test]
     if: startsWith(github.ref, 'refs/tags')
     name: Deploy
     runs-on: ubuntu-latest
