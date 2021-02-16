@@ -57,8 +57,16 @@ class Dataset(object):
 
     @property
     def xml(self):
-        """Return the raw XML of this dataset, as a byte-string."""
+        """Return the parsed XML of this dataset, as a byte-string."""
         return bytes(ET.tostring(self.etree, pretty_print=True))
+
+    @property
+    def raw_xml(self):
+        """Return the raw, unparsed XML of this dataset,
+        as a byte-string.
+        """
+        with open(self.data_path) as handler:
+            return handler.read()
 
     def __repr__(self):
         return '<{} ({})>'.format(self.__class__.__name__, self.name)
