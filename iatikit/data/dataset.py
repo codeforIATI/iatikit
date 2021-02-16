@@ -65,7 +65,7 @@ class Dataset(object):
         """Return the raw, unparsed XML of this dataset,
         as a byte-string.
         """
-        with open(self.data_path) as handler:
+        with open(self.data_path, 'rb') as handler:
             return handler.read()
 
     def __repr__(self):

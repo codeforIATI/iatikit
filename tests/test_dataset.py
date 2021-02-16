@@ -70,7 +70,7 @@ class TestDataset(TestCase):
 
     def test_dataset_raw_xml(self):
         assert self.old_org_acts.raw_xml.startswith(
-            '<?xml version="1.0" encoding="UTF-8"?>\n')
+            b'<?xml version="1.0" encoding="UTF-8"?>\n')
 
     def test_dataset_validate_xml(self):
         assert bool(self.old_org_acts.validate_xml()) is True
