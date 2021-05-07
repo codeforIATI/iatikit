@@ -89,6 +89,8 @@ class CodelistMappings(object):
         error_log = []
         for mapping in mappings:
             xpath_query, codelist = parse_mapping(mapping)
+            if not codelist.complete:
+                continue
             values = dataset.etree.xpath(xpath_query)
             for value in set(values):
                 if codelist.get(value):

@@ -90,12 +90,6 @@ _NEW_CODELIST_TMPL = 'https://iatistandard.org/' + \
 def _get_codelist_mappings(versions):
     all_codelists = CodelistSet()
 
-    def filter_complete(mapping):
-        try:
-            return all_codelists.get(mapping['codelist']).complete
-        except:
-            raise Exception(mapping['codelist'])
-
     path = join(CONFIG['paths']['standard'], 'codelist_mappings')
     shutil.rmtree(path, ignore_errors=True)
     makedirs(path)
@@ -113,8 +107,6 @@ def _get_codelist_mappings(versions):
 
             mapping_url = tmpl.format(version=version_path)
             mappings = requests.get(mapping_url).json()
-
-            mappings = list(filter(filter_complete, mappings))
 
             activity_mappings = [
                 x for x in mappings
