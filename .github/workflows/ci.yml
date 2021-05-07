@@ -25,7 +25,7 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements_dev.txt
     - name: Run tests
-      run: python setup.py test
+      run: pytest
     - name: Coveralls
       if: matrix.python-version == '3.8'
       run: coveralls --service=github
