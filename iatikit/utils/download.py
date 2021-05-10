@@ -16,7 +16,7 @@ from . import helpers
 
 def data():
     path = CONFIG['paths']['registry']
-    # downloads from https://andylolz.github.io/iati-data-dump/
+    # downloads from https://iati-data-dump.codeforiati.org
     data_url = 'https://www.dropbox.com/s/kkm80yjihyalwes/' + \
                'iati_dump.zip?dl=1'
     shutil.rmtree(path, ignore_errors=True)
