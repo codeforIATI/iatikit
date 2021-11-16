@@ -17,7 +17,7 @@ from . import helpers
 def data():
     path = CONFIG['paths']['registry']
     # downloads from https://iati-data-dump.codeforiati.org
-    data_url = 'https://iati-data.s3.eu-west-1.amazonaws.com/iati_data.zip'
+    data_url = 'https://gitlab.com/codeforIATI/iati-data/-/archive/main/iati-data-main.zip'
     shutil.rmtree(path, ignore_errors=True)
     makedirs(path)
     zip_filepath = join(path, 'iati_dump.zip')
