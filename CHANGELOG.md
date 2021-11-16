@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 - Change path to IATI data zip file
+- Drop support for python 3.5
 
 ## [3.1.0] – 2021-10-05
 
