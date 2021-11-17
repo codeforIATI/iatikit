@@ -2,7 +2,7 @@ import csv
 from collections import OrderedDict, defaultdict
 import json
 from os.path import exists, join
-from os import makedirs, unlink as _unlink
+from os import listdir, makedirs, unlink as _unlink
 import shutil
 import logging
 import zipfile
@@ -30,6 +30,9 @@ def data():
     with zipfile.ZipFile(zip_filepath, 'r') as zip_ref:
         zip_ref.extractall(path)
     logging.getLogger(__name__).info('Cleaning up...')
+    zip_output_path = join(path, 'iati-data-main')
+    for f in listdir(zip_output_path):
+        shutil.move(join(zip_output_path, f), path)
     _unlink(zip_filepath)
 
 

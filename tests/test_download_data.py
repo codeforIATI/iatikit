@@ -21,7 +21,7 @@ class MockRequest():
             for root, _, files in os.walk(registry_path):
                 for file in files:
                     fullpath = join(root, file)
-                    ziph.write(fullpath, fullpath[len(registry_path):])
+                    ziph.write(fullpath, join('/', 'iati-data-main', fullpath[len(registry_path) + 1:]))
         self.raw.seek(0)
 
 
