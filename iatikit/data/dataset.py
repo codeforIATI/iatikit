@@ -65,6 +65,9 @@ class Dataset(object):
         """Return the raw, unparsed XML of this dataset,
         as a byte-string.
         """
+        if self.data_path is None:
+            raise FileNotFoundError
+
         with open(self.data_path, 'rb') as handler:
             return handler.read()
 
