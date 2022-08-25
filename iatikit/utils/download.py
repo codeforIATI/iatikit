@@ -17,15 +17,17 @@ from . import helpers
 def data():
     path = CONFIG['paths']['registry']
     # downloads from https://iati-data-dump.codeforiati.org
-    data_url = 'https://gitlab.com/codeforIATI/iati-data/-/archive/main/iati-data-main.zip'
+    download_url = 'https://iati-data-dump.codeforiati.org/download'
+    response = requests.get(download_url)
+    data_url = response.text.strip()
     shutil.rmtree(path, ignore_errors=True)
     makedirs(path)
     zip_filepath = join(path, 'iati_dump.zip')
 
     logging.getLogger(__name__).info('Downloading all IATI registry data...')
-    request = requests.get(data_url, stream=True)
+    response = requests.get(data_url, stream=True)
     with open(zip_filepath, 'wb') as handler:
-        shutil.copyfileobj(request.raw, handler)
+        shutil.copyfileobj(response.raw, handler)
     logging.getLogger(__name__).info('Unzipping data...')
     with zipfile.ZipFile(zip_filepath, 'r') as zip_ref:
         zip_ref.extractall(path)
