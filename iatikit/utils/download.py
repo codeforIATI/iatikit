@@ -8,12 +8,15 @@ import logging
 import zipfile
 
 import requests
+from requests.exceptions import ConnectionError
+from retry import retry
 
 from ..standard.codelist import CodelistSet
 from .config import CONFIG
 from . import helpers
 
 
+@retry(ConnectionError, tries=3, delay=1, backoff=2)
 def data():
     path = CONFIG['paths']['registry']
     # downloads from https://iati-data-dump.codeforiati.org
@@ -38,6 +41,7 @@ def data():
     _unlink(zip_filepath)
 
 
+@retry(ConnectionError, tries=3, delay=1, backoff=2)
 def metadata():
     logging.getLogger(__name__).info(
         'Downloading metadata from the IATI registry...')
@@ -127,6 +131,7 @@ def _get_codelist_mappings(versions):
                 json.dump(organisation_mappings, handler)
 
 
+@retry(ConnectionError, tries=3, delay=1, backoff=2)
 def codelists():
     def get_list_of_codelists(version):
         if version in _VERY_OLD_IATI_VERSIONS:
@@ -218,6 +223,7 @@ def codelists():
     _get_codelist_mappings(all_versions)
 
 
+@retry(ConnectionError, tries=3, delay=1, backoff=2)
 def schemas():
     path = join(CONFIG['paths']['standard'], 'schemas')
     shutil.rmtree(path, ignore_errors=True)
