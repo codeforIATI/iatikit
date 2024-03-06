@@ -42,8 +42,10 @@ class TestDownloadSchemas(TestCase):
         config_dict = {'paths': {'standard': self.standard_path}}
         CONFIG.read_dict(config_dict)
 
-    @patch('requests.get', MockRequest)
-    def test_download_schemas(self):
+    @patch('requests.Session')
+    def test_download_schemas(self, mock_session):
+        mock_session.return_value.get.side_effect = MockRequest
+
         download.schemas()
 
         filenames = [
