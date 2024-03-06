@@ -3,7 +3,6 @@ from os.path import abspath, dirname, join
 import shutil
 import tempfile
 from unittest import TestCase
-
 from mock import patch
 
 from iatikit.utils import download
@@ -17,8 +16,10 @@ class TestDownloadCodelists(TestCase):
         config_dict = {'paths': {'standard': self.standard_path}}
         CONFIG.read_dict(config_dict)
 
-    @patch('requests.get', CodelistMockRequest)
-    def test_download_codelists(self):
+    @patch('requests.Session')
+    def test_download_codelists(self, mock_session):
+        mock_session.return_value.get.side_effect = CodelistMockRequest
+
         download.codelists()
 
         codelists_expected = {
@@ -34,8 +35,10 @@ class TestDownloadCodelists(TestCase):
             codelists = json.load(handler)
         assert codelists == codelists_expected
 
-    @patch('requests.get', CodelistMockRequest)
-    def test_download_codelist_from_until(self):
+    @patch('requests.Session')
+    def test_download_codelist_from_until(self, mock_session):
+        mock_session.return_value.get.side_effect = CodelistMockRequest
+
         download.codelists()
 
         path = join(self.standard_path, 'codelists', 'ActivityStatus.json')
@@ -47,8 +50,10 @@ class TestDownloadCodelists(TestCase):
         assert vocabs['data']['1']['from'] == '1.01'
         assert vocabs['data']['1']['until'] == '2.01'
 
-    @patch('requests.get', CodelistMockRequest)
-    def test_download_codelist_items(self):
+    @patch('requests.Session')
+    def test_download_codelist_items(self, mock_session):
+        mock_session.return_value.get.side_effect = CodelistMockRequest
+
         download.codelists()
 
         path = join(self.standard_path, 'codelists', 'Sector.json')
@@ -58,8 +63,10 @@ class TestDownloadCodelists(TestCase):
         sector_name = 'Media and free flow of information'
         assert vocabs['data']['15153']['name'] == sector_name
 
-    @patch('requests.get', CodelistMockRequest)
-    def test_download_codelist_mappings(self):
+    @patch('requests.Session')
+    def test_download_codelist_mappings(self, mock_session):
+        mock_session.return_value.get.side_effect = CodelistMockRequest
+
         download.codelists()
 
         path = join(self.standard_path, 'codelist_mappings')
