@@ -4,7 +4,7 @@ Getting started
 Installation
 ------------
 
-iatikit is tested for pythons 3.6, 3.7 and 3.8.
+iatikit is tested for pythons 3.7 – 3.9.
 
 You can install iatikit using ``pip``:
 
