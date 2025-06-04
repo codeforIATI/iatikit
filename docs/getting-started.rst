@@ -37,3 +37,12 @@ from `the registry <https://iatiregistry.org/>`__, as well as `the latest codeli
 
     # download all XML in the registry
     iatikit.download.data()
+
+By default iatikit will download all the IATI data from the Code for IATI Data Download tool. However, you can customise this by creating an `iatikit.ini` file and using the following setting:
+
+.. code:: ini
+
+    [data_sources]
+    url_containing_zip_url=URL_CONTAINING_URL_OF_ZIP_FILE
+
+The `URL_CONTAINING_URL_OF_ZIP_FILE` should be a URL which contains a single line that is the URL of the ZIP file containing all the IATI XML files.
