@@ -23,8 +23,7 @@ def data():
     session = requests.Session()
     session.mount('https://', http_adapter)
     path = CONFIG['paths']['registry']
-    # downloads from https://iati-data-dump.codeforiati.org
-    download_url = 'https://iati-data-dump.codeforiati.org/download'
+    download_url = CONFIG['data_sources']['url_containing_zip_url']
     response = session.get(download_url)
     data_url = response.text.strip()
     shutil.rmtree(path, ignore_errors=True)
