@@ -11,6 +11,11 @@ def _load_config():
         'paths': {
             'registry': join('__iatikitcache__', 'registry'),
             'standard': join('__iatikitcache__', 'standard'),
+        },
+        'github_api':{
+            'access_token': "",
+            'basic_auth_username': "",
+            'basic_auth_password': ""
         }
     }
     config = ConfigParser()

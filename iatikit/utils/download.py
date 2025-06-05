@@ -6,6 +6,7 @@ from os import listdir, makedirs, unlink as _unlink
 import shutil
 import logging
 import zipfile
+from base64 import b64encode
 
 import requests
 from requests.adapters import HTTPAdapter
@@ -265,14 +266,20 @@ def schemas():
     logging.getLogger(__name__).info('Downloading IATI Standard schemas...')
     filenames = ['iati-activities-schema.xsd', 'iati-organisations-schema.xsd',
                  'iati-common.xsd', 'xml.xsd']
-    tmpl = 'https://raw.githubusercontent.com/IATI/IATI-Schemas/' + \
-           'version-{version}/{filename}'
+    tmpl = 'https://api.github.com/repos/IATI/IATI-Schemas/contents/{filename}?ref=version-{version}'
+    headers = { "Accept": "application/vnd.github.raw+json" }
+    if CONFIG["github_api"]["access_token"]:
+        headers["Authorization"] = "Bearer " + CONFIG["github_api"]["access_token"]
+    elif CONFIG["github_api"]["basic_auth_username"] and CONFIG["github_api"]["basic_auth_password"] :
+        headers["Authorization"] = "Basic " +  b64encode(
+                (CONFIG["github_api"]["basic_auth_username"] + ":" + CONFIG["github_api"]["basic_auth_password"]
+            ).encode('utf-8')).decode("ascii")        
     for version in versions:
         version_path = version.replace('.', '')
         makedirs(join(path, version_path))
         for filename in filenames:
             url = tmpl.format(version=version, filename=filename)
-            request = session.get(url)
+            request = session.get(url, headers=headers)
             request.raise_for_status()
             filepath = join(path, version_path, filename)
             with open(filepath, 'wb') as handler:
