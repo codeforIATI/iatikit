@@ -46,3 +46,5 @@ By default iatikit will download all the IATI data from the Code for IATI Data D
     url_containing_zip_url=URL_CONTAINING_URL_OF_ZIP_FILE
 
 The `URL_CONTAINING_URL_OF_ZIP_FILE` should be a URL which contains a single line that is the URL of the ZIP file containing all the IATI XML files.
+
+The `iatikit.ini` file should be placed in the directory from which python is launched to run the client application (i.e., the application which uses `iatikit`). 
