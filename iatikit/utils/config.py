@@ -5,6 +5,9 @@ from configparser import ConfigParser
 
 def _load_config():
     defaults = {
+        'data_sources': {
+            'zip_url': '',
+        },
         'paths': {
             'registry': join('__iatikitcache__', 'registry'),
             'standard': join('__iatikitcache__', 'standard'),

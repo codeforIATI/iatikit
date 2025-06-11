@@ -23,16 +23,20 @@ def data():
     session = requests.Session()
     session.mount('https://', http_adapter)
     path = CONFIG['paths']['registry']
-    # downloads from https://iati-data-dump.codeforiati.org
-    download_url = 'https://iati-data-dump.codeforiati.org/download'
-    response = session.get(download_url)
-    data_url = response.text.strip()
+    if CONFIG['data_sources']['zip_url'] != "":
+        zip_url = CONFIG['data_sources']['zip_url']
+    else:
+        download_url = 'https://iati-data-dump.codeforiati.org/download'
+        response = session.get(download_url)
+        response.raise_for_status()
+        zip_url = response.text.strip()
     shutil.rmtree(path, ignore_errors=True)
     makedirs(path)
     zip_filepath = join(path, 'iati_dump.zip')
 
     logging.getLogger(__name__).info('Downloading all IATI registry data...')
-    response = session.get(data_url, stream=True)
+    response = session.get(zip_url, stream=True)
+    response.raise_for_status()
     with open(zip_filepath, 'wb') as handler:
         shutil.copyfileobj(response.raw, handler)
     logging.getLogger(__name__).info('Unzipping data...')
