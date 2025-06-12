@@ -26,3 +26,6 @@ class CodelistMockRequest():
     def iter_lines(self):
         with open(self.filepath, 'rb') as handler:
             return handler.readlines()
+
+    def raise_for_status(self):
+        pass

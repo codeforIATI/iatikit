@@ -35,6 +35,8 @@ class MockRequest():
         with open(self.filepath) as handler:
             return json.load(handler)
 
+    def raise_for_status(self):
+        pass
 
 class TestDownloadSchemas(TestCase):
     def setUp(self):

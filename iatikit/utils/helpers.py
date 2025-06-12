@@ -10,9 +10,11 @@ def get_iati_versions():
     session.mount('https://', http_adapter)
     versions_url = 'http://reference.iatistandard.org/201/codelists/' + \
                    'downloads/clv2/json/en/Version.json'
+    versions_response = session.get(versions_url)
+    versions_response.raise_for_status()
     versions = [
         d['code']
-        for d in session.get(versions_url).json()['data']
+        for d in versions_response.json()['data']
     ]
     versions.reverse()
     return versions
