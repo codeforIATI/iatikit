@@ -64,9 +64,9 @@ def metadata():
                    '?id={org_slug}'
     start = 0
     while True:
-        j_response = session.get(url_tmpl.format(start=start))
-        j_response.raise_for_status()
-        j = j_response.json()
+        response = session.get(url_tmpl.format(start=start))
+        response.raise_for_status()
+        j = response.json()
         if len(j['result']['results']) == 0:
             break
         for res in j['result']['results']:
@@ -152,21 +152,21 @@ def codelists():
         session = requests.Session()
         session.mount('https://', http_adapter)
         if version in _VERY_OLD_IATI_VERSIONS:
-            request = session.get(_VERY_OLD_CODELISTS_URL)
-            request.raise_for_status()
+            response = session.get(_VERY_OLD_CODELISTS_URL)
+            response.raise_for_status()
             # import pdb; pdb.set_trace()
             list_of_codelists = [x['name'] for x in csv.DictReader(
-                [x.decode() for x in request.iter_lines()])]
+                [x.decode() for x in response.iter_lines()])]
         elif version in _OLD_IATI_VERSIONS:
-            j_response = session.get(_OLD_CODELISTS_URL)
-            j_response.raise_for_status()
-            list_of_codelists = [x['name'] for x in j_response.json()['codelist']]
+            response = session.get(_OLD_CODELISTS_URL)
+            response.raise_for_status()
+            list_of_codelists = [x['name'] for x in response.json()['codelist']]
         else:
             codelists_url = _NEW_CODELISTS_TMPL.format(
                 version=version.replace('.', ''))
-            list_of_codelists_response = session.get(codelists_url)
-            list_of_codelists_response.raise_for_status()
-            list_of_codelists = list_of_codelists_response.json()
+            response = session.get(codelists_url)
+            response.raise_for_status()
+            list_of_codelists = response.json()
         return list_of_codelists
 
     def get_codelist(codelist_name, version):
@@ -175,26 +175,26 @@ def codelists():
         if version in _VERY_OLD_IATI_VERSIONS:
             codelist_url = _VERY_OLD_CODELIST_TMPL.format(
                 codelist_name=codelist_name)
-            request = session.get(codelist_url)
-            request.raise_for_status()
+            response = session.get(codelist_url)
+            response.raise_for_status()
             codes = list(csv.DictReader(
-                [x.decode() for x in request.iter_lines()]))
+                [x.decode() for x in response.iter_lines()]))
             version_codelist = {'data': codes}
         elif version in _OLD_IATI_VERSIONS:
             codelist_url = _OLD_CODELIST_TMPL.format(
                 codelist_name=codelist_name)
-            request = session.get(codelist_url)
-            request.raise_for_status()
+            response = session.get(codelist_url)
+            response.raise_for_status()
             codes = list(csv.DictReader(
-                [x.decode() for x in request.iter_lines()]))
+                [x.decode() for x in response.iter_lines()]))
             version_codelist = {'data': codes}
         else:
             codelist_url = _NEW_CODELIST_TMPL.format(
                 codelist_name=codelist_name,
                 version=version.replace('.', ''))
-            version_codelist_response = session.get(codelist_url)
-            version_codelist_response.raise_for_status()
-            version_codelist = version_codelist_response.json()
+            response = session.get(codelist_url)
+            response.raise_for_status()
+            version_codelist = response.json()
         return version_codelist
 
     path = join(CONFIG['paths']['standard'], 'codelists')
@@ -260,9 +260,9 @@ def schemas():
     versions_url = 'https://iatistandard.org/reference_downloads/' + \
                    '201/codelists/downloads/clv2/json/en/' + \
                    'Version.json'
-    versions_url_response = session.get(versions_url)
-    versions_url_response.raise_for_status()
-    versions = [d['code'] for d in versions_url_response.json()['data']]
+    versions_response = session.get(versions_url)
+    versions_response.raise_for_status()
+    versions = [d['code'] for d in versions_response.json()['data']]
     versions.reverse()
 
     logging.getLogger(__name__).info('Downloading IATI Standard schemas...')
@@ -275,11 +275,11 @@ def schemas():
         makedirs(join(path, version_path))
         for filename in filenames:
             url = tmpl.format(version=version, filename=filename)
-            request = session.get(url)
-            request.raise_for_status()
+            response = session.get(url)
+            response.raise_for_status()
             filepath = join(path, version_path, filename)
             with open(filepath, 'wb') as handler:
-                handler.write(request.content)
+                handler.write(response.content)
 
 
 def standard():
