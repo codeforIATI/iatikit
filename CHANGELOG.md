@@ -13,7 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
-- After downloading anything, check for a non 200 HTTP response from remote server and raise a python error if so. https://github.com/codeforIATI/iatikit/issues/61
+- After downloading anything, check for a non 200 HTTP response from remote server and raise a python error if so ([#61](https://github.com/codeforIATI/iatikit/issues/61))
 
 ## [3.4.0] – 2024-03-06
 
