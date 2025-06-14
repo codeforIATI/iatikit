@@ -260,9 +260,7 @@ def schemas():
     shutil.rmtree(path, ignore_errors=True)
     makedirs(path)
 
-    versions_url = 'https://iatistandard.org/reference_downloads/' + \
-                   '201/codelists/downloads/clv2/json/en/' + \
-                   'Version.json'
+    versions_url = _NEW_CODELIST_TMPL.format(version='201', codelist_name='Version')
     versions_response = session.get(versions_url)
     versions_response.raise_for_status()
     versions = [d['code'] for d in versions_response.json()['data']]
