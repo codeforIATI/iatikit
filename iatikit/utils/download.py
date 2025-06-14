@@ -126,11 +126,11 @@ def _get_codelist_mappings(versions):
            '{version}/codelists/downloads/clv2/mapping.json'
     for version in versions:
         if version not in ['1.01', '1.02', '1.03']:
-            version_path = version.replace('.', '')
-            mapping_path = join(path, version_path)
+            dotless_version = version.replace('.', '')
+            mapping_path = join(path, dotless_version)
             makedirs(mapping_path)
 
-            mapping_url = tmpl.format(version=version_path)
+            mapping_url = tmpl.format(version=dotless_version)
             mappings_response = session.get(mapping_url)
             mappings_response.raise_for_status()
             mappings = mappings_response.json()
