@@ -105,6 +105,9 @@ _NEW_CODELIST_TMPL = 'https://iatistandard.org/' + \
                      'reference_downloads/{version}/' + \
                      'codelists/downloads/clv2/json/en/{codelist_name}.json'
 
+_OLD_SCHEMA_TMPL = 'https://iatistandard.org/reference_downloads/archive/downloads/{version}/{filename}'
+_NEW_SCHEMA_TMPL = 'https://iatistandard.org/reference_downloads/{dotless_version}/schema/downloads/{filename}'
+
 
 def _get_codelist_mappings(versions):
     all_codelists = CodelistSet()
@@ -268,16 +271,17 @@ def schemas():
     logging.getLogger(__name__).info('Downloading IATI Standard schemas...')
     filenames = ['iati-activities-schema.xsd', 'iati-organisations-schema.xsd',
                  'iati-common.xsd', 'xml.xsd']
-    tmpl = 'https://raw.githubusercontent.com/IATI/IATI-Schemas/' + \
-           'version-{version}/{filename}'
     for version in versions:
-        version_path = version.replace('.', '')
-        makedirs(join(path, version_path))
+        dotless_version = version.replace('.', '')
+        makedirs(join(path, dotless_version))
         for filename in filenames:
-            url = tmpl.format(version=version, filename=filename)
+            if version in _VERY_OLD_IATI_VERSIONS + _OLD_IATI_VERSIONS:
+                url = _OLD_SCHEMA_TMPL.format(version=version, filename=filename)
+            else:
+                url = _NEW_SCHEMA_TMPL.format(dotless_version=dotless_version, filename=filename)
             response = session.get(url)
             response.raise_for_status()
-            filepath = join(path, version_path, filename)
+            filepath = join(path, dotless_version, filename)
             with open(filepath, 'wb') as handler:
                 handler.write(response.content)
 
