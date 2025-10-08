@@ -1,4 +1,5 @@
 from os.path import join
+from os import getenv
 
 from configparser import ConfigParser
 
@@ -6,7 +7,7 @@ from configparser import ConfigParser
 def _load_config():
     defaults = {
         'data_sources': {
-            'zip_url': '',
+            'zip_url': getenv("IATIKIT_CONFIG_DATASOURCES_ZIP_URL",""),
         },
         'paths': {
             'registry': join('__iatikitcache__', 'registry'),
