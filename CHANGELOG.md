@@ -6,6 +6,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+## [3.6.0] – 2025-10-08
+
 ### Added
 
 - Allow runtime configuration of ZIP file containing the IATI XML files via `IATIKIT_CONFIG_DATASOURCES_ZIP_URL` environment variable as well as `iatikit.ini` file.
