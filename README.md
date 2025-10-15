@@ -6,14 +6,9 @@
 [![Build Status](https://github.com/codeforIATI/iati-datastore/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/codeforIATI/iati-datastore/actions/workflows/ci.yml)
 [![Test coverage](https://img.shields.io/coveralls/github/codeforIATI/iatikit/main.svg)](https://coveralls.io/github/codeforIATI/iatikit?branch=main)
 
-iatikit is a toolkit for using [IATI data](https://iatistandard.org/).
-It includes a query language wrapper around
-[XPath](https://en.wikipedia.org/wiki/XPath), to make dealing with
-disparate IATI versions easier.
+iatikit is a toolkit for using [IATI data](https://iatistandard.org/). It includes a query language wrapper around [XPath](https://en.wikipedia.org/wiki/XPath), to make dealing with disparate IATI versions easier.
 
-The name was inspired by [Open
-Contracting](https://www.open-contracting.org/)'s
-[ocdskit](https://pypi.org/project/ocdskit/).
+The name was inspired by [Open Contracting](https://www.open-contracting.org/)'s [ocdskit](https://pypi.org/project/ocdskit/).
 
 ## Installation
 
@@ -31,9 +26,7 @@ Check out [Read the Docs](https://iatikit.readthedocs.io)!
 
 ## Roadmap
 
-The [github issue
-tracker](https://github.com/codeforIATI/iatikit/issues) will hopefully
-provide some idea.
+The [github issue tracker](https://github.com/codeforIATI/iatikit/issues) will hopefully provide some idea.
 
 ## Development
 
@@ -51,11 +44,8 @@ pytest
 
 ## Deployment
 
-iatikit is [deployed to pypi](https://pypi.org/project/iatikit/)
-automatically by GitHub Actions whenever a new [tag is pushed to
-github](https://github.com/codeforIATI/iatikit/tags).
+iatikit is [deployed to pypi](https://pypi.org/project/iatikit/) automatically by GitHub Actions whenever a new [tag is pushed to github](https://github.com/codeforIATI/iatikit/tags).
 
 ## License
 
-This work is [MIT
-licensed](https://github.com/codeforIATI/iatikit/blob/main/LICENSE.md).
+This work is [MIT licensed](https://github.com/codeforIATI/iatikit/blob/main/LICENSE.md).
