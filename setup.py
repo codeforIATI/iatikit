@@ -3,7 +3,7 @@ from os.path import abspath, dirname, join
 
 
 path = abspath(dirname(__file__))
-with open(join(path, 'README.rst')) as f:
+with open(join(path, 'README.md')) as f:
     readme = f.read()
 
 data = {}
@@ -21,6 +21,7 @@ setup(
     license='MIT',
     keywords='IATI',
     long_description=readme,
+    long_description_content_type="text/markdown",
     install_requires=[
         'configparser',
         'lxml',
