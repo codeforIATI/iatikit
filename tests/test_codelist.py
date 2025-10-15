@@ -48,7 +48,7 @@ class TestCodelistSet(TestCase):
 
     def test_codelists_shortcut(self):
         codelists = iatikit.codelists()
-        assert(len(codelists)) == 5
+        assert len(codelists) == 5
 
     def test_codelists_filter_version(self):
         codelist_slugs = [

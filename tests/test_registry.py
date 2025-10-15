@@ -81,4 +81,4 @@ class TestRegistry(TestCase):
     @freeze_time("2015-12-02")
     def test_shortcut(self):
         registry = iatikit.data()
-        assert(len(registry.datasets)) == 5
+        assert len(registry.datasets) == 5

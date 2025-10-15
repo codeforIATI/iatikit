@@ -38,6 +38,7 @@ class MockRequest():
     def raise_for_status(self):
         pass
 
+
 class TestDownloadSchemas(TestCase):
     def setUp(self):
         self.standard_path = tempfile.mkdtemp(dir=dirname(abspath(__file__)))

@@ -11,7 +11,6 @@ import requests
 from requests.adapters import HTTPAdapter
 from urllib3 import Retry
 
-from ..standard.codelist import CodelistSet
 from .config import CONFIG
 from . import helpers
 
@@ -110,8 +109,6 @@ _NEW_SCHEMA_TMPL = 'https://iatistandard.org/reference_downloads/{dotless_versio
 
 
 def _get_codelist_mappings(versions):
-    all_codelists = CodelistSet()
-
     session = requests.Session()
     session.mount('https://', http_adapter)
 
