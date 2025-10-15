@@ -47,4 +47,4 @@ By default iatikit will download all the IATI data from the Code for IATI Data D
 
 The `iatikit.ini` file should be placed in the directory from which python is launched to run the client application (i.e., the application which uses `iatikit`). 
 
-You can also pass the `IATIKIT_CONFIG_DATASOURCES_ZIP_URL` environment variable.
+You can also set `zip_url` via the `IATIKIT_CONFIG_DATASOURCES_ZIP_URL` environment variable.
