@@ -7,7 +7,7 @@ class Validator(object):
         self.is_valid = is_valid
 
     def __repr__(self):
-        return '<{} ({})>'.format(self.__class__.__name__, self.is_valid)
+        return "<{} ({})>".format(self.__class__.__name__, self.is_valid)
 
     def __nonzero__(self):
         return self.__bool__()
@@ -32,14 +32,14 @@ class ValidationError(object):
         self.path = path
 
         self.summary = msg
-        self.details = ''
+        self.details = ""
 
     def __repr__(self):
         max_length = 50
         txt = str(self)
         if len(txt) > max_length:
-            txt = txt[:max_length-3] + '...'
-        return '<{} ({})>'.format(self.__class__.__name__, txt)
+            txt = txt[: max_length - 3] + "..."
+        return "<{} ({})>".format(self.__class__.__name__, txt)
 
     def __str__(self):
         return self.summary

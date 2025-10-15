@@ -1,16 +1,16 @@
-from os.path import basename, exists, splitext
-from glob import glob
 import json
 import logging
 import webbrowser
+from glob import glob
+from os.path import basename, exists, splitext
 
 from lxml import etree as ET
 
-from ..utils.abstract import GenericSet
-from ..utils.exceptions import SchemaNotFoundError, MappingsNotFoundError
-from ..utils.validator import Validator, ValidationError
-from ..standard.xsd_schema import XSDSchema
 from ..standard.codelist_mappings import CodelistMappings
+from ..standard.xsd_schema import XSDSchema
+from ..utils.abstract import GenericSet
+from ..utils.exceptions import MappingsNotFoundError, SchemaNotFoundError
+from ..utils.validator import ValidationError, Validator
 from .activity import ActivitySet
 from .organisation import OrganisationSet
 
@@ -38,20 +38,21 @@ class Dataset(object):
         elif isinstance(self.metadata_path, str):
             return splitext(basename(self.metadata_path))[0]
         else:
-            return 'dataset'
+            return "dataset"
 
     @property
     def etree(self):
         """Return the XML of this dataset, as an lxml element tree."""
         if not self._etree:
             if not self.data_path:
-                raise IOError('XML file not found')
+                raise IOError("XML file not found")
             try:
                 parser = ET.XMLParser(remove_blank_text=True, huge_tree=True)
                 self._etree = ET.parse(self.data_path, parser)
             except ET.XMLSyntaxError:
                 logging.getLogger(__name__).warning(
-                    'Dataset "%s" XML is invalid', self.name)
+                    'Dataset "%s" XML is invalid', self.name
+                )
                 raise
         return self._etree
 
@@ -68,23 +69,22 @@ class Dataset(object):
         if self.data_path is None:
             raise FileNotFoundError
 
-        with open(self.data_path, 'rb') as handler:
+        with open(self.data_path, "rb") as handler:
             return handler.read()
 
     def __repr__(self):
-        return '<{} ({})>'.format(self.__class__.__name__, self.name)
+        return "<{} ({})>".format(self.__class__.__name__, self.name)
 
     def show(self):
         """Open a new browser tab to the iatiregistry.org page
         for this dataset.
         """
-        name = self.metadata.get('name')
+        name = self.metadata.get("name")
         if name:
-            url = 'https://iatiregistry.org/dataset/{}'.format(name)
+            url = "https://iatiregistry.org/dataset/{}".format(name)
             webbrowser.open_new_tab(url)
             return True
-        logging.getLogger(__name__).warning(
-            'Can\'t show dataset - metadata missing.')
+        logging.getLogger(__name__).warning("Can't show dataset - metadata missing.")
         return False
 
     def _get_schema(self):
@@ -116,8 +116,7 @@ class Dataset(object):
         """Validate dataset against the relevant IATI schema."""
         xml_valid = self.validate_xml()
         if not xml_valid:
-            msg = 'Can\'t perform IATI schema validation for ' + \
-                  'invalid XML.'
+            msg = "Can't perform IATI schema validation for " + "invalid XML."
             return Validator(False, [ValidationError(msg)])
         try:
             return self._get_schema().validate(self.etree)
@@ -129,14 +128,12 @@ class Dataset(object):
         """Validate dataset against the relevant IATI codelists."""
         xml_valid = self.validate_xml()
         if not xml_valid:
-            msg = 'Can\'t perform codelist validation for ' + \
-                  'invalid XML.'
+            msg = "Can't perform codelist validation for " + "invalid XML."
             return Validator(False, [ValidationError(msg)])
         try:
             mappings = CodelistMappings(self.filetype, self.version)
         except MappingsNotFoundError:
-            msg = 'Can\'t perform codelist validation for ' + \
-                  'IATI version %s datasets.'
+            msg = "Can't perform codelist validation for " + "IATI version %s datasets."
             logging.getLogger(__name__).warning(msg, self.version)
             return Validator(True)
         return mappings.validate(self)
@@ -148,9 +145,8 @@ class Dataset(object):
             if self.metadata_path is not None and exists(self.metadata_path):
                 with open(self.metadata_path) as handler:
                     self._metadata = json.load(handler)
-                extras = self.metadata.get('extras')
-                self._metadata['extras'] = {x['key']: x['value']
-                                            for x in extras}
+                extras = self.metadata.get("extras")
+                self._metadata["extras"] = {x["key"]: x["value"] for x in extras}
             else:
                 msg = 'No metadata was found for dataset "%s"'
                 logging.getLogger(__name__).warning(msg, self.name)
@@ -168,16 +164,16 @@ class Dataset(object):
         Returns None if the filetype can't be determined.
         """
         try:
-            filetype = self.metadata['extras']['filetype']
-            if filetype in ['activity', 'organisation']:
+            filetype = self.metadata["extras"]["filetype"]
+            if filetype in ["activity", "organisation"]:
                 return filetype
         except KeyError:
             pass
 
         try:
             return {
-                'iati-activities': 'activity',
-                'iati-organisations': 'organisation',
+                "iati-activities": "activity",
+                "iati-organisations": "organisation",
             }[self.root]
         except KeyError:
             pass
@@ -196,14 +192,15 @@ class Dataset(object):
 
         Return "1.01" if the version can't be determined.
         """
-        version = self.etree.getroot().get('version')
+        version = self.etree.getroot().get("version")
         if version is not None:
             return version
 
         logging.getLogger(__name__).warning(
-            '@version attribute is not declared. Assuming "1.01".')
+            '@version attribute is not declared. Assuming "1.01".'
+        )
         # default version
-        return '1.01'
+        return "1.01"
 
     @property
     def activities(self):
@@ -224,9 +221,9 @@ class DatasetSet(GenericSet):
     can be efficient.
     """
 
-    _key = 'name'
-    _filters = ['name', 'filetype']
-    _multi_filters = ['xpath']
+    _key = "name"
+    _filters = ["name", "filetype"]
+    _multi_filters = ["xpath"]
     _instance_class = Dataset
 
     def __init__(self, data_path, metadata_path, **kwargs):
@@ -235,32 +232,34 @@ class DatasetSet(GenericSet):
         self.metadata_path = metadata_path
 
     def __iter__(self):
-        data_paths = {
-            splitext(basename(x))[0]: x
-            for x in glob(self.data_path)
-        } if self.data_path else {}
-        metadata_paths = {
-            splitext(basename(x))[0]: x
-            for x in glob(self.metadata_path)
-        } if self.metadata_path else {}
+        data_paths = (
+            {splitext(basename(x))[0]: x for x in glob(self.data_path)}
+            if self.data_path
+            else {}
+        )
+        metadata_paths = (
+            {splitext(basename(x))[0]: x for x in glob(self.metadata_path)}
+            if self.metadata_path
+            else {}
+        )
 
-        paths = {x: (data_paths.get(x), metadata_paths.get(x))
-                 for x in set(list(data_paths.keys()) +
-                              list(metadata_paths.keys()))}
+        paths = {
+            x: (data_paths.get(x), metadata_paths.get(x))
+            for x in set(list(data_paths.keys()) + list(metadata_paths.keys()))
+        }
 
-        where_name = self.wheres.get('name')
+        where_name = self.wheres.get("name")
         if where_name is not None:
             paths = [paths[where_name]] if where_name in paths else []
         else:
             paths = sorted(list(paths.values()), key=lambda x: x[1])
 
-        where_filetype = self.wheres.get('filetype')
-        where_xpaths = self.wheres.get('xpath', [])
+        where_filetype = self.wheres.get("filetype")
+        where_xpaths = self.wheres.get("xpath", [])
 
         for data_path, metadata_path in paths:
             dataset = Dataset(data_path, metadata_path)
-            if where_filetype is not None and \
-                    dataset.filetype != where_filetype:
+            if where_filetype is not None and dataset.filetype != where_filetype:
                 continue
             if where_xpaths != []:
                 if not dataset.validate_xml():

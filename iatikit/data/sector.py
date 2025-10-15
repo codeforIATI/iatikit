@@ -1,34 +1,39 @@
-from ..standard.codelist import CodelistSet, CodelistItem
-from ..utils.exceptions import UnknownSectorVocabError, \
-                               UnknownSectorCodeError, InvalidSectorCodeError
+from ..standard.codelist import CodelistItem, CodelistSet
+from ..utils.exceptions import (
+    InvalidSectorCodeError,
+    UnknownSectorCodeError,
+    UnknownSectorVocabError,
+)
 
 
 class Sector(object):
     def __init__(self, code, vocabulary=None, percentage=None):
         codelists = CodelistSet()
         vocab_lookup = {
-            '1': 'Sector',
-            '2': 'SectorCategory',
+            "1": "Sector",
+            "2": "SectorCategory",
         }
 
         def get_vocabulary(vocabulary_code):
-            old_vocab_item = codelists.get(
-                'Vocabulary').get(vocabulary_code)
+            old_vocab_item = codelists.get("Vocabulary").get(vocabulary_code)
 
             if old_vocab_item is not None:
                 new_vocab_code = {
-                    'ADT': '6', 'COFOG': '3',
-                    'DAC': '1', 'DAC-3': '2',
-                    'ISO': None, 'NACE': '4',
-                    'NTEE': '5', 'RO': '99',
-                    'RO2': '98', 'WB': None,
+                    "ADT": "6",
+                    "COFOG": "3",
+                    "DAC": "1",
+                    "DAC-3": "2",
+                    "ISO": None,
+                    "NACE": "4",
+                    "NTEE": "5",
+                    "RO": "99",
+                    "RO2": "98",
+                    "WB": None,
                 }.get(old_vocab_item.code)
                 if new_vocab_code:
-                    vocab_item = codelists.get(
-                        'SectorVocabulary').get(new_vocab_code)
+                    vocab_item = codelists.get("SectorVocabulary").get(new_vocab_code)
             else:
-                vocab_item = codelists.get(
-                    'SectorVocabulary').get(vocabulary_code)
+                vocab_item = codelists.get("SectorVocabulary").get(vocabulary_code)
                 if vocab_item is None:
                     raise UnknownSectorVocabError()
             return vocab_item
@@ -39,15 +44,12 @@ class Sector(object):
             self.percentage = None
 
         if isinstance(code, CodelistItem):
-            if code.codelist.slug == 'Sector':
-                self.vocabulary = codelists.get(
-                    'SectorVocabulary').get('1')
-            elif code.codelist.slug == 'SectorCategory':
-                self.vocabulary = codelists.get(
-                    'SectorVocabulary').get('2')
+            if code.codelist.slug == "Sector":
+                self.vocabulary = codelists.get("SectorVocabulary").get("1")
+            elif code.codelist.slug == "SectorCategory":
+                self.vocabulary = codelists.get("SectorVocabulary").get("2")
             else:
-                raise InvalidSectorCodeError(
-                    'Not a sector code: {}'.format(code))
+                raise InvalidSectorCodeError("Not a sector code: {}".format(code))
             self.code = code
         elif vocabulary:
             self.vocabulary = get_vocabulary(vocabulary)
@@ -65,15 +67,15 @@ class Sector(object):
 
     def __repr__(self):
         if isinstance(self.code, CodelistItem):
-            txt = '{} ({}), Vocabulary: {}'.format(
-                self.code.name, self.code.code, self.vocabulary.name)
+            txt = "{} ({}), Vocabulary: {}".format(
+                self.code.name, self.code.code, self.vocabulary.name
+            )
         else:
             if self.vocabulary:
-                txt = '{}, Vocabulary: {}'.format(
-                    self.code, self.vocabulary.name)
+                txt = "{}, Vocabulary: {}".format(self.code, self.vocabulary.name)
             else:
-                txt = '{}, Vocabulary: Unspecified'.format(self.code)
-        return '<{} ({})>'.format(self.__class__.__name__, txt)
+                txt = "{}, Vocabulary: Unspecified".format(self.code)
+        return "<{} ({})>".format(self.__class__.__name__, txt)
 
     def __eq__(self, value):
         if not isinstance(value, Sector):

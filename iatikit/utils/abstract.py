@@ -1,5 +1,6 @@
 from copy import deepcopy
 from itertools import islice
+
 from .exceptions import FilterError
 
 
@@ -21,15 +22,14 @@ class GenericSet(object):
         self.where(**kwargs)
 
     def where(self, **kwargs):
-        """Return a new set, with the filters provided in ``**kwargs``.
-        """
+        """Return a new set, with the filters provided in ``**kwargs``."""
         out = deepcopy(self)
         for k, v in kwargs.items():
-            if k.split('__')[0] not in (self._filters + self._multi_filters):
-                raise FilterError('Unknown filter: {}'.format(k))
-            if k.split('__')[0] in self._filters:
+            if k.split("__")[0] not in (self._filters + self._multi_filters):
+                raise FilterError("Unknown filter: {}".format(k))
+            if k.split("__")[0] in self._filters:
                 if k in out.wheres:
-                    raise FilterError('Too many {} filters provided'.format(k))
+                    raise FilterError("Too many {} filters provided".format(k))
                 out.wheres[k] = v
             else:
                 if k not in out.wheres:
@@ -51,7 +51,7 @@ class GenericSet(object):
             return list(islice(self, index.start, index.stop, index.step))
         except StopIteration:
             pass
-        raise IndexError('index out of range')
+        raise IndexError("index out of range")
 
     def __len__(self):
         return sum(1 for x in self)
@@ -73,8 +73,7 @@ class GenericSet(object):
         return self[0]
 
     def all(self):
-        """Return a list of all items in this set.
-        """
+        """Return a list of all items in this set."""
         return list(x for x in self)
 
     def get(self, item, default=None):
@@ -109,15 +108,15 @@ class GenericType(object):
         return etree.xpath(self.get())
 
     def where(self, operation, value):
-        if operation == 'exists':
-            sub_operation = '!= 0' if value else '= 0'
-            return 'count({expr}) {subop}'.format(
+        if operation == "exists":
+            sub_operation = "!= 0" if value else "= 0"
+            return "count({expr}) {subop}".format(
                 expr=self.get(),
                 subop=sub_operation,
             )
-        elif operation == 'eq':
+        elif operation == "eq":
             return '{expr} = "{value}"'.format(
                 expr=self.get(),
                 value=value,
             )
-        raise FilterError('Unknown filter modifier: {}'.format(operation))
+        raise FilterError("Unknown filter modifier: {}".format(operation))

@@ -1,20 +1,20 @@
 import json
-from os.path import abspath, dirname, join
 import re
+from os.path import abspath, dirname, join
 
 
-class CodelistMockRequest():
+class CodelistMockRequest:
     def __init__(self, url):
-        codelist_path = join(dirname(abspath(__file__)),
-                             'fixtures', 'codelist_downloads')
+        codelist_path = join(
+            dirname(abspath(__file__)), "fixtures", "codelist_downloads"
+        )
 
-        match = re.search(r'(\d{3}).*?/([^\.\/]+)\.(csv|json)', url)
+        match = re.search(r"(\d{3}).*?/([^\.\/]+)\.(csv|json)", url)
         if match:
             version, name, extension = match.groups()
-            fname = '{name}-v{version}.{extension}'.format(
-                name=name,
-                version=version,
-                extension=extension)
+            fname = "{name}-v{version}.{extension}".format(
+                name=name, version=version, extension=extension
+            )
         else:
             raise NotImplementedError()
         self.filepath = join(codelist_path, fname)
@@ -24,7 +24,7 @@ class CodelistMockRequest():
             return json.load(handler)
 
     def iter_lines(self):
-        with open(self.filepath, 'rb') as handler:
+        with open(self.filepath, "rb") as handler:
             return handler.readlines()
 
     def raise_for_status(self):

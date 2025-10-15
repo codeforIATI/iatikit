@@ -1,4 +1,5 @@
 import webbrowser
+
 try:
     from urllib.parse import urlencode
 except ImportError:
@@ -24,15 +25,15 @@ class Activity(object):
 
     def __repr__(self):
         id_ = self.iati_identifier
-        id_ = id_ if id_ else '[No identifier]'
-        return '<{} ({})>'.format(self.__class__.__name__, id_)
+        id_ = id_ if id_ else "[No identifier]"
+        return "<{} ({})>".format(self.__class__.__name__, id_)
 
     def show(self):
         """Open a new browser tab to the d-portal.org page
         for this dataset.
         """
-        params = {'aid': self.iati_identifier}
-        url = 'http://d-portal.org/q.html?{}'.format(urlencode(params))
+        params = {"aid": self.iati_identifier}
+        url = "http://d-portal.org/q.html?{}".format(urlencode(params))
         webbrowser.open_new_tab(url)
 
     @property
@@ -59,10 +60,10 @@ class Activity(object):
         return None
 
     def validate_iati(self):
-        etree = ET.Element('iati-activities')
-        etree.set('version', self.version)
+        etree = ET.Element("iati-activities")
+        etree.set("version", self.version)
         etree.append(self.etree)
-        xsd_schema = XSDSchema('activity', self.version)
+        xsd_schema = XSDSchema("activity", self.version)
         return xsd_schema.validate(etree)
 
     @property
@@ -156,16 +157,24 @@ class ActivitySet(GenericSet):
     can be efficient.
     """
 
-    _key = 'iati_identifier'
+    _key = "iati_identifier"
     _multi_filters = [
-        'id', 'iati_identifier', 'title', 'description',
-        'location', 'sector', 'planned_start',
-        'actual_start', 'planned_end', 'actual_end',
-        'xpath', 'humanitarian',
+        "id",
+        "iati_identifier",
+        "title",
+        "description",
+        "location",
+        "sector",
+        "planned_start",
+        "actual_start",
+        "planned_end",
+        "actual_end",
+        "xpath",
+        "humanitarian",
     ]
     _instance_class = Activity
-    _filetype = 'activity'
-    _element = '/iati-activities/iati-activity'
+    _filetype = "activity"
+    _element = "/iati-activities/iati-activity"
 
     def __init__(self, datasets, **kwargs):
         super(ActivitySet, self).__init__()
@@ -184,17 +193,15 @@ class ActivitySet(GenericSet):
             except SchemaError:
                 continue
             prefix = self._element
-            query = XPathQueryBuilder(
-                schema,
-                prefix=prefix,
-                count=True
-            ).where(**self.wheres)
+            query = XPathQueryBuilder(schema, prefix=prefix, count=True).where(
+                **self.wheres
+            )
             total += int(dataset.etree.xpath(query))
         return total
 
     def _query(self, schema=None):
         if schema is None:
-            schema = get_schema(self._filetype, '2.03')
+            schema = get_schema(self._filetype, "2.03")
         return XPathQueryBuilder(
             schema,
             prefix=self._element,
