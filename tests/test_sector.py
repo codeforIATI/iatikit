@@ -14,8 +14,8 @@ from iatikit.utils.exceptions import (
 
 
 class TestSector(TestCase):
-    def __init__(self, *args, **kwargs):
-        super(TestSector, self).__init__(*args, **kwargs)
+    def setUp(self):
+        super(TestSector, self).setUp()
         standard_path = join(dirname(abspath(__file__)), "fixtures", "standard")
         config_dict = {"paths": {"standard": standard_path}}
         CONFIG.read_dict(config_dict)

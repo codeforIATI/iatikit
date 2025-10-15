@@ -26,8 +26,8 @@ class TestNoCodelists(TestCase):
 
 
 class TestCodelistSet(TestCase):
-    def __init__(self, *args, **kwargs):
-        super(TestCodelistSet, self).__init__(*args, **kwargs)
+    def setUp(self):
+        super(TestCodelistSet, self).setUp()
         standard_path = join(dirname(abspath(__file__)), "fixtures", "standard")
         config_dict = {"paths": {"standard": standard_path}}
         CONFIG.read_dict(config_dict)
@@ -66,8 +66,8 @@ class TestCodelistSet(TestCase):
 
 
 class TestCodelist(TestCase):
-    def __init__(self, *args, **kwargs):
-        super(TestCodelist, self).__init__(*args, **kwargs)
+    def setUp(self):
+        super(TestCodelist, self).setUp()
         standard_path = join(dirname(abspath(__file__)), "fixtures", "standard")
         config_dict = {"paths": {"standard": standard_path}}
         CONFIG.read_dict(config_dict)

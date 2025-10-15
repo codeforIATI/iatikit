@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+### Added
+
+- Test python versions 3.10 – 3.14 ([#65](https://github.com/codeforIATI/iatikit/issues/65))
+
 ### Fixed
 
 - Tidy up code with black, flake8 and isort ([#66](https://github.com/codeforIATI/iatikit/issues/66))

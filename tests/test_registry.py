@@ -28,8 +28,8 @@ class TestNoData(TestCase):
 
 
 class TestRegistry(TestCase):
-    def __init__(self, *args, **kwargs):
-        super(TestRegistry, self).__init__(*args, **kwargs)
+    def setUp(self):
+        super(TestRegistry, self).setUp()
         registry_path = join(dirname(abspath(__file__)), "fixtures", "registry")
         config_dict = {"paths": {"registry": registry_path}}
         CONFIG.read_dict(config_dict)

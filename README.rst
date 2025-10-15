@@ -32,7 +32,7 @@ The name was inspired by `Open Contracting <https://www.open-contracting.org/>`_
 Installation
 ------------
 
-iatikit is tested for pythons 3.7 – 3.9.
+iatikit is tested for pythons 3.7 – 3.14.
 
 You can install it using ``pip``:
 
