@@ -3,7 +3,6 @@
 coveralls
 freezegun
 mock
-pylint
 pytest
 pytest-cov
 sphinx
