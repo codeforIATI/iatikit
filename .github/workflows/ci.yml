@@ -1,9 +1,30 @@
 name: CI
 on: [push, pull_request]
 jobs:
+  lint:
+    name: Run linting
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: Set up Python 3.12
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.12'
+        cache: 'pip'
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements_dev.txt
+    - name: Run flake8
+      run: flake8 .
+    - name: Run isort
+      run: isort --check-only --profile black --filter-files .
+    - name: Run black formatter
+      run: black --check .
   test:
     name: Run tests
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-22.04  # for python 3.7
+    needs: lint
     strategy:
       matrix:
         python-version: ['3.7', '3.8', '3.9', '3.10', '3.11', '3.12', '3.13', '3.14']
