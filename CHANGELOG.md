@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 - Tidy up code with black, flake8 and isort ([#66](https://github.com/codeforIATI/iatikit/issues/66))
+- Don’t error if a metadata file is unexpectedly missing ([#72](https://github.com/codeforIATI/iatikit/issues/72))
 
 ## [3.6.0] – 2025-10-08
 
