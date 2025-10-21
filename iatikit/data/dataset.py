@@ -246,6 +246,7 @@ class DatasetSet(GenericSet):
         paths = {
             x: (data_paths.get(x), metadata_paths.get(x))
             for x in set(list(data_paths.keys()) + list(metadata_paths.keys()))
+            if x in metadata_paths
         }
 
         where_name = self.wheres.get("name")
