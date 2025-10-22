@@ -252,7 +252,7 @@ class DatasetSet(GenericSet):
         if where_name is not None:
             paths = [paths[where_name]] if where_name in paths else []
         else:
-            paths = sorted(list(paths.values()), key=lambda x: x[1])
+            paths = sorted(list(paths.values()), key=lambda x: (x[1] is None, x[1]))
 
         where_filetype = self.wheres.get("filetype")
         where_xpaths = self.wheres.get("xpath", [])
