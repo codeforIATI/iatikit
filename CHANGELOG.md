@@ -6,6 +6,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+## [3.6.1] – 2025-10-23
+
 ### Added
 
 - Test python versions 3.10 – 3.14 ([#65](https://github.com/codeforIATI/iatikit/issues/65))
