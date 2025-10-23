@@ -3,7 +3,7 @@
 [![PyPI Package latest release](https://img.shields.io/pypi/v/iatikit.svg)](https://pypi.org/project/iatikit/)
 [![License](https://img.shields.io/pypi/l/iatikit.svg)](https://pypi.org/project/iatikit/)
 [![Supported versions](https://img.shields.io/pypi/pyversions/iatikit.svg)](https://pypi.org/project/iatikit/)
-[![Build Status](https://github.com/codeforIATI/iati-datastore/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/codeforIATI/iati-datastore/actions/workflows/ci.yml)
+[![Build status](https://github.com/codeforIATI/iatikit/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/codeforIATI/iatikit/actions/workflows/ci.yml)
 [![Test coverage](https://img.shields.io/coveralls/github/codeforIATI/iatikit/main.svg)](https://coveralls.io/github/codeforIATI/iatikit?branch=main)
 
 iatikit is a toolkit for using [IATI data](https://iatistandard.org/). It includes a query language wrapper around [XPath](https://en.wikipedia.org/wiki/XPath), to make dealing with disparate IATI versions easier.

@@ -39,9 +39,9 @@ Contents:
     :alt: Supported versions
     :target: https://pypi.org/project/iatikit/
 
-.. image:: https://github.com/codeforIATI/iati-datastore/workflows/CI/badge.svg?branch=main
-    :alt: Build Status
-    :target: https://github.com/codeforIATI/iati-datastore/actions?query=workflow%3ACI
+.. image:: https://github.com/codeforIATI/iatikit/actions/workflows/ci.yml/badge.svg?branch=main
+    :alt: Build status
+    :target: https://github.com/codeforIATI/iatikit/actions/workflows/ci.yml
 
 .. image:: https://img.shields.io/coveralls/github/codeforIATI/iatikit/main.svg
     :alt: Test coverage
